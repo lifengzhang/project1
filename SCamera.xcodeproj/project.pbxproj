@@ -7,15 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0723FB561FF3885900503CF7 /* BlueToothDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0723FB541FF3885800503CF7 /* BlueToothDeviceModel.m */; };
+		0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0723FB591FF3897300503CF7 /* BlueManageDeviceTableView.m */; };
+		0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0723FB5D1FF389F400503CF7 /* BlueManageDeviceCell.m */; };
+		07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */ = {isa = PBXBuildFile; fileRef = 07369BC41FEB5F1200BB825B /* BlueToothMe.m */; };
+		07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07369BC71FEBA13300BB825B /* BlueManagerViewController.m */; };
+		0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */; };
 		0780C34F1FE954410044C75D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C34E1FE954410044C75D /* AppDelegate.m */; };
 		0780C3521FE954410044C75D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C3511FE954410044C75D /* ViewController.m */; };
 		0780C3551FE954410044C75D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3531FE954410044C75D /* Main.storyboard */; };
 		0780C3571FE954410044C75D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3561FE954410044C75D /* Assets.xcassets */; };
 		0780C35A1FE954410044C75D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3581FE954410044C75D /* LaunchScreen.storyboard */; };
 		0780C35D1FE954410044C75D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C35C1FE954410044C75D /* main.m */; };
+		F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0723FB541FF3885800503CF7 /* BlueToothDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothDeviceModel.m; sourceTree = "<group>"; };
+		0723FB551FF3885900503CF7 /* BlueToothDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueToothDeviceModel.h; sourceTree = "<group>"; };
+		0723FB581FF3897300503CF7 /* BlueManageDeviceTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueManageDeviceTableView.h; sourceTree = "<group>"; };
+		0723FB591FF3897300503CF7 /* BlueManageDeviceTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManageDeviceTableView.m; sourceTree = "<group>"; };
+		0723FB5C1FF389F400503CF7 /* BlueManageDeviceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueManageDeviceCell.h; sourceTree = "<group>"; };
+		0723FB5D1FF389F400503CF7 /* BlueManageDeviceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManageDeviceCell.m; sourceTree = "<group>"; };
+		07369BC31FEB5F1100BB825B /* BlueToothMe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueToothMe.h; sourceTree = "<group>"; };
+		07369BC41FEB5F1200BB825B /* BlueToothMe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothMe.m; sourceTree = "<group>"; };
+		07369BC61FEBA13300BB825B /* BlueManagerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueManagerViewController.h; sourceTree = "<group>"; };
+		07369BC71FEBA13300BB825B /* BlueManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManagerViewController.m; sourceTree = "<group>"; };
+		0741F2FE1FEAA9F700BB27BA /* SCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraViewController.h; sourceTree = "<group>"; };
+		0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraViewController.m; sourceTree = "<group>"; };
 		0780C34A1FE954410044C75D /* SCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0780C34D1FE954410044C75D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0780C34E1FE954410044C75D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -26,6 +45,9 @@
 		0780C3591FE954410044C75D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0780C35B1FE954410044C75D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0780C35C1FE954410044C75D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		346692CD6167637436C0885C /* Pods-SCamera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCamera.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SCamera/Pods-SCamera.debug.xcconfig"; sourceTree = "<group>"; };
+		8724943F22A7BD1AD34C3F6B /* Pods-SCamera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCamera.release.xcconfig"; path = "Pods/Target Support Files/Pods-SCamera/Pods-SCamera.release.xcconfig"; sourceTree = "<group>"; };
+		9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SCamera.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +55,62 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0723FB571FF3892B00503CF7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0723FB581FF3897300503CF7 /* BlueManageDeviceTableView.h */,
+				0723FB591FF3897300503CF7 /* BlueManageDeviceTableView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0723FB5B1FF389E000503CF7 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0723FB5C1FF389F400503CF7 /* BlueManageDeviceCell.h */,
+				0723FB5D1FF389F400503CF7 /* BlueManageDeviceCell.m */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		07369BC21FEB5B4800BB825B /* BlueManager */ = {
+			isa = PBXGroup;
+			children = (
+				0723FB5B1FF389E000503CF7 /* Cell */,
+				0723FB571FF3892B00503CF7 /* View */,
+				07369BC31FEB5F1100BB825B /* BlueToothMe.h */,
+				07369BC41FEB5F1200BB825B /* BlueToothMe.m */,
+				0723FB551FF3885900503CF7 /* BlueToothDeviceModel.h */,
+				0723FB541FF3885800503CF7 /* BlueToothDeviceModel.m */,
+				07369BC61FEBA13300BB825B /* BlueManagerViewController.h */,
+				07369BC71FEBA13300BB825B /* BlueManagerViewController.m */,
+			);
+			path = BlueManager;
+			sourceTree = "<group>";
+		};
+		0741F2FD1FEAA80700BB27BA /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				0741F2FE1FEAA9F700BB27BA /* SCameraViewController.h */,
+				0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		0780C3411FE954410044C75D = {
 			isa = PBXGroup;
 			children = (
 				0780C34C1FE954410044C75D /* SCamera */,
 				0780C34B1FE954410044C75D /* Products */,
+				6F2103ECF689D2EA51AC1CE2 /* Pods */,
+				6CE5C36C7903E14282792472 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +125,8 @@
 		0780C34C1FE954410044C75D /* SCamera */ = {
 			isa = PBXGroup;
 			children = (
+				0741F2FD1FEAA80700BB27BA /* Camera */,
+				07369BC21FEB5B4800BB825B /* BlueManager */,
 				0780C34D1FE954410044C75D /* AppDelegate.h */,
 				0780C34E1FE954410044C75D /* AppDelegate.m */,
 				0780C3501FE954410044C75D /* ViewController.h */,
@@ -71,6 +140,23 @@
 			path = SCamera;
 			sourceTree = "<group>";
 		};
+		6CE5C36C7903E14282792472 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6F2103ECF689D2EA51AC1CE2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				346692CD6167637436C0885C /* Pods-SCamera.debug.xcconfig */,
+				8724943F22A7BD1AD34C3F6B /* Pods-SCamera.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -78,9 +164,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0780C3601FE954410044C75D /* Build configuration list for PBXNativeTarget "SCamera" */;
 			buildPhases = (
+				1CA30A36F2200816E1271A52 /* [CP] Check Pods Manifest.lock */,
 				0780C3461FE954410044C75D /* Sources */,
 				0780C3471FE954410044C75D /* Frameworks */,
 				0780C3481FE954410044C75D /* Resources */,
+				8A2C11B330ED384D629E9891 /* [CP] Embed Pods Frameworks */,
+				84720590D298E70A5D756047 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -102,7 +191,7 @@
 				TargetAttributes = {
 					0780C3491FE954410044C75D = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -137,13 +226,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1CA30A36F2200816E1271A52 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SCamera-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		84720590D298E70A5D756047 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SCamera/Pods-SCamera-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8A2C11B330ED384D629E9891 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SCamera/Pods-SCamera-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0780C3461FE954410044C75D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0780C3521FE954410044C75D /* ViewController.m in Sources */,
+				0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */,
+				0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */,
+				07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */,
+				0723FB561FF3885900503CF7 /* BlueToothDeviceModel.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
+				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
+				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,26 +422,35 @@
 		};
 		0780C3611FE954410044C75D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 346692CD6167637436C0885C /* Pods-SCamera.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = RKRYP4Q5BD;
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SCamera.SCamera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9c5f5a2f-47d1-41eb-b3f4-7c188863de0f";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopQmf3g;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		0780C3621FE954410044C75D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8724943F22A7BD1AD34C3F6B /* Pods-SCamera.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 4URW8PS6WP;
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SCamera.SCamera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9edd4c90-cc13-449f-9392-3de1057fe4e3";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopInHouse;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
