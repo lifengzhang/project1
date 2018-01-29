@@ -216,29 +216,86 @@
     }
     printf("发现周边设备的服务:\n");
     printf("==== didDiscoverServices ==== \n");
-    
+    int i=0;
     //发现服务中的特性
     for (CBService *service in peripheral.services) {
-        printf("-- service : %s\n",[[service.UUID UUIDString] UTF8String]);
+        i++;
+        NSLog(@"%@",[NSString stringWithFormat:@"%d :服务 UUID: %@(%@)",i,service.UUID.data,service.UUID]);
         [peripheral discoverCharacteristics:nil forService:service];
     }
     
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
-    printf("发现服务 :(%s)\n",[[service.UUID UUIDString] UTF8String]);
+    
+    NSLog(@"%@",[NSString stringWithFormat:@"发现特征的服务:%@ (%@)",service.UUID.data ,service.UUID]);
     
     if (error) {
         NSLog(@"There is a error in peripheral:didDiscoverCharacteristicsForService:error: which called:%@",error);
         return;
     }
-    printf("开始读取服务数据...\n");
+
     for (CBCharacteristic *characteristic in service.characteristics) {
-        NSLog(@"properties is %lu",characteristic.properties);
-        if (characteristic.properties & CBCharacteristicPropertyNotify) {
-//            [peripheral readValueForCharacteristic:characteristic];
+        
+        switch (characteristic.properties) {
+            case CBCharacteristicPropertyRead:
+                NSLog(@"%@-------读",characteristic);
+                break;
+            case CBCharacteristicPropertyWrite:
+                NSLog(@"%@-------写",characteristic);
+                break;
+            case CBCharacteristicPropertyNotify:
+                NSLog(@"%@-------订阅",characteristic);
+                break;
+            default:
+                break;
+        }
+        
+        if ([service.UUID isEqual:[CBUUID UUIDWithString:@"180A"]]) {
+            [peripheral readValueForCharacteristic:characteristic];
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        } else {
+            NSLog(@"%@",[NSString stringWithFormat:@"特征 UUID: %@ (%@)",characteristic.UUID.data,characteristic.UUID]);
+            [peripheral readValueForCharacteristic:characteristic];
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
         }
+        
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FA10"]]) {
+//            self.characteristic1 = characteristic;
+//        }
+//
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FA11"]]) {
+//            [peripheral readValueForCharacteristic:characteristic];
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//        }
+//
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FA12"]]) {
+//            [peripheral readValueForCharacteristic:characteristic];
+//        }
+//
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FF05"]]) {
+//            [peripheral readValueForCharacteristic:characteristic];
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//        }
+//
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FFA1"]]) {
+//            [peripheral readRSSI];
+//        }
+        
+//        if (characteristic.properties & CBCharacteristicPropertyNotify) {
+//            [peripheral readValueForCharacteristic:characteristic];
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//        }
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kWriteCharacteristicUUID]])
+//        {
+//            NSLog(@"监听：%@",characteristic);//监听特征
+            //保存characteristic特征值对象
+            //以后发信息也是用这个uuid
+            
+//            _characteristic1 = characteristic;
+            
+//            [_discoveredPeripheral setNotifyValue:YES forCharacteristic:characteristic];
+//        }
 
     }
 }
@@ -250,8 +307,16 @@
     if (error) {
         return;
     }
-    NSLog(@"characteristic data is:%@ ",characteristic.value);
-    NSLog(@"characteristic data length is %ld",characteristic.value.length);
+    if ([characteristic.service.UUID isEqual:[CBUUID UUIDWithString:@"180A"]]) {
+        NSLog(@"(%@) = %@", characteristic.UUID,[[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding]);
+    } else {
+        
+        NSLog(@"characteristic data is:%@ ",characteristic.value);
+        NSLog(@"characteristic str is:%@ ",[[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding]);
+        NSLog(@"characteristic data length is %ld",characteristic.value.length);
+        
+    }
+    
     if ([self.blueToothMeDelegate respondsToSelector:@selector(peripheralDidReadChracteristic:withPeripheral:withError:)])
         [self.blueToothMeDelegate peripheralDidReadChracteristic:characteristic withPeripheral:peripheral withError:error];
 }

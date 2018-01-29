@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) BlueManageDeviceTableView *deviceTable;
 
+@property (nonatomic, strong) UIButton *testButton;
+
 @end
 
 @implementation BlueManagerViewController
@@ -53,6 +55,12 @@
         make.bottom.equalTo(self.view).offset(-DEVICE_TABLE_BOTTOM_MARGIN);
     }];
     
+    [self.testButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.height.width.mas_equalTo(100);
+        make.bottom.equalTo(self.deviceTable.mas_bottom).offset(60);
+    }];
+    
 }
 
 #pragma mark - lazy load
@@ -75,6 +83,21 @@
         [self.view addSubview:_deviceTable];
     }
     return _deviceTable;
+}
+
+- (UIButton *)testButton {
+    
+    if (! _testButton) {
+        _testButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        //    [photoButton setImage:[UIImage imageNamed:@"photograph"] forState: UIControlStateNormal];
+        //    [photoButton setImage:[UIImage imageNamed:@"photograph_Select"] forState:UIControlStateNormal];
+        _testButton.backgroundColor = [UIColor redColor];
+        [_testButton addTarget:self action:@selector(testWrite) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_testButton];
+    }
+    
+    return _testButton;
+    
 }
 
 - (void)blueManageDeviceTableView:(UITableView *)tableView selectButtonClickedAtIndexPath:(NSIndexPath *)indexPath {
@@ -214,6 +237,29 @@
     } else {
         return YES;
     }
+}
+
+- (void)testWrite {
+    
+    //生成总包数data
+    NSData *d1 = [self sportBao];
+    NSLog(@"写%@",d1);
+    NSLog(@"%@",self.bluetoothManager.testPeripheral);
+    [self.bluetoothManager.testPeripheral writeValue:d1 forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+    
+}
+
+- (NSData *)sportBao
+{
+    Byte reg[6];
+    reg[0]=0xce;
+    reg[1]=0x06;
+    reg[2]=0x03;
+    reg[3]=0xff;
+    reg[4]=0xef;
+    reg[5]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]);
+    NSData *data=[NSData dataWithBytes:reg length:6];
+    return data;
 }
 
 @end

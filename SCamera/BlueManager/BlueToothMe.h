@@ -49,6 +49,8 @@ typedef void (^EventHardwareBlock)(CBPeripheral *peripheral, BlueToothMeState st
 @property (nonatomic, strong) CBPeripheral *testPeripheral;
 @property (nonatomic, strong) NSDictionary *characteristicsCBUUID;
 
+@property (strong , nonatomic) CBCharacteristic *characteristic1;
+
 @property (nonatomic, weak)  id<BlueToothMeDelegate> blueToothMeDelegate;
 
 // add by shasha ;2014-3-16;蓝牙状态描述
