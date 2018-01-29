@@ -19,6 +19,7 @@
 		0780C3571FE954410044C75D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3561FE954410044C75D /* Assets.xcassets */; };
 		0780C35A1FE954410044C75D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3581FE954410044C75D /* LaunchScreen.storyboard */; };
 		0780C35D1FE954410044C75D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C35C1FE954410044C75D /* main.m */; };
+		A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */; };
 		F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,9 @@
 		346692CD6167637436C0885C /* Pods-SCamera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCamera.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SCamera/Pods-SCamera.debug.xcconfig"; sourceTree = "<group>"; };
 		8724943F22A7BD1AD34C3F6B /* Pods-SCamera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCamera.release.xcconfig"; path = "Pods/Target Support Files/Pods-SCamera/Pods-SCamera.release.xcconfig"; sourceTree = "<group>"; };
 		9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SCamera.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A30DA1F0201C202A00C82D2E /* SCameraPhotoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPhotoViewController.h; sourceTree = "<group>"; };
+		A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPhotoViewController.m; sourceTree = "<group>"; };
+		A30DA1F5201C25B400C82D2E /* SCamera-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCamera-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,8 @@
 			children = (
 				0741F2FE1FEAA9F700BB27BA /* SCameraViewController.h */,
 				0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */,
+				A30DA1F0201C202A00C82D2E /* SCameraPhotoViewController.h */,
+				A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -136,6 +142,7 @@
 				0780C3581FE954410044C75D /* LaunchScreen.storyboard */,
 				0780C35B1FE954410044C75D /* Info.plist */,
 				0780C35C1FE954410044C75D /* main.m */,
+				A30DA1F5201C25B400C82D2E /* SCamera-Prefix.pch */,
 			);
 			path = SCamera;
 			sourceTree = "<group>";
@@ -290,6 +297,7 @@
 				0780C35D1FE954410044C75D /* main.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
+				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,6 +435,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = RKRYP4Q5BD;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
@@ -445,6 +455,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4URW8PS6WP;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;

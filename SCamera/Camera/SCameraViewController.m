@@ -9,12 +9,13 @@
 #import "SCameraViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
+#import "SCameraPhotoViewController.h"
 
 #define kScreenBounds   [UIScreen mainScreen].bounds
 #define kScreenWidth  kScreenBounds.size.width*1.0
 #define kScreenHeight kScreenBounds.size.height*1.0
 
-@interface SCameraViewController ()
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property(nonatomic,strong) AVCaptureDevice *device;;
 
@@ -56,6 +57,8 @@
 @property (nonatomic, assign) CGFloat currentISO;
 
 @property (nonatomic, assign) AVCaptureExposureMode exposureMode;
+
+@property (nonatomic, strong) UIImagePickerController *photoAlbumController;
 
 /**
  *  预览图层
@@ -182,6 +185,7 @@
     
     self.photoLibraryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.photoLibraryButton.frame = CGRectMake(30, kScreenHeight-100, 60, 60);
+    [self.photoLibraryButton addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.photoLibraryButton];
     //    _focusView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
     //    _focusView.layer.borderWidth = 1.0;
@@ -297,6 +301,33 @@
     } @catch (NSException *exception) {
         
     }
+    
+}
+
+#pragma mark - 进入相册
+- (void)showPhotoAlbum {
+    
+    self.photoAlbumController = [[UIImagePickerController alloc] init];
+    self.photoAlbumController.delegate = self;
+    self.photoAlbumController.allowsEditing = NO;
+    self.photoAlbumController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    self.photoAlbumController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController: self.photoAlbumController animated:NO completion:nil];
+    
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    NSURL *url = [info objectForKey:UIImagePickerControllerReferenceURL];
+    SCameraPhotoViewController *vc = [[SCameraPhotoViewController alloc]  initWith:image photoURL:url];
+    [picker presentViewController:vc animated:YES completion:nil];
     
 }
 
