@@ -88,10 +88,9 @@
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         [PHAssetChangeRequest deleteAssets:@[asset]];
     } completionHandler:^(BOOL success, NSError *error) {
+        
     }];
-    
     [self back];
-    
 }
 
 @end
