@@ -242,24 +242,104 @@
 - (void)testWrite {
     
     //生成总包数data
-    NSData *d1 = [self sportBao];
-    NSLog(@"写%@",d1);
-    NSLog(@"%@",self.bluetoothManager.testPeripheral);
-    [self.bluetoothManager.testPeripheral writeValue:d1 forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+//    NSData *d1 = [self setSplightValue];
+//    NSLog(@"写%@",d1);
+//    NSLog(@"%@",self.bluetoothManager.testPeripheral);
+    
+    [self.bluetoothManager.testPeripheral writeValue:[self setSplightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+    
+    [self.bluetoothManager.testPeripheral writeValue:[self prelightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+    
+    [self.bluetoothManager.testPeripheral writeValue:[self fireValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+    
+    [self.bluetoothManager.testPeripheral readValueForCharacteristic:self.bluetoothManager.characteristicReadInfo];
     
 }
 
-- (NSData *)sportBao
-{
-    Byte reg[6];
-    reg[0]=0xce;
-    reg[1]=0x06;
-    reg[2]=0x03;
-    reg[3]=0xff;
-    reg[4]=0xef;
-    reg[5]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]);
-    NSData *data=[NSData dataWithBytes:reg length:6];
+- (NSData *)setSplightValue {
+    
+//    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
+//
+//    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+    
+    Byte reg[14];
+    reg[0]=0xbe;
+    reg[1]=0x13;
+    reg[2]=0x32;
+    reg[3]=0x00;
+    reg[4]=0x00;
+    reg[5]=0x00;
+    reg[6]=0x0a;
+    reg[7]=0x00;
+    reg[8]=0x00;
+    reg[9]=0x00;
+    reg[10]=0x01;
+    reg[11]=0x01;
+    reg[12]=0xff;
+    reg[13]=0xef;
+//    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
+    NSData *data=[NSData dataWithBytes:reg length:14];
+
     return data;
+    
+}
+
+- (NSData *)prelightValue
+{
+    
+    //    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
+    //
+    //    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+    
+    Byte reg[14];
+    reg[0]=0xce;
+    reg[1]=0x00;
+    reg[2]=0x00;
+    reg[3]=0x00;
+    reg[4]=0x00;
+    reg[5]=0x00;
+    reg[6]=0x00;
+    reg[7]=0x00;
+    reg[8]=0x00;
+    reg[9]=0x00;
+    reg[10]=0x00;
+    reg[11]=0x00;
+    reg[12]=0xff;
+    reg[13]=0xef;
+    //    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
+    NSData *data=[NSData dataWithBytes:reg length:14];
+    
+    return data;
+    
+}
+
+- (NSData *)fireValue
+{
+    
+    //    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
+    //
+    //    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+    
+    Byte reg[14];
+    reg[0]=0xde;
+    reg[1]=0x00;
+    reg[2]=0x00;
+    reg[3]=0x00;
+    reg[4]=0x00;
+    reg[5]=0x00;
+    reg[6]=0x00;
+    reg[7]=0x00;
+    reg[8]=0x00;
+    reg[9]=0x00;
+    reg[10]=0x00;
+    reg[11]=0x00;
+    reg[12]=0xff;
+    reg[13]=0xef;
+    //    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
+    NSData *data=[NSData dataWithBytes:reg length:14];
+    
+    return data;
+    
 }
 
 @end

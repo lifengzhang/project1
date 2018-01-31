@@ -253,11 +253,16 @@
         
         if ([service.UUID isEqual:[CBUUID UUIDWithString:@"180A"]]) {
             [peripheral readValueForCharacteristic:characteristic];
-            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-        } else {
+        } else if ([service.UUID isEqual:[CBUUID UUIDWithString:@"fff0"]]) {
             NSLog(@"%@",[NSString stringWithFormat:@"特征 UUID: %@ (%@)",characteristic.UUID.data,characteristic.UUID]);
-            [peripheral readValueForCharacteristic:characteristic];
-            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"fff3"]]) {
+                self.characteristic1 = characteristic;
+//                [peripheral readValueForCharacteristic:characteristic];
+                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"fff2"]]) {
+                self.characteristicReadInfo = characteristic;
+//                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            }
         }
         
 //        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FA10"]]) {
@@ -326,11 +331,17 @@
  */
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    if (error)
-    {
+    
+    if (error) {
         return;
+    } else{
+        NSLog(@"发送数据成功");
+//        [self updateLog:@"发送数据成功"];
     }
     
+    /* When a write occurs, need to set off a re-read of the local CBCharacteristic to update its value */
+    [peripheral readValueForCharacteristic:characteristic];
+
     if ([self.blueToothMeDelegate respondsToSelector:@selector(peripheralDidWriteChracteristic:withPeripheral:withError:)])
         [self.blueToothMeDelegate peripheralDidWriteChracteristic:characteristic withPeripheral:peripheral withError:error];
 }
