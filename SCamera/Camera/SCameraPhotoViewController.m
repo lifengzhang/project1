@@ -9,6 +9,15 @@
 #import "SCameraPhotoViewController.h"
 #import <Photos/Photos.h>
 
+#define BACKBUTTON_DISTANCE_TOP                                                         20.f
+#define BACKBUTTON_DISTANCE_LEFT                                                        20.f
+#define BACKBUTTON_WIDTH                                                                60.f
+#define BACKBUTTON_HEIGHT                                                               44.f
+
+#define DELETEBUTTON_DISTANCE_TOP                                                       20.f
+#define DELETEBUTTON_WIDTH                                                              60.f
+#define DELETEBUTTON_HEIGHT                                                             44.f
+
 @interface SCameraPhotoViewController ()
 
 @property (nonatomic, strong) UIView *photoView;
@@ -42,26 +51,24 @@
 }
 
 - (void)initSubView{
-    
-    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backButton.frame = CGRectMake(20, 20, 60, 44);
-    [self.backButton setTitle:@"back" forState:UIControlStateNormal];
-    [self.backButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    self.backButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.backButton];
-    
-    self.deletButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.deletButton.frame = CGRectMake(self.view.frame.size.width - 80, 20, 60, 44);
-    [self.deletButton setTitle:@"delete" forState:UIControlStateNormal];
-    [self.deletButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    self.deletButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.deletButton addTarget:self action:@selector(deletePhoto) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.deletButton];
-    
+
     [self.selectedPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
         make.top.equalTo(self.view.mas_top).offset(64);
+    }];
+
+    [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(BACKBUTTON_DISTANCE_TOP);
+        make.left.equalTo(self.view).offset(BACKBUTTON_DISTANCE_LEFT);
+        make.width.mas_equalTo(BACKBUTTON_WIDTH);
+        make.height.mas_equalTo(BACKBUTTON_HEIGHT);
+    }];
+
+    [self.deletButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(DELETEBUTTON_DISTANCE_TOP);
+        make.left.equalTo(self.view).offset(self.view.frame.size.width - 80);
+        make.width.mas_equalTo(DELETEBUTTON_WIDTH);
+        make.height.mas_equalTo(DELETEBUTTON_HEIGHT);
     }];
 }
 
@@ -73,6 +80,30 @@
     }
     
     return _selectedPhoto;
+}
+
+- (UIButton *)backButton {
+    if (!_backButton) {
+        _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_backButton setTitle:@"back" forState:UIControlStateNormal];
+        [_backButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        _backButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_backButton];
+    }
+    return _backButton;
+}
+
+- (UIButton *)deletButton {
+    if (!_deletButton) {
+        _deletButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_deletButton setTitle:@"delete" forState:UIControlStateNormal];
+        [_deletButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        _deletButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_deletButton addTarget:self action:@selector(deletePhoto) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_deletButton];
+    }
+    return _deletButton;
 }
 
 - (void)back {
