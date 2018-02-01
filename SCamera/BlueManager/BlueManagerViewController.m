@@ -248,11 +248,11 @@
     
     [self.bluetoothManager.testPeripheral writeValue:[self setSplightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
     
-    [self.bluetoothManager.testPeripheral writeValue:[self prelightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
-    
-    [self.bluetoothManager.testPeripheral writeValue:[self fireValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
-    
-    [self.bluetoothManager.testPeripheral readValueForCharacteristic:self.bluetoothManager.characteristicReadInfo];
+//    [self.bluetoothManager.testPeripheral writeValue:[self prelightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+//    
+//    [self.bluetoothManager.testPeripheral writeValue:[self fireValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+//    
+//    [self.bluetoothManager.testPeripheral readValueForCharacteristic:self.bluetoothManager.characteristicReadInfo];
     
 }
 
@@ -264,17 +264,17 @@
     
     Byte reg[14];
     reg[0]=0xbe;
-    reg[1]=0x13;
-    reg[2]=0x32;
+    reg[1]=0x01;
+    reg[2]=0x20;
     reg[3]=0x00;
     reg[4]=0x00;
     reg[5]=0x00;
-    reg[6]=0x0a;
+    reg[6]=0x00;
     reg[7]=0x00;
     reg[8]=0x00;
     reg[9]=0x00;
-    reg[10]=0x01;
-    reg[11]=0x01;
+    reg[10]=0x10;
+    reg[11]=0x06;
     reg[12]=0xff;
     reg[13]=0xef;
 //    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
