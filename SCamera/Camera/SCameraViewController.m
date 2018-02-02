@@ -334,49 +334,29 @@
         NSLog(@"take photo failed!");
         return;
     }
-//    @try {
-//
-//        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-//        [device lockForConfiguration:nil];
-//        [device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
-//         {
-//             AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-//
-//             NSLog(@",%f",device.exposureTargetOffset);
-//             [device unlockForConfiguration];
-//
-//             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-//                 if (imageDataSampleBuffer == NULL) {
-//                     return;
-//                 }
-//                 NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-//                 self.image = [UIImage imageWithData:imageData];
-//                 [self.session stopRunning];
-//                 [self saveImageToPhotoAlbum:self.image];
-//                 self.imageView = [[UIImageView alloc] initWithFrame:self.previewLayer.frame];
-//                 [self.view insertSubview:self.imageView belowSubview:self.photoButton];
-//                 self.imageView.layer.masksToBounds = YES;
-//                 self.imageView.image = self.image;
-//                 NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
-//
-//             }];
-//         }];
-//    } @catch (NSException *exception) {
-//
-//    }
-    self.photoLibraryButton.backgroundColor = [UIColor blackColor];
-    [self.photoLibraryButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-        if (imageDataSampleBuffer == NULL) {
-            return;
-        }
-        NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-        self.image = [UIImage imageWithData:imageData];
-        [self saveImageToPhotoAlbum:self.image];
-        [self.photoLibraryButton setImage:self.image forState:UIControlStateNormal];
-        [blackView removeFromSuperview];
+    @try {
+        __weak SCameraViewController *wSelf = self;
+        [self.device lockForConfiguration:nil];
+        [self.device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
+         {
+             NSLog(@",%f",wSelf.device.exposureTargetOffset);
+             [wSelf.device unlockForConfiguration];
 
-    }];
+             [wSelf.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+                 if (imageDataSampleBuffer == NULL) {
+                     return;
+                 }
+                 NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                 wSelf.image = [UIImage imageWithData:imageData];
+
+                 [wSelf saveImageToPhotoAlbum:wSelf.image];
+                 [wSelf.photoLibraryButton setImage:wSelf.image forState:UIControlStateNormal];
+                 [blackView removeFromSuperview];
+             }];
+         }];
+    } @catch (NSException *exception) {
+
+    }
 }
 
 #pragma mark - 进入相册
