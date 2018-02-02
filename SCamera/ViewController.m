@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "Masonry.h"
 #import "SCameraViewController.h"
 #import "BlueManagerViewController.h"
 #import "BlueManageDeviceTableView.h"
@@ -26,9 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     self.title = @"主页";
-//    [self customCamera];
     [self initSubView];
 }
 

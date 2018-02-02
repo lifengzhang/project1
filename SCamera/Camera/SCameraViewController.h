@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, SCameraFlashLight) {
+    SCameraFlashLightAuto = 0,
+    SCameraFlashLightOn = 1,
+    SCameraFlashLightOff
+};
+
 @interface SCameraViewController : UIViewController
 
 @end

@@ -15,9 +15,9 @@
 #define kScreenWidth  kScreenBounds.size.width*1.0
 #define kScreenHeight kScreenBounds.size.height*1.0
 
-#define BACKBUTTON_DISTANCE_TOP                                                20.f
+#define BACKBUTTON_DISTANCE_TOP                                                0.f
 #define BACKBUTTON_DISTANCE_LEFT                                               20.f
-#define BACKBUTTON_WIDTH_HEIGHT                                                60.f
+#define BACKBUTTON_WIDTH_HEIGHT                                                40.f
 
 #define PHOTOBUTTON_DISTANCE_TOP                                               kScreenHeight - 100
 #define PHOTOBUTTON_DISTANCE_LEFT                                              kScreenWidth*1/2.0 - 30
@@ -108,6 +108,20 @@
 
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer* previewLayer; //预览图层
 
+@property (nonatomic, strong) UIView *focusView;
+
+@property (nonatomic, assign) BOOL isHiddenStatus;
+
+@property (nonatomic, strong) UIButton *flashLight; //闪光灯按钮
+
+@property (nonatomic, strong) UIView *flashLightView; //闪光灯选项视图
+
+@property (nonatomic, strong) UIButton *flashLightAuto; //闪光灯自动按钮
+
+@property (nonatomic, strong) UIButton *flashLightON; //闪光灯打开按钮
+
+@property (nonatomic, strong) UIButton *flashLightOff; //闪光灯关闭按钮
+
 @end
 
 @implementation SCameraViewController
@@ -117,6 +131,7 @@
     [self customCamera];
     [self customUI];
     [self getLatestAsset];
+    [self addGesture];
 }
 
 - (void)startSession{
@@ -136,6 +151,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.isHiddenStatus = YES;
+    [self getLatestAsset];
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -143,9 +161,19 @@
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
-- (void)customCamera{
-    self.view.backgroundColor = [UIColor whiteColor];
+- (void)addGesture {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
+    [self.view addGestureRecognizer:tapGesture];
+}
 
+- (BOOL)prefersStatusBarHidden
+{
+    return self.isHiddenStatus;
+}
+
+- (void)customCamera{
+    self.view.backgroundColor = [UIColor blackColor];
+    self.flashLightView.hidden = YES;
     //使用设备初始化输入
     AVCaptureDeviceInput *input = [[AVCaptureDeviceInput alloc]initWithDevice:self.device error:nil];
     
@@ -164,7 +192,7 @@
         [self.session addOutput:self.ImageOutPut];
     }
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
-    self.previewLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    self.previewLayer.frame = CGRectMake(0, 40, kScreenWidth, kScreenHeight);
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.previewLayer];
     //开始启动
@@ -195,6 +223,38 @@
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
     }];
     
+    [self.flashLight mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.backButton.mas_right).offset(20);
+        make.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
+        make.width.mas_equalTo(60);
+    }];
+    
+    [self.flashLightView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.flashLight.mas_right);
+        make.height.mas_equalTo(40);
+        make.right.equalTo(self.view);
+    }];
+    
+    [self.flashLightAuto mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.flashLightView);
+        make.width.mas_equalTo(50);
+        make.left.equalTo(self.flashLightView).offset(10);
+    }];
+    
+    [self.flashLightON mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.flashLightView);
+        make.width.mas_equalTo(50);
+        make.left.equalTo(self.flashLightAuto.mas_right).offset(10);
+    }];
+    
+    [self.flashLightOff mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.flashLightView);
+        make.width.mas_equalTo(50);
+        make.left.equalTo(self.flashLightON.mas_right).offset(10);
+    }];
+    
     [self.photoButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(PHOTOBUTTON_DISTANCE_TOP);
         make.left.equalTo(self.view).offset(PHOTOBUTTON_DISTANCE_LEFT);
@@ -207,11 +267,11 @@
         make.width.height.mas_equalTo(PHOTOLIBRARYBUTTON_WIDTH_HEIGHT);
     }];
     
-    [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(CANCELBUTTON_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(CANCELBUTTON_DISTANCE_LEFT);
-        make.width.height.mas_equalTo(CANCELBUTTON_WIDTH_HEIGHT);
-    }];
+//    [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view).offset(CANCELBUTTON_DISTANCE_TOP);
+//        make.left.equalTo(self.view).offset(CANCELBUTTON_DISTANCE_LEFT);
+//        make.width.height.mas_equalTo(CANCELBUTTON_WIDTH_HEIGHT);
+//    }];
     
     [self.exposureDurationTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP);
@@ -254,52 +314,69 @@
         make.width.mas_equalTo(ISOSLIDER_WIDTH);
         make.height.mas_equalTo(ISOSLIDER_HEIGHT);
     }];
+
+    [self.focusView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(self.view);
+        make.height.width.mas_equalTo(80);
+    }];
     
 }
 
 #pragma mark - 截取照片
 - (void) shutterCamera
 {
+    UIView *blackView = [[UIView alloc] initWithFrame:self.previewLayer.frame];
+    blackView.backgroundColor = [UIColor blackColor];
+    [self.view insertSubview:blackView belowSubview:self.photoButton];
+    
     AVCaptureConnection * videoConnection = [self.ImageOutPut connectionWithMediaType:AVMediaTypeVideo];
     if (!videoConnection) {
         NSLog(@"take photo failed!");
         return;
     }
-    
-    @try {
-        
-        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        [device lockForConfiguration:nil];
-        [device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
-         {
-             AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-             // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
-             //        [self.mExposureBias setValue:device.exposureTargetOffset];
-             
-             //手动模式
-             //             device.exposureMode=AVCaptureExposureModeCustom;
-             
-             NSLog(@",%f",device.exposureTargetOffset);
-             [device unlockForConfiguration];
-             
-             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-                 if (imageDataSampleBuffer == NULL) {
-                     return;
-                 }
-                 NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                 self.image = [UIImage imageWithData:imageData];
-                 [self.session stopRunning];
-                 [self saveImageToPhotoAlbum:self.image];
-                 self.imageView = [[UIImageView alloc] initWithFrame:self.previewLayer.frame];
-                 [self.view insertSubview:self.imageView belowSubview:self.photoButton];
-                 self.imageView.layer.masksToBounds = YES;
-                 self.imageView.image = self.image;
-                 NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
-             }];
-         }];
-    } @catch (NSException *exception) {
-    
-    }
+//    @try {
+//
+//        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//        [device lockForConfiguration:nil];
+//        [device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
+//         {
+//             AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//
+//             NSLog(@",%f",device.exposureTargetOffset);
+//             [device unlockForConfiguration];
+//
+//             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+//                 if (imageDataSampleBuffer == NULL) {
+//                     return;
+//                 }
+//                 NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+//                 self.image = [UIImage imageWithData:imageData];
+//                 [self.session stopRunning];
+//                 [self saveImageToPhotoAlbum:self.image];
+//                 self.imageView = [[UIImageView alloc] initWithFrame:self.previewLayer.frame];
+//                 [self.view insertSubview:self.imageView belowSubview:self.photoButton];
+//                 self.imageView.layer.masksToBounds = YES;
+//                 self.imageView.image = self.image;
+//                 NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
+//
+//             }];
+//         }];
+//    } @catch (NSException *exception) {
+//
+//    }
+    self.photoLibraryButton.backgroundColor = [UIColor blackColor];
+    [self.photoLibraryButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+        if (imageDataSampleBuffer == NULL) {
+            return;
+        }
+        NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+        self.image = [UIImage imageWithData:imageData];
+        [self saveImageToPhotoAlbum:self.image];
+        [self.photoLibraryButton setImage:self.image forState:UIControlStateNormal];
+        [blackView removeFromSuperview];
+
+    }];
 }
 
 #pragma mark - 进入相册
@@ -317,6 +394,82 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)openFlashLight {
+    self.flashLight.selected = !self.flashLight.selected;
+    if ([_device lockForConfiguration:nil]) {
+        if (_device.focusMode == 1) {
+            if ([_device isFlashModeSupported:AVCaptureFlashModeOff]) {
+                [_device setFlashMode:AVCaptureFlashModeOff];
+                
+            }
+        }else{
+            if ([_device isFlashModeSupported:AVCaptureFlashModeOn]) {
+                [_device setFlashMode:AVCaptureFlashModeOn];
+            }
+        }
+        
+        [_device unlockForConfiguration];
+    }
+}
+
+- (void)seleteFlashLightMode:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    [self.device lockForConfiguration:nil];
+    switch (btn.tag) {
+        case SCameraFlashLightAuto:
+            if (self.flashLightAuto.selected) {
+                self.flashLightON.selected = NO;
+                self.flashLightOff.selected = NO;
+                if ([self.device isFlashModeSupported:AVCaptureFlashModeAuto]) {
+                    [self.device setFlashMode:AVCaptureFlashModeAuto];
+                }
+            } else {
+                self.flashLightAuto.selected = YES;
+            }
+            self.flashLight.selected = NO;
+            self.flashLightView.hidden = YES;
+            [_device unlockForConfiguration];
+            break;
+            case SCameraFlashLightOn:
+            if (self.flashLightON.selected) {
+                self.flashLightAuto.selected = NO;
+                self.flashLightOff.selected = NO;
+                self.flashLight.selected = NO;
+                self.flashLightView.hidden = YES;
+                if ([_device isFlashModeSupported:AVCaptureFlashModeOn]) {
+                    [_device setFlashMode:AVCaptureFlashModeOn];
+                }
+            }
+            [_device unlockForConfiguration];
+            break;
+            case SCameraFlashLightOff:
+            if (self.flashLightOff.selected) {
+                self.flashLightAuto.selected = NO;
+                self.flashLightON.selected = NO;
+                self.flashLight.selected = NO;
+                self.flashLightView.hidden = YES;
+                if ([_device isFlashModeSupported:AVCaptureFlashModeOff]) {
+                    [_device setFlashMode:AVCaptureFlashModeOff];
+                }
+            }
+            [_device unlockForConfiguration];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)openFlashLightView {
+    
+    self.flashLight.selected = !self.flashLight.selected;
+    
+    if (self.flashLight.selected) {
+        self.flashLightView.hidden = NO;
+    } else {
+        self.flashLightView.hidden = YES;
+    }
+}
+
 - (void)cancle{
     [self.imageView removeFromSuperview];
     [self.session startRunning];
@@ -326,11 +479,6 @@
         [device setExposureModeCustomWithDuration:self.firstDuration ISO:self.firstISO completionHandler:^(CMTime syncTime)
          {
              AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-             // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
-             //        [self.mExposureBias setValue:device.exposureTargetOffset];
-             
-             //手动模式
-             //             device.exposureMode=AVCaptureExposureModeCustom;
              
              NSLog(@",%f",device.exposureTargetOffset);
              [device unlockForConfiguration];
@@ -339,6 +487,43 @@
         
     } @catch (NSException *exception) {
         
+    }
+}
+
+#pragma maek - 聚焦
+- (void)focusGesture:(UITapGestureRecognizer*)gesture{
+    CGPoint point = [gesture locationInView:gesture.view];
+    [self focusAtPoint:point];
+}
+
+- (void)focusAtPoint:(CGPoint)point{
+    CGSize size = self.view.bounds.size;
+    CGPoint focusPoint = CGPointMake( point.y /size.height ,1-point.x/size.width );
+    NSError *error;
+    if ([self.device lockForConfiguration:&error]) {
+        
+        if ([self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+            [self.device setFocusPointOfInterest:focusPoint];
+            [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
+        }
+        
+        if ([self.device isExposureModeSupported:AVCaptureExposureModeAutoExpose ]) {
+            [self.device setExposurePointOfInterest:focusPoint];
+            [self.device setExposureMode:AVCaptureExposureModeAutoExpose];
+        }
+        
+        [self.device unlockForConfiguration];
+        _focusView.center = point;
+        _focusView.hidden = NO;
+        [UIView animateWithDuration:0.3 animations:^{
+            _focusView.transform = CGAffineTransformMakeScale(1.25, 1.25);
+        }completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.5 animations:^{
+                _focusView.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                _focusView.hidden = YES;
+            }];
+        }];
     }
 }
 
@@ -398,7 +583,7 @@
     PHFetchResult *result = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:option];
     
     [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        PHAsset *asset = (PHAsset *)obj;
+        PHAsset *asset = [result lastObject];
         NSLog(@"照片名%@", [asset valueForKey:@"filename"]);
         *stop = YES;
         UIImage *image = [UIImage imageWithData:[SCameraViewController getImageFromPHAsset:asset]];
@@ -431,17 +616,87 @@
     if (!_backButton) {
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _backButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_backButton setTitle:@"回退" forState:UIControlStateNormal];
+        _backButton.titleLabel.font = [UIFont systemFontOfSize:14.f];
+        [_backButton setTitle:@"返回" forState:UIControlStateNormal];
         [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_backButton];
     }
     return _backButton;
 }
 
+- (UIButton *)flashLight {
+    if (!_flashLight) {
+        _flashLight = [UIButton buttonWithType:UIButtonTypeCustom];
+        _flashLight.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _flashLight.titleLabel.font = [UIFont systemFontOfSize:14.f];
+        [_flashLight setTitle:@"闪光灯" forState:UIControlStateNormal];
+        [_flashLight setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_flashLight setTitleColor:[UIColor yellowColor] forState:UIControlStateSelected];
+        [_flashLight addTarget:self action:@selector(openFlashLightView) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_flashLight];
+    }
+    return _flashLight;
+}
+
+- (UIView *)flashLightView {
+    if (!_flashLightView) {
+        _flashLightView = [[UIView alloc] initWithFrame:CGRectZero];
+        _flashLightView.backgroundColor = [UIColor blackColor];
+        [self.view addSubview:_flashLightView];
+    }
+    return _flashLightView;
+}
+
+- (UIButton *)flashLightAuto {
+    if (!_flashLightAuto) {
+        _flashLightAuto = [[UIButton alloc] initWithFrame:CGRectZero];
+        _flashLightAuto.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _flashLightAuto.titleLabel.font = [UIFont systemFontOfSize:13.f];
+        _flashLightAuto.tag = SCameraFlashLightAuto;
+        _flashLightAuto.selected = YES;
+        [_flashLightAuto setTitle:@"自动" forState:UIControlStateNormal];
+        [_flashLightAuto setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_flashLightAuto setTitleColor:[UIColor yellowColor] forState:UIControlStateSelected];
+        [_flashLightAuto addTarget:self action:@selector(seleteFlashLightMode:) forControlEvents:UIControlEventTouchUpInside];
+        [self.flashLightView addSubview:_flashLightAuto];
+    }
+    return _flashLightAuto;
+}
+
+- (UIButton *)flashLightON {
+    if (!_flashLightON) {
+        _flashLightON = [[UIButton alloc] initWithFrame:CGRectZero];
+        _flashLightON.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _flashLightON.titleLabel.font = [UIFont systemFontOfSize:13.f];
+        _flashLightON.tag = SCameraFlashLightOn;
+        [_flashLightON setTitle:@"打开" forState:UIControlStateNormal];
+        [_flashLightON setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_flashLightON setTitleColor:[UIColor yellowColor] forState:UIControlStateSelected];
+        [_flashLightON addTarget:self action:@selector(seleteFlashLightMode:) forControlEvents:UIControlEventTouchUpInside];
+        [self.flashLightView addSubview:_flashLightON];
+    }
+    return _flashLightON;
+}
+
+- (UIButton *)flashLightOff {
+    if (!_flashLightOff) {
+        _flashLightOff = [[UIButton alloc] initWithFrame:CGRectZero];
+        _flashLightOff.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _flashLightOff.titleLabel.font = [UIFont systemFontOfSize:13.f];
+        _flashLightOff.tag = SCameraFlashLightOff;
+        [_flashLightOff setTitle:@"关闭" forState:UIControlStateNormal];
+        [_flashLightOff setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_flashLightOff setTitleColor:[UIColor yellowColor] forState:UIControlStateSelected];
+        [_flashLightOff addTarget:self action:@selector(seleteFlashLightMode:) forControlEvents:UIControlEventTouchUpInside];
+        [self.flashLightView addSubview:_flashLightOff];
+    }
+    return _flashLightOff;
+}
+
 - (UIButton *)photoButton {
     if (!_photoButton) {
         _photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _photoButton.backgroundColor = [UIColor redColor];
+        [_photoButton setImage:[UIImage imageNamed:@"photoButtonImage"] forState: UIControlStateNormal];
         [_photoButton addTarget:self action:@selector(shutterCamera) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_photoButton];
     }
@@ -534,6 +789,18 @@
         [self.view addSubview:_isoSlider];
     }
     return _isoSlider;
+}
+
+- (UIView *)focusView {
+    if (!_focusView) {
+        _focusView = [[UIView alloc] initWithFrame:CGRectZero];
+        _focusView.layer.borderWidth = 1.0;
+        _focusView.layer.borderColor =[UIColor blueColor].CGColor;
+        _focusView.backgroundColor = [UIColor clearColor];
+        [self.view addSubview:_focusView];
+        _focusView.hidden = YES;
+    }
+    return _focusView;
 }
 
 - (AVCaptureDevice *)device {
