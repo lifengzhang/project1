@@ -9,7 +9,6 @@
 #import "BlueManagerViewController.h"
 #import "BlueToothMe.h"
 #import "BlueToothDeviceModel.h"
-#import "Masonry.h"
 #import "BlueManageDeviceTableView.h"
 
 #define DEVICE_TABLE_TOP_MARGIN             130.f

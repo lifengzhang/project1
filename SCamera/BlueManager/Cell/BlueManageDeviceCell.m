@@ -8,7 +8,6 @@
 
 #import "BlueManageDeviceCell.h"
 #import "BlueToothDeviceModel.h"
-#import "Masonry.h"
 
 #define SELECT_BUTTON_WIDTH                     32.f
 #define SELECT_BUTTON_HEIGHT                    32.f
