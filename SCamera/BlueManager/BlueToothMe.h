@@ -27,7 +27,9 @@ typedef void (^EventHardwareBlock)(CBPeripheral *peripheral, BlueToothMeState st
                         withPeripheral:(CBPeripheral *)peripheral
                              withError:(NSError *)error;
 
--(void)discoveryPeripheral:(NSMutableArray *)resultArr;
+- (void)discoveryPeripheral:(NSMutableArray *)resultArr;
+
+- (void)didConnectPeripheral:(CBPeripheral *)peripheral;
 
 - (void)hardwareDidNotifyBehaviourOnCharacteristic:(CBCharacteristic *)characteristic
                                     withPeripheral:(CBPeripheral *)peripheral

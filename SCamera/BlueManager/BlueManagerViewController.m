@@ -11,7 +11,6 @@
 #import "BlueToothDeviceModel.h"
 #import "BlueManageDeviceTableView.h"
 
-#define DEVICE_TABLE_TOP_MARGIN             130.f
 #define DEVICE_TABLE_BOTTOM_MARGIN          124.f
 
 @interface BlueManagerViewController () <BlueToothMeDelegate, BlueManageDeviceTableViewDelegate>
@@ -33,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"我的设备";
     self.scanArray = [NSMutableArray array];
     [self setUpConstrain];
     [self.bluetoothManager startScan];
@@ -50,7 +50,7 @@
     
     [self.deviceTable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view).offset(DEVICE_TABLE_TOP_MARGIN);
+        make.top.equalTo(self.view);
         make.bottom.equalTo(self.view).offset(-DEVICE_TABLE_BOTTOM_MARGIN);
     }];
     
@@ -164,7 +164,7 @@
             [self.scanArray addObject:blueToothDevice];
         }
     }
-    [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray selectedIndex:0];
+    [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:BDManager.connectedBlueToothDeviceModel];
 //    [self refreshView];
 //    
 //    if (self.refreshTimer && [self.refreshTimer isValid]) {
@@ -179,6 +179,30 @@
 //                                                       selector:@selector(refreshTimer:)
 //                                                       userInfo:nil
 //                                                        repeats:NO];
+    
+}
+
+- (void)didConnectPeripheral:(CBPeripheral *)peripheral {
+    
+    BlueToothDeviceModel *blueToothDevice = [[BlueToothDeviceModel alloc] init];
+    blueToothDevice.name = peripheral.name;
+    blueToothDevice.identifier = [peripheral.identifier UUIDString];
+    NSInteger removeFlag = -1;
+    for (NSUInteger i = 0; i < [self.scanArray count] ; i++)
+    {
+        BlueToothDeviceModel *scanedBlueToothDevice = [self.scanArray objectAtIndex:i];
+        if ([scanedBlueToothDevice.identifier isEqualToString:[peripheral.identifier UUIDString]]) {
+            BDManager.connectedBlueToothDeviceModel = blueToothDevice;
+            removeFlag = i;
+            break;
+        } else {
+            continue;
+        }
+    }
+    if (removeFlag >= 0) {
+        [self.scanArray removeObjectAtIndex:removeFlag];
+        [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:blueToothDevice];
+    }
     
 }
 

@@ -176,6 +176,8 @@
     [peripheral setDelegate:self];
     [peripheral discoverServices:nil];
     
+    [self.blueToothMeDelegate didConnectPeripheral:peripheral];
+    
 }
 
 /*
