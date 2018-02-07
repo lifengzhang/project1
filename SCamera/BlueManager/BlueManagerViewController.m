@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) BlueManageDeviceTableView *deviceTable;
 
+@property (nonatomic, strong) UIButton *testButton;
+
 @end
 
 @implementation BlueManagerViewController
@@ -53,6 +55,12 @@
         make.bottom.equalTo(self.view).offset(-DEVICE_TABLE_BOTTOM_MARGIN);
     }];
     
+    [self.testButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.height.width.mas_equalTo(100);
+        make.bottom.equalTo(self.deviceTable.mas_bottom).offset(60);
+    }];
+    
 }
 
 #pragma mark - lazy load
@@ -75,6 +83,21 @@
         [self.view addSubview:_deviceTable];
     }
     return _deviceTable;
+}
+
+- (UIButton *)testButton {
+    
+    if (! _testButton) {
+        _testButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        //    [photoButton setImage:[UIImage imageNamed:@"photograph"] forState: UIControlStateNormal];
+        //    [photoButton setImage:[UIImage imageNamed:@"photograph_Select"] forState:UIControlStateNormal];
+        _testButton.backgroundColor = [UIColor redColor];
+        [_testButton addTarget:self action:@selector(testWrite) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_testButton];
+    }
+    
+    return _testButton;
+    
 }
 
 - (void)blueManageDeviceTableView:(UITableView *)tableView selectButtonClickedAtIndexPath:(NSIndexPath *)indexPath {
@@ -214,6 +237,109 @@
     } else {
         return YES;
     }
+}
+
+- (void)testWrite {
+    
+    //生成总包数data
+//    NSData *d1 = [self setSplightValue];
+//    NSLog(@"写%@",d1);
+//    NSLog(@"%@",self.bluetoothManager.testPeripheral);
+    
+    [self.bluetoothManager.testPeripheral writeValue:[self setSplightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+    
+//    [self.bluetoothManager.testPeripheral writeValue:[self prelightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+//    
+//    [self.bluetoothManager.testPeripheral writeValue:[self fireValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+//    
+//    [self.bluetoothManager.testPeripheral readValueForCharacteristic:self.bluetoothManager.characteristicReadInfo];
+    
+}
+
+- (NSData *)setSplightValue {
+    
+//    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
+//
+//    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+    
+    Byte reg[14];
+    reg[0]=0xbe;
+    reg[1]=0x01;
+    reg[2]=0x20;
+    reg[3]=0x00;
+    reg[4]=0x00;
+    reg[5]=0x00;
+    reg[6]=0x00;
+    reg[7]=0x00;
+    reg[8]=0x00;
+    reg[9]=0x00;
+    reg[10]=0x10;
+    reg[11]=0x06;
+    reg[12]=0xff;
+    reg[13]=0xef;
+//    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
+    NSData *data=[NSData dataWithBytes:reg length:14];
+
+    return data;
+    
+}
+
+- (NSData *)prelightValue
+{
+    
+    //    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
+    //
+    //    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+    
+    Byte reg[14];
+    reg[0]=0xce;
+    reg[1]=0x00;
+    reg[2]=0x00;
+    reg[3]=0x00;
+    reg[4]=0x00;
+    reg[5]=0x00;
+    reg[6]=0x00;
+    reg[7]=0x00;
+    reg[8]=0x00;
+    reg[9]=0x00;
+    reg[10]=0x00;
+    reg[11]=0x00;
+    reg[12]=0xff;
+    reg[13]=0xef;
+    //    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
+    NSData *data=[NSData dataWithBytes:reg length:14];
+    
+    return data;
+    
+}
+
+- (NSData *)fireValue
+{
+    
+    //    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
+    //
+    //    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+    
+    Byte reg[14];
+    reg[0]=0xde;
+    reg[1]=0x00;
+    reg[2]=0x00;
+    reg[3]=0x00;
+    reg[4]=0x00;
+    reg[5]=0x00;
+    reg[6]=0x00;
+    reg[7]=0x00;
+    reg[8]=0x00;
+    reg[9]=0x00;
+    reg[10]=0x00;
+    reg[11]=0x00;
+    reg[12]=0xff;
+    reg[13]=0xef;
+    //    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
+    NSData *data=[NSData dataWithBytes:reg length:14];
+    
+    return data;
+    
 }
 
 @end
