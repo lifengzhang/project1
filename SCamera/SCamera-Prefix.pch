@@ -1,0 +1,14 @@
+//
+//  SCamera-Prefix.pch
+//  SCamera
+//
+//  Created by sunny on 2018/1/27.
+//  Copyright © 2018年 SCamera.com. All rights reserved.
+//
+
+#ifndef SCamera_Prefix_pch
+#define SCamera_Prefix_pch
+
+#import "Masonry.h"
+
+#endif /* SCamera_Prefix_pch */
