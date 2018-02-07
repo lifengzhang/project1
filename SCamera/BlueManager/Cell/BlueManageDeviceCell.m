@@ -9,6 +9,9 @@
 #import "BlueManageDeviceCell.h"
 #import "BlueToothDeviceModel.h"
 
+#define BlueManageDeviceCellBackGroundColor                                                        \
+[UIColor colorWithRed:48 / 255.0 green:48 / 255.0 blue:48 / 255.0 alpha:1.0]
+
 #define SELECT_BUTTON_WIDTH                     32.f
 #define SELECT_BUTTON_HEIGHT                    32.f
 
@@ -17,6 +20,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = BlueManageDeviceCellBackGroundColor;
         [self setupConstraints];
     }
     return self;
@@ -56,8 +60,8 @@
 - (UILabel *)deviceNameLabel {
     if (! _deviceNameLabel) {
         _deviceNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _deviceNameLabel.textColor = [UIColor blackColor];
-//        _deviceNameLabel.font = [UIFont DefaultFontOfSize:14];
+        _deviceNameLabel.textColor = [UIColor whiteColor];
+        _deviceNameLabel.font = [UIFont ChinaDefaultFontNameOfSize:14];
         [self addSubview:_deviceNameLabel];
     }
     return _deviceNameLabel;

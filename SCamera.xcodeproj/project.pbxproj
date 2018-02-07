@@ -13,6 +13,10 @@
 		07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */ = {isa = PBXBuildFile; fileRef = 07369BC41FEB5F1200BB825B /* BlueToothMe.m */; };
 		07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07369BC71FEBA13300BB825B /* BlueManagerViewController.m */; };
 		0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */; };
+		07523ACD202AD34800650E47 /* BlueDevicesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523ACC202AD34800650E47 /* BlueDevicesManager.m */; };
+		07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523ACF202AD52800650E47 /* BlueNoDeviceCell.m */; };
+		07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD3202AD64800650E47 /* UIFont+Additions.m */; };
+		07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */; };
 		0780C34F1FE954410044C75D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C34E1FE954410044C75D /* AppDelegate.m */; };
 		0780C3521FE954410044C75D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C3511FE954410044C75D /* ViewController.m */; };
 		0780C3551FE954410044C75D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3531FE954410044C75D /* Main.storyboard */; };
@@ -36,6 +40,14 @@
 		07369BC71FEBA13300BB825B /* BlueManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManagerViewController.m; sourceTree = "<group>"; };
 		0741F2FE1FEAA9F700BB27BA /* SCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraViewController.h; sourceTree = "<group>"; };
 		0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraViewController.m; sourceTree = "<group>"; };
+		07523ACB202AD34800650E47 /* BlueDevicesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueDevicesManager.h; sourceTree = "<group>"; };
+		07523ACC202AD34800650E47 /* BlueDevicesManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueDevicesManager.m; sourceTree = "<group>"; };
+		07523ACE202AD52800650E47 /* BlueNoDeviceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueNoDeviceCell.h; sourceTree = "<group>"; };
+		07523ACF202AD52800650E47 /* BlueNoDeviceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueNoDeviceCell.m; sourceTree = "<group>"; };
+		07523AD2202AD64800650E47 /* UIFont+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+Additions.h"; sourceTree = "<group>"; };
+		07523AD3202AD64800650E47 /* UIFont+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Additions.m"; sourceTree = "<group>"; };
+		07523AD5202ADE5900650E47 /* BlueManagerTableViewSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueManagerTableViewSection.h; sourceTree = "<group>"; };
+		07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManagerTableViewSection.m; sourceTree = "<group>"; };
 		0780C34A1FE954410044C75D /* SCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0780C34D1FE954410044C75D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0780C34E1FE954410044C75D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -80,6 +92,10 @@
 			children = (
 				0723FB5C1FF389F400503CF7 /* BlueManageDeviceCell.h */,
 				0723FB5D1FF389F400503CF7 /* BlueManageDeviceCell.m */,
+				07523ACE202AD52800650E47 /* BlueNoDeviceCell.h */,
+				07523ACF202AD52800650E47 /* BlueNoDeviceCell.m */,
+				07523AD5202ADE5900650E47 /* BlueManagerTableViewSection.h */,
+				07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -95,6 +111,8 @@
 				0723FB541FF3885800503CF7 /* BlueToothDeviceModel.m */,
 				07369BC61FEBA13300BB825B /* BlueManagerViewController.h */,
 				07369BC71FEBA13300BB825B /* BlueManagerViewController.m */,
+				07523ACB202AD34800650E47 /* BlueDevicesManager.h */,
+				07523ACC202AD34800650E47 /* BlueDevicesManager.m */,
 			);
 			path = BlueManager;
 			sourceTree = "<group>";
@@ -133,6 +151,15 @@
 			path = FlashLight;
 			sourceTree = "<group>";
 		};
+		07523AD1202AD5E900650E47 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				07523AD2202AD64800650E47 /* UIFont+Additions.h */,
+				07523AD3202AD64800650E47 /* UIFont+Additions.m */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
 		0780C3411FE954410044C75D = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +185,7 @@
 				0741F2FD1FEAA80700BB27BA /* Camera */,
 				07523ACA202AA15900650E47 /* FlashLight */,
 				07369BC21FEB5B4800BB825B /* BlueManager */,
+				07523AD1202AD5E900650E47 /* Tool */,
 				0780C34D1FE954410044C75D /* AppDelegate.h */,
 				0780C34E1FE954410044C75D /* AppDelegate.m */,
 				0780C3501FE954410044C75D /* ViewController.h */,
@@ -319,9 +347,13 @@
 				0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */,
 				07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */,
 				0723FB561FF3885900503CF7 /* BlueToothDeviceModel.m in Sources */,
+				07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
+				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
+				07523ACD202AD34800650E47 /* BlueDevicesManager.m in Sources */,
+				07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */,
 				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
 			);

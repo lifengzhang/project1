@@ -9,12 +9,20 @@
 #import "BlueManageDeviceTableView.h"
 #import "BlueToothDeviceModel.h"
 #import "BlueManageDeviceCell.h"
+#import "BlueNoDeviceCell.h"
+#import "BlueManagerTableViewSection.h"
+
+static NSString *blueManagerTableViewSectionID = @"blue_Manager_Table_View_Section_Cell_ID";
 
 static NSString *bluetoothDeviceTableCellID = @"bluetooth_Device_Table_Cell_ID";
+
+static NSString *blueNoDeviceCellID = @"bluetooth_NO_Device_Table_Cell_ID";
 
 @interface BlueManageDeviceTableView () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSArray<BlueToothDeviceModel *> *blueToothDeviceList;
+
+@property (nonatomic, strong) BlueToothDeviceModel *connectBlueToothDevice;
 
 @property (nonatomic, assign) NSUInteger selectedIndex;
 
@@ -26,18 +34,23 @@ static NSString *bluetoothDeviceTableCellID = @"bluetooth_Device_Table_Cell_ID";
     if (self = [super initWithFrame:frame style:style]) {
         self.delegate = self;
         self.dataSource = self;
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor blackColor];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         
+        [self registerClass:[BlueManagerTableViewSection class] forHeaderFooterViewReuseIdentifier:blueManagerTableViewSectionID];
+        
         [self registerClass:[BlueManageDeviceCell class] forCellReuseIdentifier:bluetoothDeviceTableCellID];
+        [self registerClass:[BlueNoDeviceCell class] forCellReuseIdentifier:blueNoDeviceCellID];
+        
+        
     }
     return self;
 }
 
-- (void)reloadWithBlueToothDeviceList:(NSArray<BlueToothDeviceModel *> *)blueToothDeviceList selectedIndex:(NSUInteger)selectedIndex {
+- (void)reloadWithBlueToothDeviceList:(NSArray<BlueToothDeviceModel *> *)blueToothDeviceList connectBlueToothDevice:(BlueToothDeviceModel *)connectBlueToothDevice {
     
     self.blueToothDeviceList = blueToothDeviceList;
-    self.selectedIndex = selectedIndex;
+    self.connectBlueToothDevice = connectBlueToothDevice;
     
     if ([[NSThread currentThread] isMainThread]) {
         [self reloadData];
@@ -47,19 +60,69 @@ static NSString *bluetoothDeviceTableCellID = @"bluetooth_Device_Table_Cell_ID";
     
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 2;
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.blueToothDeviceList.count;
+    if (section == 0) {
+        return 1;
+    } else {
+        return self.blueToothDeviceList.count;
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section; {
+    
+    return 40.f;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 36.f;
+    return 52.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        BlueManagerTableViewSection *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:blueManagerTableViewSectionID];
+        //        header.contentView.backgroundColor = [UIColor whiteColor];
+        header.headerSectionTitleLabel.text = @"已连接设备";
+        return header;
+    } else {
+        BlueManagerTableViewSection *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:blueManagerTableViewSectionID];
+        //        header.contentView.backgroundColor = [UIColor whiteColor];
+        header.headerSectionTitleLabel.text = @"可用设备";
+        return header;
+    }
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BlueManageDeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:bluetoothDeviceTableCellID forIndexPath:indexPath];
-    [cell updateCellContentWithDeviceModel:self.blueToothDeviceList[indexPath.row] isSelected:indexPath.row == self.selectedIndex];
-    [cell.selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    return cell;
+    
+    if (indexPath.section == 0) {
+        
+        if (self.connectBlueToothDevice == nil) {
+            BlueNoDeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:blueNoDeviceCellID forIndexPath:indexPath];
+            return cell;
+        } else {
+            BlueManageDeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:bluetoothDeviceTableCellID forIndexPath:indexPath];
+            [cell updateCellContentWithDeviceModel:self.connectBlueToothDevice isSelected:indexPath.row == self.selectedIndex];
+            return cell;
+        }
+        
+    } else {
+       
+        BlueManageDeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:bluetoothDeviceTableCellID forIndexPath:indexPath];
+        [cell updateCellContentWithDeviceModel:self.blueToothDeviceList[indexPath.row] isSelected:indexPath.row == self.selectedIndex];
+        [cell.selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        return cell;
+        
+    }
+    
 }
 
 - (void)selectButtonClicked:(UIButton *)button {
