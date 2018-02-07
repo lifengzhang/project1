@@ -126,6 +126,13 @@
 			path = ImageResources;
 			sourceTree = "<group>";
 		};
+		07523ACA202AA15900650E47 /* FlashLight */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FlashLight;
+			sourceTree = "<group>";
+		};
 		0780C3411FE954410044C75D = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				0741F2FD1FEAA80700BB27BA /* Camera */,
+				07523ACA202AA15900650E47 /* FlashLight */,
 				07369BC21FEB5B4800BB825B /* BlueManager */,
 				0780C34D1FE954410044C75D /* AppDelegate.h */,
 				0780C34E1FE954410044C75D /* AppDelegate.m */,
