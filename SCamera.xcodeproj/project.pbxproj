@@ -110,10 +110,27 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
+		07523AC8202A9EE700650E47 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				07523AC9202A9F1300650E47 /* ImageResources */,
+			);
+			name = Resources;
+			path = SCamera/Resources;
+			sourceTree = "<group>";
+		};
+		07523AC9202A9F1300650E47 /* ImageResources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ImageResources;
+			sourceTree = "<group>";
+		};
 		0780C3411FE954410044C75D = {
 			isa = PBXGroup;
 			children = (
 				0780C34C1FE954410044C75D /* SCamera */,
+				07523AC8202A9EE700650E47 /* Resources */,
 				0780C34B1FE954410044C75D /* Products */,
 				6F2103ECF689D2EA51AC1CE2 /* Pods */,
 				6CE5C36C7903E14282792472 /* Frameworks */,
@@ -435,15 +452,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 4URW8PS6WP;
+				DEVELOPMENT_TEAM = RKRYP4Q5BD;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "29085c0e-939b-4894-b28d-1fa440502395";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopNormal;
+				PROVISIONING_PROFILE = "e0773cde-c908-4ea8-a13f-de03694defc5";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopQmf3g;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -455,13 +472,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-
-				DEVELOPMENT_TEAM = 4URW8PS6WP;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
-
-				DEVELOPMENT_TEAM = "";
-
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
