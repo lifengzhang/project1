@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "Masonry.h"
 #import "SCameraViewController.h"
 #import "BlueManagerViewController.h"
 #import "BlueManageDeviceTableView.h"
