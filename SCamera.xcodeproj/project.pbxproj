@@ -24,6 +24,7 @@
 		0780C35A1FE954410044C75D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3581FE954410044C75D /* LaunchScreen.storyboard */; };
 		0780C35D1FE954410044C75D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C35C1FE954410044C75D /* main.m */; };
 		A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */; };
+		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
 		F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		A30DA1F0201C202A00C82D2E /* SCameraPhotoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPhotoViewController.h; sourceTree = "<group>"; };
 		A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPhotoViewController.m; sourceTree = "<group>"; };
 		A30DA1F5201C25B400C82D2E /* SCamera-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCamera-Prefix.pch"; sourceTree = "<group>"; };
+		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,29 +130,6 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
-		07523AC8202A9EE700650E47 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				07523AC9202A9F1300650E47 /* ImageResources */,
-			);
-			name = Resources;
-			path = SCamera/Resources;
-			sourceTree = "<group>";
-		};
-		07523AC9202A9F1300650E47 /* ImageResources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ImageResources;
-			sourceTree = "<group>";
-		};
-		07523ACA202AA15900650E47 /* FlashLight */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = FlashLight;
-			sourceTree = "<group>";
-		};
 		07523AD1202AD5E900650E47 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				0780C34C1FE954410044C75D /* SCamera */,
-				07523AC8202A9EE700650E47 /* Resources */,
+				A37F2B3C202AF9240057378D /* Resources */,
 				0780C34B1FE954410044C75D /* Products */,
 				6F2103ECF689D2EA51AC1CE2 /* Pods */,
 				6CE5C36C7903E14282792472 /* Frameworks */,
@@ -183,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				0741F2FD1FEAA80700BB27BA /* Camera */,
-				07523ACA202AA15900650E47 /* FlashLight */,
+				A3C4DDCF202BF102003B25F5 /* FlashLight */,
 				07369BC21FEB5B4800BB825B /* BlueManager */,
 				07523AD1202AD5E900650E47 /* Tool */,
 				0780C34D1FE954410044C75D /* AppDelegate.h */,
@@ -215,6 +194,29 @@
 				8724943F22A7BD1AD34C3F6B /* Pods-SCamera.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		A37F2B3C202AF9240057378D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A37F2B3D202AF9250057378D /* ImageRerources */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A37F2B3D202AF9250057378D /* ImageRerources */ = {
+			isa = PBXGroup;
+			children = (
+				A37F2B3E202AF95C0057378D /* HomePage.xcassets */,
+			);
+			path = ImageRerources;
+			sourceTree = "<group>";
+		};
+		A3C4DDCF202BF102003B25F5 /* FlashLight */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FlashLight;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +283,7 @@
 				0780C35A1FE954410044C75D /* LaunchScreen.storyboard in Resources */,
 				0780C3571FE954410044C75D /* Assets.xcassets in Resources */,
 				0780C3551FE954410044C75D /* Main.storyboard in Resources */,
+				A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,17 +513,17 @@
 			baseConfigurationReference = 8724943F22A7BD1AD34C3F6B /* Pods-SCamera.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4URW8PS6WP;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9edd4c90-cc13-449f-9392-3de1057fe4e3";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopInHouse;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
