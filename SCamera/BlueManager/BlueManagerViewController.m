@@ -156,6 +156,9 @@
             if ([scanedBlueToothDevice.identifier isEqualToString:blueToothDevice.identifier]) {
                 isInScaned = YES;
                 break;
+            } else if ([scanedBlueToothDevice.identifier isEqualToString:BDManager.connectedBlueToothDeviceModel.identifier]) {
+                isInScaned = YES;
+                break;
             } else {
                 continue;
             }
