@@ -10,7 +10,6 @@
 #import "SCameraViewController.h"
 #import "BlueManagerViewController.h"
 #import "BlueManageDeviceTableView.h"
-#import "MyDeviceViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
 #define HOMEPAGE_LINE_COLOR                                         \
@@ -226,8 +225,7 @@
 
 - (void)showMyDevice {
     
-    MyDeviceViewController *vc = [[MyDeviceViewController alloc] initWithNibName:nil bundle:nil];
-    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 #pragma - mark 懒加载

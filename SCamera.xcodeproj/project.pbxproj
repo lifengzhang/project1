@@ -25,9 +25,6 @@
 		0780C35D1FE954410044C75D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C35C1FE954410044C75D /* main.m */; };
 		A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */; };
 		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
-		A3C4DDD7202BF30D003B25F5 /* MyDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C4DDD6202BF30D003B25F5 /* MyDeviceViewController.m */; };
-		A3C4DDDA202BF36A003B25F5 /* MyDeviceTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C4DDD9202BF36A003B25F5 /* MyDeviceTableView.m */; };
-		A3C4DDDD202C0234003B25F5 /* MyDeviceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C4DDDC202C0234003B25F5 /* MyDeviceTableViewCell.m */; };
 		F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */; };
 /* End PBXBuildFile section */
 
@@ -69,12 +66,6 @@
 		A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPhotoViewController.m; sourceTree = "<group>"; };
 		A30DA1F5201C25B400C82D2E /* SCamera-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCamera-Prefix.pch"; sourceTree = "<group>"; };
 		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
-		A3C4DDD5202BF30D003B25F5 /* MyDeviceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyDeviceViewController.h; sourceTree = "<group>"; };
-		A3C4DDD6202BF30D003B25F5 /* MyDeviceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDeviceViewController.m; sourceTree = "<group>"; };
-		A3C4DDD8202BF36A003B25F5 /* MyDeviceTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyDeviceTableView.h; sourceTree = "<group>"; };
-		A3C4DDD9202BF36A003B25F5 /* MyDeviceTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDeviceTableView.m; sourceTree = "<group>"; };
-		A3C4DDDB202C0234003B25F5 /* MyDeviceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyDeviceTableViewCell.h; sourceTree = "<group>"; };
-		A3C4DDDC202C0234003B25F5 /* MyDeviceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDeviceTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,7 +163,6 @@
 			children = (
 				0741F2FD1FEAA80700BB27BA /* Camera */,
 				A3C4DDCF202BF102003B25F5 /* FlashLight */,
-				A3C4DDCE202BF0AC003B25F5 /* MyDevice */,
 				07369BC21FEB5B4800BB825B /* BlueManager */,
 				07523AD1202AD5E900650E47 /* Tool */,
 				0780C34D1FE954410044C75D /* AppDelegate.h */,
@@ -222,40 +212,11 @@
 			path = ImageRerources;
 			sourceTree = "<group>";
 		};
-		A3C4DDCE202BF0AC003B25F5 /* MyDevice */ = {
-			isa = PBXGroup;
-			children = (
-				A3C4DDD4202BF2FA003B25F5 /* Cell */,
-				A3C4DDD3202BF2FA003B25F5 /* View */,
-				A3C4DDD5202BF30D003B25F5 /* MyDeviceViewController.h */,
-				A3C4DDD6202BF30D003B25F5 /* MyDeviceViewController.m */,
-			);
-			path = MyDevice;
-			sourceTree = "<group>";
-		};
 		A3C4DDCF202BF102003B25F5 /* FlashLight */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = FlashLight;
-			sourceTree = "<group>";
-		};
-		A3C4DDD3202BF2FA003B25F5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				A3C4DDD8202BF36A003B25F5 /* MyDeviceTableView.h */,
-				A3C4DDD9202BF36A003B25F5 /* MyDeviceTableView.m */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		A3C4DDD4202BF2FA003B25F5 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				A3C4DDDB202C0234003B25F5 /* MyDeviceTableViewCell.h */,
-				A3C4DDDC202C0234003B25F5 /* MyDeviceTableViewCell.m */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,12 +349,9 @@
 				0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */,
 				0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */,
 				07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */,
-				A3C4DDDD202C0234003B25F5 /* MyDeviceTableViewCell.m in Sources */,
 				0723FB561FF3885900503CF7 /* BlueToothDeviceModel.m in Sources */,
 				07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
-				A3C4DDDA202BF36A003B25F5 /* MyDeviceTableView.m in Sources */,
-				A3C4DDD7202BF30D003B25F5 /* MyDeviceViewController.m in Sources */,
 				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
