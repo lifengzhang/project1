@@ -117,6 +117,11 @@ static NSString *blueNoDeviceCellID = @"bluetooth_NO_Device_Table_Cell_ID";
     } else {
        
         BlueManageDeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:bluetoothDeviceTableCellID forIndexPath:indexPath];
+        if (indexPath.row == self.blueToothDeviceList.count - 1) {
+            cell.lineView.hidden = YES;
+        } else {
+            cell.lineView.hidden = NO;
+        }
         [cell updateCellContentWithDeviceModel:self.blueToothDeviceList[indexPath.row] isSelected:indexPath.row == self.selectedIndex];
         [cell.selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         return cell;

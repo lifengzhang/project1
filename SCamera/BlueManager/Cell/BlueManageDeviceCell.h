@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) UILabel *deviceNameLabel;
 
+@property (nonatomic, strong) UIView *lineView;
+
 - (void)updateCellContentWithDeviceModel:(BlueToothDeviceModel *)deviceModel isSelected:(BOOL)isSelected;
 
 @end

@@ -12,6 +12,9 @@
 #define BlueManageDeviceCellBackGroundColor                                                        \
 [UIColor colorWithRed:48 / 255.0 green:48 / 255.0 blue:48 / 255.0 alpha:1.0]
 
+#define MYDEVICE_LINE_VIEW_COLOR                                       \
+[UIColor colorWithRed:55 / 255.0 green:55 / 255.0 blue:55 / 255.0 alpha:1.0];
+
 #define SELECT_BUTTON_WIDTH                     32.f
 #define SELECT_BUTTON_HEIGHT                    32.f
 
@@ -44,6 +47,12 @@
         make.left.equalTo(self.selectButton.mas_right).offset(8.f);
         make.centerY.equalTo(self);
     }];
+    
+    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(17);
+        make.right.bottom.equalTo(self);
+        make.height.mas_offset(1);
+    }];
 }
 
 - (UIButton *)selectButton {
@@ -65,6 +74,15 @@
         [self addSubview:_deviceNameLabel];
     }
     return _deviceNameLabel;
+}
+
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [[UIView alloc] initWithFrame:CGRectZero];
+        _lineView.backgroundColor = MYDEVICE_LINE_VIEW_COLOR
+        [self addSubview:_lineView];
+    }
+    return  _lineView;
 }
 
 @end

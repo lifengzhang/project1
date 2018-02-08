@@ -41,8 +41,6 @@
 
 @property (nonatomic, strong) UILabel *myDeviceText;
 
-@property (nonatomic, strong) UILabel *connectedDevice;
-
 @property (nonatomic, strong) UIImageView *connectSignImage;
 
 @property (nonatomic, strong) UIView *lastLine;
@@ -64,6 +62,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    [self updateView];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
@@ -155,24 +154,18 @@
     
     [self.myDeviceText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset(-25);
-        make.right.equalTo(self.view.mas_centerX);
+        make.centerX.equalTo(self.view).offset(-16.f);
         
     }];
     
-    [self.connectedDevice mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.myDeviceText.mas_right);
-        make.bottom.equalTo(self.myDeviceText.mas_bottom);
-    }];
-    
     [self.myDeviceButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.myDeviceText);
-        make.right.equalTo(self.connectedDevice);
+        make.left.right.equalTo(self.myDeviceText);
         make.bottom.equalTo(self.lastLine);
         make.height.mas_equalTo(20);
     }];
     
     [self.connectSignImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.connectedDevice.mas_right).offset(8);
+        make.left.equalTo(self.myDeviceText.mas_right).offset(8);
         make.bottom.equalTo(self.myDeviceText.mas_bottom).offset(3);
         make.width.mas_offset(25);
         make.height.mas_equalTo(20);
@@ -182,9 +175,20 @@
         make.bottom.equalTo(self.view).offset(-24);
         make.height.mas_equalTo(1);
         make.left.equalTo(self.myDeviceText.mas_left);
-        make.right.equalTo(self.connectedDevice.mas_right);
+        make.right.equalTo(self.myDeviceText.mas_right);
     }];
     
+}
+
+- (void)updateView {
+    
+    if (BDManager.connectedBlueToothDeviceModel.name.length > 0) {
+        self.myDeviceText.text = [NSString stringWithFormat:@"我的设备：%@",BDManager.connectedBlueToothDeviceModel.name];
+        [self.connectSignImage setImage:[UIImage imageNamed:@"HomePage_connected"]];
+    } else {
+        self.myDeviceText.text = @"我的设备：未连接";
+        [self.connectSignImage setImage:[UIImage imageNamed:@"HomePage_unconnect"]];
+    }
 }
 
 - (void)showSettingView {
@@ -323,25 +327,13 @@
 - (UILabel *)myDeviceText {
     if (!_myDeviceText) {
         _myDeviceText = [[UILabel alloc] initWithFrame:CGRectZero];
-        _myDeviceText.text = @"我的设备：";
+        _myDeviceText.text = @"我的设备：未连接";
         _myDeviceText.textAlignment = NSTextAlignmentRight;
         _myDeviceText.textColor = HOMEPAGE_TEXT_COLOR
         _myDeviceText.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         [self.view addSubview:_myDeviceText];
     }
     return _myDeviceText;
-}
-
-- (UILabel *)connectedDevice {
-    if (!_connectedDevice) {
-        _connectedDevice = [[UILabel alloc] initWithFrame:CGRectZero];
-        _connectedDevice.text = @"未连接";
-        _connectedDevice.textAlignment = NSTextAlignmentLeft;
-        _connectedDevice.textColor = HOMEPAGE_TEXT_COLOR
-        _connectedDevice.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
-        [self.view addSubview:_connectedDevice];
-    }
-    return _connectedDevice;
 }
 
 - (UIImageView *)connectSignImage {
