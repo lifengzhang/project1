@@ -225,6 +225,9 @@
 
 - (void)showMyDevice {
     
+    BlueManagerViewController *blueManagerViewController = [[BlueManagerViewController alloc] initWithNibName:nil bundle:nil];
+    
+    [self.navigationController pushViewController:blueManagerViewController animated:YES];
     
 }
 
