@@ -10,6 +10,8 @@
 #import "SCameraViewController.h"
 #import "BlueManagerViewController.h"
 #import "BlueManageDeviceTableView.h"
+#import "MyDeviceViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 #define HOMEPAGE_LINE_COLOR                                         \
 [UIColor colorWithRed:60 / 255.0 green:60 / 255.0 blue:60 / 255.0 alpha:1.0];
@@ -38,8 +40,6 @@
 
 @property (nonatomic, strong) UIButton *cameraButton;
 
-@property (nonatomic, strong) UIButton *blueButton;
-
 @property (nonatomic, strong) UILabel *myDeviceText;
 
 @property (nonatomic, strong) UILabel *connectedDevice;
@@ -48,7 +48,11 @@
 
 @property (nonatomic, strong) UIView *lastLine;
 
-@property (nonatomic, strong) BlueManageDeviceTableView *deviceTable;
+@property (nonatomic, strong) UIButton *ledButton;
+
+@property (nonatomic, strong) UIButton *flashButton;
+
+@property (nonatomic, strong) UIButton *myDeviceButton;
 
 @end
 
@@ -80,7 +84,6 @@
     [self.settingButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(16);
         make.bottom.equalTo(self.view.mas_top).offset(64);
-//        make.width.height.mas_equalTo(24);
     }];
     
     [self.lampImage mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,6 +97,11 @@
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
+    }];
+    
+    [self.ledButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.lampImage);
+        make.bottom.equalTo(self.ledLabel);
     }];
     
     [self.firstLine mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -116,6 +124,11 @@
         make.height.mas_equalTo(15);
     }];
     
+    [self.flashButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.flashLightImage);
+        make.bottom.equalTo(self.flashLightText);
+    }];
+    
     [self.secondLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.firstLine.mas_bottom).offset(182);
         make.left.equalTo(self.view).offset(28);
@@ -136,6 +149,11 @@
         make.height.mas_equalTo(15);
     }];
     
+    [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self.cameraImage);
+        make.bottom.equalTo(self.cameraLabel);
+    }];
+    
     [self.myDeviceText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset(-25);
         make.right.equalTo(self.view.mas_centerX);
@@ -145,6 +163,13 @@
     [self.connectedDevice mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.myDeviceText.mas_right);
         make.bottom.equalTo(self.myDeviceText.mas_bottom);
+    }];
+    
+    [self.myDeviceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.myDeviceText);
+        make.right.equalTo(self.connectedDevice);
+        make.bottom.equalTo(self.lastLine);
+        make.height.mas_equalTo(20);
     }];
     
     [self.connectSignImage mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -160,25 +185,6 @@
         make.left.equalTo(self.myDeviceText.mas_left);
         make.right.equalTo(self.connectedDevice.mas_right);
     }];
-//    [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).with.offset(100);
-//        make.left.equalTo(self.view).with.offset(20);
-//        make.width.height.mas_equalTo(50);
-//    }];
-    
-//    [self.blueButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).with.offset(100);
-//        make.left.equalTo(self.cameraButton.mas_right).with.offset(20);
-//        make.width.height.mas_equalTo(50);
-//    }];
-    
-}
-
-- (void)showBlueView {
-    
-    BlueManagerViewController *blueManagerViewController = [[BlueManagerViewController alloc] initWithNibName:nil bundle:nil];
-    
-    [self.navigationController pushViewController:blueManagerViewController animated:YES];
     
 }
 
@@ -193,6 +199,35 @@
     
     [self.navigationController pushViewController:CameraViewController animated:YES];
     
+}
+
+- (void)tapLEDButton {
+    self.ledButton.selected = !self.ledButton.selected;
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch]) {
+            [device lockForConfiguration:nil];
+            if (self.ledButton.selected) {
+                [device setTorchMode:AVCaptureTorchModeOn];
+            }else{
+                [device setTorchMode:AVCaptureTorchModeOff];
+            }
+            [device unlockForConfiguration];
+        }
+    }
+}
+
+- (void)tapFlashLightButton {
+    
+    
+    
+}
+
+- (void)showMyDevice {
+    
+    MyDeviceViewController *vc = [[MyDeviceViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma - mark 懒加载
@@ -284,37 +319,6 @@
     return _secondLine;
 }
 
-- (BlueManageDeviceTableView *)deviceTable {
-    if (! _deviceTable) {
-        _deviceTable = [[BlueManageDeviceTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-//        _deviceTable.manageDeviceTableDelegate = self;
-        [self.view addSubview:_deviceTable];
-    }
-    return _deviceTable;
-}
-
-- (UIButton *)cameraButton {
-    if (! _cameraButton) {
-        _cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        //        _cameraButton.backgroundColor = [UIColor whiteColor];
-        [_cameraButton setTitle:@"相机" forState:UIControlStateNormal];
-        [_cameraButton addTarget:self action:@selector(showCarmeraView) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_cameraButton];
-    }
-    return _cameraButton;
-}
-
-- (UIButton *)blueButton {
-    if (! _blueButton) {
-        _blueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        //        _cameraButton.backgroundColor = [UIColor whiteColor];
-        [_blueButton setTitle:@"蓝牙" forState:UIControlStateNormal];
-        [_blueButton addTarget:self action:@selector(showBlueView) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_blueButton];
-    }
-    return _blueButton;
-}
-
 - (UILabel *)myDeviceText {
     if (!_myDeviceText) {
         _myDeviceText = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -354,6 +358,42 @@
         [self.view addSubview:_lastLine];
     }
     return _lastLine;
+}
+
+- (UIButton *)ledButton {
+    if (!_ledButton) {
+        _ledButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        [_ledButton addTarget:self action:@selector(tapLEDButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_ledButton];
+    }
+    return _ledButton;
+}
+
+- (UIButton *)flashButton {
+    if (!_flashButton) {
+        _flashButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        [_flashButton addTarget:self action:@selector(tapFlashLightButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_flashButton];
+    }
+    return _flashButton;
+}
+
+- (UIButton *)cameraButton {
+    if (!_cameraButton) {
+        _cameraButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        [_cameraButton addTarget:self action:@selector(showCarmeraView) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_cameraButton];
+    }
+    return _cameraButton;
+}
+
+- (UIButton *)myDeviceButton {
+    if (!_myDeviceButton) {
+        _myDeviceButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        [_myDeviceButton addTarget:self action:@selector(showMyDevice) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_myDeviceButton];
+    }
+    return _myDeviceButton;
 }
 
 @end
