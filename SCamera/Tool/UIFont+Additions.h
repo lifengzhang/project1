@@ -10,6 +10,7 @@
 
 #define ChinaDefaultFontName      @"PingFangSC-Regular"
 #define ChinaLightFontName        @"PingFangSC-Light"
+#define ChinaBoldFontName         @"PingFangSC-Bold"
 
 @interface UIFont (Additions)
 
@@ -17,5 +18,8 @@
  *  专门给中文用的字体
  */
 + (UIFont *)ChinaDefaultFontNameOfSize:(CGFloat)fontSize;
+
+//加粗字体
++ (UIFont *)ChinaBoldFontNameOfSize:(CGFloat)fontSize;
 
 @end

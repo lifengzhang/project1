@@ -46,6 +46,8 @@
 
 @property (nonatomic, strong) UIImageView *connectSignImage;
 
+@property (nonatomic, strong) UIView *lastLine;
+
 @property (nonatomic, strong) BlueManageDeviceTableView *deviceTable;
 
 @end
@@ -78,7 +80,7 @@
     [self.settingButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(16);
         make.bottom.equalTo(self.view.mas_top).offset(64);
-        make.width.height.mas_equalTo(30);
+//        make.width.height.mas_equalTo(24);
     }];
     
     [self.lampImage mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -90,7 +92,7 @@
     [self.ledLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(177);
         make.centerX.equalTo(self.view);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
     }];
     
@@ -110,7 +112,7 @@
     [self.flashLightText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.firstLine.mas_bottom).offset(130);
         make.centerX.equalTo(self.view);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
     }];
     
@@ -130,7 +132,7 @@
     [self.cameraLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.secondLine.mas_bottom).offset(130);
         make.centerX.equalTo(self.view);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
     }];
     
@@ -147,7 +149,16 @@
     
     [self.connectSignImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.connectedDevice.mas_right).offset(8);
-        make.bottom.equalTo(self.connectedDevice.mas_bottom);
+        make.bottom.equalTo(self.myDeviceText.mas_bottom).offset(3);
+        make.width.mas_offset(25);
+        make.height.mas_equalTo(20);
+    }];
+    
+    [self.lastLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).offset(-24);
+        make.height.mas_equalTo(1);
+        make.left.equalTo(self.myDeviceText.mas_left);
+        make.right.equalTo(self.connectedDevice.mas_right);
     }];
 //    [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).with.offset(100);
@@ -188,8 +199,7 @@
 - (UIButton *)settingButton {
     if (!_settingButton) {
         _settingButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_settingButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        _settingButton.backgroundColor = [UIColor whiteColor];
+        [_settingButton setImage:[UIImage imageNamed:@"HomePage_setting"] forState:UIControlStateNormal];
         [_settingButton addTarget:self action:@selector(showSettingView) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_settingButton];
     }
@@ -198,8 +208,7 @@
 
 - (UIImageView *)lampImage {
     if (!_lampImage) {
-        _lampImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
-        _lampImage.backgroundColor = [UIColor whiteColor]; //text:need delete
+        _lampImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HomePage_LED"]];
         [self.view addSubview:_lampImage];
     }
     return _lampImage;
@@ -210,7 +219,7 @@
         _ledLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _ledLabel.text = @"LED";
         _ledLabel.textAlignment = NSTextAlignmentCenter;
-        _ledLabel.font = [UIFont boldSystemFontOfSize:15.f];
+        _ledLabel.font = [UIFont ChinaBoldFontNameOfSize:15.f];
         _ledLabel.textColor = HOMEPAGE_TEXT_COLOR
         [self.view addSubview:_ledLabel];
     }
@@ -228,8 +237,7 @@
 
 - (UIImageView *)flashLightImage {
     if (!_flashLightImage) {
-        _flashLightImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
-        _flashLightImage.backgroundColor = [UIColor whiteColor]; //text:need delete
+        _flashLightImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HomePage_flashLight"]];
         [self.view addSubview:_flashLightImage];
     }
     return _flashLightImage;
@@ -240,7 +248,7 @@
         _flashLightText = [[UILabel alloc] initWithFrame:CGRectZero];
         _flashLightText.text= @"闪光灯";
         _flashLightText.textAlignment = NSTextAlignmentCenter;
-        _flashLightText.font = [UIFont boldSystemFontOfSize:15.f];
+        _flashLightText.font = [UIFont ChinaBoldFontNameOfSize:15.f];
         _flashLightText.textColor = HOMEPAGE_TEXT_COLOR
         [self.view addSubview:_flashLightText];
     }
@@ -249,8 +257,7 @@
 
 - (UIImageView *)cameraImage {
     if (!_cameraImage) {
-        _cameraImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
-        _cameraImage.backgroundColor = [UIColor whiteColor];//text:need delete
+        _cameraImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HomePage_camera"]];
         [self.view addSubview:_cameraImage];
     }
     return _cameraImage;
@@ -261,7 +268,7 @@
         _cameraLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _cameraLabel.text = @"拍照";
         _cameraLabel.textAlignment = NSTextAlignmentCenter;
-        _cameraLabel.font = [UIFont boldSystemFontOfSize:15.f];
+        _cameraLabel.font = [UIFont ChinaBoldFontNameOfSize:15.f];
         _cameraLabel.textColor = HOMEPAGE_TEXT_COLOR
         [self.view addSubview:_cameraLabel];
     }
@@ -314,7 +321,7 @@
         _myDeviceText.text = @"我的设备：";
         _myDeviceText.textAlignment = NSTextAlignmentRight;
         _myDeviceText.textColor = HOMEPAGE_TEXT_COLOR
-        _myDeviceText.font = [UIFont systemFontOfSize:14.f];
+        _myDeviceText.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         [self.view addSubview:_myDeviceText];
     }
     return _myDeviceText;
@@ -326,7 +333,7 @@
         _connectedDevice.text = @"未连接";
         _connectedDevice.textAlignment = NSTextAlignmentLeft;
         _connectedDevice.textColor = HOMEPAGE_TEXT_COLOR
-        _connectedDevice.font = [UIFont systemFontOfSize:14.f];
+        _connectedDevice.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         [self.view addSubview:_connectedDevice];
     }
     return _connectedDevice;
@@ -334,10 +341,19 @@
 
 - (UIImageView *)connectSignImage {
     if (!_connectSignImage) {
-        _connectSignImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
+        _connectSignImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HomePage_unconnect"]];
         [self.view addSubview:_connectSignImage];
     }
     return _connectSignImage;
+}
+
+- (UIView *)lastLine {
+    if (!_lastLine) {
+        _lastLine = [[UIView alloc] initWithFrame:CGRectZero];
+        _lastLine.backgroundColor = HOMEPAGE_TEXT_COLOR
+        [self.view addSubview:_lastLine];
+    }
+    return _lastLine;
 }
 
 @end

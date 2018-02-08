@@ -16,4 +16,9 @@
     
 }
 
++ (UIFont *)ChinaBoldFontNameOfSize:(CGFloat)fontSize {
+    
+    return [UIFont fontWithName:ChinaBoldFontName size:fontSize];
+}
+
 @end
