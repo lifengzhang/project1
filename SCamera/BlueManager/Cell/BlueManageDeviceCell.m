@@ -49,7 +49,7 @@
     }];
     
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.left.equalTo(self.selectButton.mas_right).offset(DEVICELABEL_MARGE_SELECT_BUTTON);
+        make.left.equalTo(self.selectButton.mas_right).offset(DEVICELABEL_MARGE_SELECT_BUTTON);
         make.centerY.equalTo(self);
     }];
     
