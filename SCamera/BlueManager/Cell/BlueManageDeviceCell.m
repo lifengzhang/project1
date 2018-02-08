@@ -18,6 +18,11 @@
 #define SELECT_BUTTON_WIDTH                     32.f
 #define SELECT_BUTTON_HEIGHT                    32.f
 
+#define LINEVIEW_HEIGHT                          1.f
+#define LINEVIEW_DISTANCE_LEFT                  17.f
+
+#define DEVICELABEL_MARGE_SELECT_BUTTON          8.f
+
 @implementation BlueManageDeviceCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -44,14 +49,14 @@
     }];
     
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.selectButton.mas_right).offset(8.f);
+    make.left.equalTo(self.selectButton.mas_right).offset(DEVICELABEL_MARGE_SELECT_BUTTON);
         make.centerY.equalTo(self);
     }];
     
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(17);
+        make.left.equalTo(self).offset(LINEVIEW_DISTANCE_LEFT);
         make.right.bottom.equalTo(self);
-        make.height.mas_offset(1);
+        make.height.mas_offset(LINEVIEW_HEIGHT);
     }];
 }
 
