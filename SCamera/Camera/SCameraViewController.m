@@ -10,7 +10,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
 #import "SCameraPhotoViewController.h"
+
 #import "CameraView.h"
+
+#import "SCameraISOValueScrollView.h"
+
 
 #define kScreenBounds   [UIScreen mainScreen].bounds
 #define kScreenWidth  kScreenBounds.size.width*1.0
@@ -89,7 +93,11 @@
 
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer* previewLayer; //预览图层
 
+
 @property (nonatomic ,strong) CameraView *cameraView;
+
+@property (nonatomic, strong) SCameraISOValueScrollView *iSOValueScrollView;
+
 
 @end
 
@@ -231,6 +239,12 @@
         make.left.equalTo(self.view).offset(ISOSLIDER_DISTANCE_LEFT);
         make.width.mas_equalTo(ISOSLIDER_WIDTH);
         make.height.mas_equalTo(ISOSLIDER_HEIGHT);
+    }];
+    
+    [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.isoSlider.mas_bottom).offset(5);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(50);
     }];
     
 }
@@ -402,6 +416,21 @@
     self.isoValueLabel.text = [NSString stringWithFormat:@"%.4f",self.currentISO];
 }
 
+#pragma mark - -聚焦
+- (id)focusAtPoint:(CGPoint)point{
+
+    if ([self.device isFocusPointOfInterestSupported] && [self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]){
+        NSError *error;
+        if ([self.device lockForConfiguration:&error]) {
+            self.device.focusPointOfInterest = point;
+            self.device.focusMode = AVCaptureFocusModeAutoFocus;
+            [self.device unlockForConfiguration];
+        }
+        return error;
+    }
+    return nil;
+}
+
 #pragma mark - 曝光时长
 - (void)exposureDurationChanged:(id)sender{
     
@@ -471,6 +500,18 @@
         [self.view addSubview:_cameraView];
     }
     return _cameraView;
+}
+
+- (SCameraISOValueScrollView *)iSOValueScrollView {
+    
+    if (! _iSOValueScrollView) {
+        _iSOValueScrollView = [[SCameraISOValueScrollView alloc] initWithFrame:CGRectZero];
+        _iSOValueScrollView.backgroundColor = [UIColor redColor];
+        [self.view addSubview:_iSOValueScrollView];
+    }
+    
+    return _iSOValueScrollView;
+    
 }
 
 - (UILabel *)exposureDurationTitleLabel {
