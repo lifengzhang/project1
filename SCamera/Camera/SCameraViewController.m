@@ -10,23 +10,15 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
 #import "SCameraPhotoViewController.h"
+
+#import "CameraView.h"
+
 #import "SCameraISOValueScrollView.h"
+
 
 #define kScreenBounds   [UIScreen mainScreen].bounds
 #define kScreenWidth  kScreenBounds.size.width*1.0
 #define kScreenHeight kScreenBounds.size.height*1.0
-
-#define BACKBUTTON_DISTANCE_TOP                                                20.f
-#define BACKBUTTON_DISTANCE_LEFT                                               20.f
-#define BACKBUTTON_WIDTH_HEIGHT                                                60.f
-
-#define PHOTOBUTTON_DISTANCE_TOP                                               kScreenHeight - 100
-#define PHOTOBUTTON_DISTANCE_LEFT                                              kScreenWidth*1/2.0 - 30
-#define PHOTOBUTTON_WIDTH_HEIGHT                                               60.f
-
-#define PHOTOLIBRARYBUTTON_DISTANCE_TOP                                        kScreenHeight - 100
-#define PHOTOLIBRARYBUTTON_DISTANCE_LEFT                                       30.f
-#define PHOTOLIBRARYBUTTON_WIDTH_HEIGHT                                        60.f
 
 #define CANCELBUTTON_DISTANCE_TOP                                              kScreenHeight - 100
 #define CANCELBUTTON_DISTANCE_LEFT                                             kScreenWidth*1/4.0 - 30
@@ -75,14 +67,6 @@
 
 @property (nonatomic, strong) UIImageView *imageView;
 
-@property (nonatomic, strong) UIButton *photoButton;
-
-@property (nonatomic, strong) UIButton *backButton;
-
-@property (nonatomic, strong) UIButton *cancelButton;
-
-@property (nonatomic, strong) UIButton *photoLibraryButton;
-
 @property (nonatomic, strong) UILabel *exposureDurationTitleLabel;
 
 @property (nonatomic, strong) UILabel *exposureDurationValueLabel;
@@ -109,7 +93,11 @@
 
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer* previewLayer; //预览图层
 
+
+@property (nonatomic ,strong) CameraView *cameraView;
+
 @property (nonatomic, strong) SCameraISOValueScrollView *iSOValueScrollView;
+
 
 @end
 
@@ -120,6 +108,7 @@
     [self customCamera];
     [self customUI];
     [self getLatestAsset];
+    [self addButtonAction];
 }
 
 - (void)startSession{
@@ -146,9 +135,23 @@
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
-- (void)customCamera{
-    self.view.backgroundColor = [UIColor whiteColor];
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
+- (void)addButtonAction {
+    [self.cameraView.backButton addTarget:self action:@selector(tapCloseButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.photoLibraryButton addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.flashLightButton addTarget:self action:@selector(tapFlashLightbutton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.timerButton addTarget:self action:@selector(tapTimerButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.exchangeButton addTarget:self action:@selector(tapExchangeButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.photoButton addTarget:self action:@selector(shutterCamera) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)customCamera{
+    self.view.backgroundColor = [UIColor blackColor];
     //使用设备初始化输入
     AVCaptureDeviceInput *input = [[AVCaptureDeviceInput alloc]initWithDevice:self.device error:nil];
     
@@ -167,7 +170,7 @@
         [self.session addOutput:self.ImageOutPut];
     }
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
-    self.previewLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    self.previewLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - 140);
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.previewLayer];
     //开始启动
@@ -192,28 +195,8 @@
 
 - (void)customUI{
     
-    [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(BACKBUTTON_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(BACKBUTTON_DISTANCE_LEFT);
-        make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
-    }];
-    
-    [self.photoButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(PHOTOBUTTON_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(PHOTOBUTTON_DISTANCE_LEFT);
-        make.width.height.mas_equalTo(PHOTOBUTTON_WIDTH_HEIGHT);
-    }];
-    
-    [self.photoLibraryButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(PHOTOLIBRARYBUTTON_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(PHOTOLIBRARYBUTTON_DISTANCE_LEFT);
-        make.width.height.mas_equalTo(PHOTOLIBRARYBUTTON_WIDTH_HEIGHT);
-    }];
-    
-    [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(CANCELBUTTON_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(CANCELBUTTON_DISTANCE_LEFT);
-        make.width.height.mas_equalTo(CANCELBUTTON_WIDTH_HEIGHT);
+    [self.cameraView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
     }];
     
     [self.exposureDurationTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -300,7 +283,8 @@
                  [self.session stopRunning];
                  [self saveImageToPhotoAlbum:self.image];
                  self.imageView = [[UIImageView alloc] initWithFrame:self.previewLayer.frame];
-                 [self.view insertSubview:self.imageView belowSubview:self.photoButton];
+                 
+                 [self.view insertSubview:self.imageView belowSubview:self.cameraView.photoButton];
                  self.imageView.layer.masksToBounds = YES;
                  self.imageView.image = self.image;
                  NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
@@ -322,8 +306,67 @@
     [self presentViewController: self.photoAlbumController animated:NO completion:nil];
 }
 
-- (void)back {
+#pragma mark - 点击关闭按钮
+- (void)tapCloseButton {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - 点击闪光灯按钮
+- (void)tapFlashLightbutton {
+    
+    
+}
+
+#pragma mark - 点击定时器
+- (void)tapTimerButton {
+    
+    
+}
+
+#pragma mark - 相机转换
+- (void)tapExchangeButton {
+    
+    NSArray *inputs =self.session.inputs;
+    for (AVCaptureDeviceInput *input in inputs ) {
+        AVCaptureDevice *device = input.device;
+        if ( [device hasMediaType:AVMediaTypeVideo] ) {
+            AVCaptureDevicePosition position = device.position;
+            AVCaptureDevice *newCamera =nil;
+            AVCaptureDeviceInput *newInput =nil;
+            
+            if (position ==AVCaptureDevicePositionFront)
+                newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
+            else
+                newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
+            newInput = [AVCaptureDeviceInput deviceInputWithDevice:newCamera error:nil];
+            [self.session beginConfiguration];
+            [self.session removeInput:input];
+            [self.session addInput:newInput];
+            [self.session commitConfiguration];
+            break;
+        }
+    }
+}
+
+- (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for ( AVCaptureDevice *device in devices )
+        if ( device.position == position ){
+            return device;
+        }
+    return nil;
+}
+
+#pragma mark - 点击调节器
+- (void)tapValueButton {
+    
+    
+}
+
+#pragma mark - 点击蓝牙
+- (void)tapblueToothButton {
+    
+    
 }
 
 - (void)cancle{
@@ -426,7 +469,7 @@
         NSLog(@"照片名%@", [asset valueForKey:@"filename"]);
         *stop = YES;
         UIImage *image = [UIImage imageWithData:[SCameraViewController getImageFromPHAsset:asset]];
-        [self.photoLibraryButton setImage:image forState:UIControlStateNormal];
+//        [self.photoLibraryButton setImage:image forState:UIControlStateNormal];
     }];
 }
 
@@ -451,45 +494,12 @@
 }
 
 #pragma - mark 懒加载
-- (UIButton *)backButton {
-    if (!_backButton) {
-        _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _backButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_backButton setTitle:@"回退" forState:UIControlStateNormal];
-        [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_backButton];
+- (CameraView *)cameraView {
+    if (!_cameraView) {
+        _cameraView = [[CameraView alloc] initWithFrame:CGRectZero];
+        [self.view addSubview:_cameraView];
     }
-    return _backButton;
-}
-
-- (UIButton *)photoButton {
-    if (!_photoButton) {
-        _photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _photoButton.backgroundColor = [UIColor redColor];
-        [_photoButton addTarget:self action:@selector(shutterCamera) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_photoButton];
-    }
-    return _photoButton;
-}
-
-- (UIButton *)photoLibraryButton {
-    if (!_photoLibraryButton) {
-        _photoLibraryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_photoLibraryButton addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_photoLibraryButton];
-    }
-    return _photoLibraryButton;
-}
-
-- (UIButton *)cancelButton {
-    if (!_cancelButton) {
-        _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _cancelButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [_cancelButton addTarget:self action:@selector(cancle) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_cancelButton];
-    }
-    return _cancelButton;
+    return _cameraView;
 }
 
 - (SCameraISOValueScrollView *)iSOValueScrollView {
