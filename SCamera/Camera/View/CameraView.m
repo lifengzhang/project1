@@ -12,7 +12,9 @@
 #define kScreenWidth  kScreenBounds.size.width*1.0
 #define kScreenHeight kScreenBounds.size.height*1.0
 
-#define BACKBUTTON_DISTANCE_TOP                                                36.f
+#
+
+#define BACKBUTTON_DISTANCE_TOP                                                (ISIphoneX ? 58 : 36)
 #define BACKBUTTON_DISTANCE_LEFT                                               16.f
 #define BACKBUTTON_WIDTH_HEIGHT                                                18.f
 
@@ -23,6 +25,8 @@
 #define PHOTOBUTTON_DISTANCE_TOP                                               kScreenHeight - 100
 #define PHOTOBUTTON_DISTANCE_LEFT                                              kScreenWidth*1/2.0 - 30
 #define PHOTOBUTTON_WIDTH_HEIGHT                                               60.f
+
+#define NAVIGATIONHEIGHT                                                      (ISIphoneX ? 88 : 64)
 
 @interface CameraView ()
 
@@ -48,7 +52,7 @@
     
     [self.navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self);
-        make.height.mas_equalTo(64);
+        make.height.mas_equalTo(NAVIGATIONHEIGHT);
     }];
     
     [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {

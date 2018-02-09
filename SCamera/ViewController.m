@@ -81,20 +81,20 @@
     
     [self.settingButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(16);
-        make.bottom.equalTo(self.view.mas_top).offset(64);
+        make.bottom.equalTo(self.view.mas_top).offset(ISIphoneX ? 88 : 64);
     }];
     
     [self.lampImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(87);
+        make.top.equalTo(self.view).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:107.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:87.f]);
         make.centerX.equalTo(self.view);
-        make.width.height.mas_equalTo(50);
+        make.width.height.mas_equalTo(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:70.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:50.f]);
     }];
     
     [self.ledLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(177);
+        make.top.equalTo(self.view).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:199.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:177.f]);
         make.centerX.equalTo(self.view);
-        make.width.mas_equalTo(60);
-        make.height.mas_equalTo(15);
+        make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:60.f]);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:15.f]);
     }];
     
     [self.ledButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -103,23 +103,23 @@
     }];
     
     [self.firstLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(228);
+        make.top.equalTo(self.view).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:250.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:228.f]);
         make.left.equalTo(self.view).offset(28);
         make.right.equalTo(self.view).offset(-28);
         make.height.mas_equalTo(1);
     }];
     
     [self.flashLightImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstLine.mas_bottom).offset(41);
+        make.top.equalTo(self.firstLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:63.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:41.f]);
         make.centerX.equalTo(self.view);
-        make.width.height.mas_equalTo(50);
+        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:50.f]);
     }];
     
     [self.flashLightText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstLine.mas_bottom).offset(130);
+        make.top.equalTo(self.firstLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:150.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:130.f]);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(60);
-        make.height.mas_equalTo(15);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:15.f]);
     }];
     
     [self.flashButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -128,23 +128,23 @@
     }];
     
     [self.secondLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstLine.mas_bottom).offset(182);
+        make.top.equalTo(self.firstLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:202.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:182.f]);
         make.left.equalTo(self.view).offset(28);
         make.right.equalTo(self.view).offset(-28);
         make.height.mas_equalTo(1);
     }];
     
     [self.cameraImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.secondLine.mas_bottom).offset(47);
+        make.top.equalTo(self.secondLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:67.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:47.f]);
         make.centerX.equalTo(self.view);
-        make.width.height.mas_equalTo(50);
+        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:50.f]);
     }];
     
     [self.cameraLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.secondLine.mas_bottom).offset(130);
+        make.top.equalTo(self.secondLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:150.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:130.f]);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(60);
-        make.height.mas_equalTo(15);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:15.f]);
     }];
     
     [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,7 +153,7 @@
     }];
     
     [self.myDeviceText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(-25);
+        make.bottom.equalTo(self.view).offset(-[SCameraDevice screenAdaptiveSizeWithIp6Size:25.f]);
         make.centerX.equalTo(self.view).offset(-16.f);
         
     }];
@@ -161,18 +161,18 @@
     [self.myDeviceButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.myDeviceText);
         make.bottom.equalTo(self.lastLine);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:20.f]);
     }];
     
     [self.connectSignImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.myDeviceText.mas_right).offset(8);
         make.bottom.equalTo(self.myDeviceText.mas_bottom).offset(3);
         make.width.mas_offset(25);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:20.f]);
     }];
     
     [self.lastLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(-24);
+        make.bottom.equalTo(self.view).offset(-[SCameraDevice screenAdaptiveSizeWithIp6Size:24.f]);
         make.height.mas_equalTo(1);
         make.left.equalTo(self.myDeviceText.mas_left);
         make.right.equalTo(self.myDeviceText.mas_right);

@@ -12,5 +12,6 @@
 #import "UIFont+Additions.h"
 #import "Masonry.h"
 #import "BlueDevicesManager.h"
+#import "SCameraDevice.h"
 
 #endif /* SCamera_Prefix_pch */
