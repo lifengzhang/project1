@@ -17,6 +17,7 @@
 		07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523ACF202AD52800650E47 /* BlueNoDeviceCell.m */; };
 		07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD3202AD64800650E47 /* UIFont+Additions.m */; };
 		07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */; };
+		07523ADB202D791F00650E47 /* SCameraISOValueScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */; };
 		0780C34F1FE954410044C75D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C34E1FE954410044C75D /* AppDelegate.m */; };
 		0780C3521FE954410044C75D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C3511FE954410044C75D /* ViewController.m */; };
 		0780C3551FE954410044C75D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3531FE954410044C75D /* Main.storyboard */; };
@@ -49,6 +50,8 @@
 		07523AD3202AD64800650E47 /* UIFont+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Additions.m"; sourceTree = "<group>"; };
 		07523AD5202ADE5900650E47 /* BlueManagerTableViewSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueManagerTableViewSection.h; sourceTree = "<group>"; };
 		07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManagerTableViewSection.m; sourceTree = "<group>"; };
+		07523AD9202D791F00650E47 /* SCameraISOValueScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraISOValueScrollView.h; sourceTree = "<group>"; };
+		07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraISOValueScrollView.m; sourceTree = "<group>"; };
 		0780C34A1FE954410044C75D /* SCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0780C34D1FE954410044C75D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0780C34E1FE954410044C75D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 		0741F2FD1FEAA80700BB27BA /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				07523AD8202D768800650E47 /* SCameraValueSwitch */,
 				0741F2FE1FEAA9F700BB27BA /* SCameraViewController.h */,
 				0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */,
 				A30DA1F0201C202A00C82D2E /* SCameraPhotoViewController.h */,
@@ -137,6 +141,15 @@
 				07523AD3202AD64800650E47 /* UIFont+Additions.m */,
 			);
 			path = Tool;
+			sourceTree = "<group>";
+		};
+		07523AD8202D768800650E47 /* SCameraValueSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				07523AD9202D791F00650E47 /* SCameraISOValueScrollView.h */,
+				07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */,
+			);
+			path = SCameraValueSwitch;
 			sourceTree = "<group>";
 		};
 		0780C3411FE954410044C75D = {
@@ -346,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0780C3521FE954410044C75D /* ViewController.m in Sources */,
+				07523ADB202D791F00650E47 /* SCameraISOValueScrollView.m in Sources */,
 				0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */,
 				0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */,
 				07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */,
@@ -495,15 +509,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 4URW8PS6WP;
+				DEVELOPMENT_TEAM = RKRYP4Q5BD;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "29085c0e-939b-4894-b28d-1fa440502395";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopNormal;
+				PROVISIONING_PROFILE = "e0773cde-c908-4ea8-a13f-de03694defc5";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopQmf3g;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
