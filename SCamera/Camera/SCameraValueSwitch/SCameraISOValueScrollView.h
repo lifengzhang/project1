@@ -10,4 +10,8 @@
 
 @interface SCameraISOValueScrollView : UIScrollView
 
+@property (nonatomic, assign) NSInteger iSOValue;
+
+@property (nonatomic, strong) NSArray *iSOValuesArray;
+
 @end

@@ -40,28 +40,22 @@
 #define EXPOSUREDURATIONSLIDER_HEIGHT                                          30.f
 
 
-#define ISOTITLELABEL_DISTANCE_TOP                                             70.f
+#define ISOTITLELABEL_DISTANCE_TOP                                             110.f
 #define ISOTITLELABEL_DISTANCE_LEFT                                            20.f
-#define ISOTITLELABEL_WIDTH                                                    50.f
-#define ISOTITLELABEL_HEIGHT                                                   30.f
+#define ISOTITLELABEL_WIDTH                                                    84.f
+#define ISOTITLELABEL_HEIGHT                                                   35.f
 
-#define ISOVALUELABEL_DISTACE_TOP                                              70.f
-#define ISOVALUELABEL_DISTACE_LEFT                                             75.f
-#define ISOVALUELABEL_WIDTH                                                    100.f
-#define ISOVALUELABEL_HEIGHT                                                   30.f
-
-#define ISOSLIDER_DISTANCE_TOP                                                 110.f
-#define ISOSLIDER_DISTANCE_LEFT                                                20.f
-#define ISOSLIDER_WIDTH                                                        kScreenWidth - 40
-#define ISOSLIDER_HEIGHT                                                       30.f
-
-@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate>
 
 @property(nonatomic,strong) AVCaptureDevice *device;;
 
 @property (nonatomic, strong) AVCaptureSession* session; //AVCapturemSession对象来执行输入设备和输出设备之间的数据传递
 
-@property (nonatomic, strong) AVCaptureStillImageOutput *ImageOutPut;
+//@property (nonatomic, strong) AVCaptureStillImageOutput *ImageOutPut;
+
+@property (nonatomic, strong) AVCapturePhotoOutput *photoOutPut; //ios 10
+
+@property (nonatomic, strong) AVCapturePhotoSettings *photoSettings; //ios 10
 
 @property (nonatomic, strong) UIImage *image;
 
@@ -74,10 +68,6 @@
 @property (nonatomic, strong) UISlider *exposureDurationSlider;
 
 @property (nonatomic, strong) UILabel *isoTitleLabel;
-
-@property (nonatomic, strong) UILabel *isoValueLabel;
-
-@property (nonatomic, strong) UISlider *isoSlider;
 
 @property (nonatomic, assign) CMTime firstDuration;
 
@@ -155,9 +145,6 @@
     //使用设备初始化输入
     AVCaptureDeviceInput *input = [[AVCaptureDeviceInput alloc]initWithDevice:self.device error:nil];
     
-    //生成输出对象
-    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc]init];
-    
     if ([self.session canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
         self.session.sessionPreset = AVCaptureSessionPreset1280x720;
     }
@@ -166,9 +153,15 @@
         [self.session addInput:input];
     }
     
-    if ([self.session canAddOutput:self.ImageOutPut]) {
-        [self.session addOutput:self.ImageOutPut];
+//    if ([self.session canAddOutput:self.ImageOutPut]) {
+//        [self.session addOutput:self.ImageOutPut];
+//    }
+    
+    // 6. 连接输出与会话
+    if ([self.session canAddOutput:self.photoOutPut]) {
+        [self.session addOutput:self.photoOutPut];
     }
+    
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
     self.previewLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - 140);
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
@@ -176,9 +169,9 @@
     //开始启动
     [self.session startRunning];
     if ([self.device lockForConfiguration:nil]) {
-        if ([self.device isFlashModeSupported:AVCaptureFlashModeAuto]) {
-            [self.device setFlashMode:AVCaptureFlashModeAuto];
-        }
+//        if ([self.device isFlashModeSupported:AVCaptureFlashModeAuto]) {
+//            [self.device setFlashMode:AVCaptureFlashModeAuto];
+//        }
         //自动白平衡
         if ([self.device isWhiteBalanceModeSupported:AVCaptureWhiteBalanceModeAutoWhiteBalance]) {
             [self.device setWhiteBalanceMode:AVCaptureWhiteBalanceModeAutoWhiteBalance];
@@ -222,41 +215,35 @@
     
     [self.isoTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(ISOTITLELABEL_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(ISOTITLELABEL_DISTANCE_LEFT);
+        make.left.equalTo(self.view);
         make.width.mas_equalTo(ISOTITLELABEL_WIDTH);
         make.height.mas_equalTo(ISOTITLELABEL_HEIGHT);
     }];
     
-    [self.isoValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_TOP);
-        make.left.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_LEFT);
-        make.width.mas_equalTo(ISOVALUELABEL_WIDTH);
-        make.height.mas_equalTo(ISOVALUELABEL_HEIGHT);
-    }];
-    
-    [self.isoSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(ISOSLIDER_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(ISOSLIDER_DISTANCE_LEFT);
-        make.width.mas_equalTo(ISOSLIDER_WIDTH);
-        make.height.mas_equalTo(ISOSLIDER_HEIGHT);
-    }];
-    
     [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.isoSlider.mas_bottom).offset(5);
-        make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(50);
+        make.top.equalTo(self.isoTitleLabel);
+        make.left.equalTo(self.isoTitleLabel.mas_right);
+        make.right.equalTo(self.view);
+        make.height.mas_equalTo(35);
     }];
+    
+//    [self.isoValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_TOP);
+//        make.left.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_LEFT);
+//        make.width.mas_equalTo(ISOVALUELABEL_WIDTH);
+//        make.height.mas_equalTo(ISOVALUELABEL_HEIGHT);
+//    }];
     
 }
 
 #pragma mark - 截取照片
 - (void) shutterCamera
 {
-    AVCaptureConnection * videoConnection = [self.ImageOutPut connectionWithMediaType:AVMediaTypeVideo];
-    if (!videoConnection) {
-        NSLog(@"take photo failed!");
-        return;
-    }
+//    AVCaptureConnection * videoConnection = [self.ImageOutPut connectionWithMediaType:AVMediaTypeVideo];
+//    if (!videoConnection) {
+//        NSLog(@"take photo failed!");
+//        return;
+//    }
     
     @try {
         
@@ -270,25 +257,27 @@
              
              //手动模式
              //             device.exposureMode=AVCaptureExposureModeCustom;
-             
-             NSLog(@",%f",device.exposureTargetOffset);
+             NSLog(@"device.ISO = %f",device.ISO);
+             NSLog(@"device.exposureTargetOffset = %f",device.exposureTargetOffset);
              [device unlockForConfiguration];
-             
-             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-                 if (imageDataSampleBuffer == NULL) {
-                     return;
-                 }
-                 NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                 self.image = [UIImage imageWithData:imageData];
-                 [self.session stopRunning];
-                 [self saveImageToPhotoAlbum:self.image];
-                 self.imageView = [[UIImageView alloc] initWithFrame:self.previewLayer.frame];
-                 
-                 [self.view insertSubview:self.imageView belowSubview:self.cameraView.photoButton];
-                 self.imageView.layer.masksToBounds = YES;
-                 self.imageView.image = self.image;
-                 NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
-             }];
+             self.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
+             [self.photoOutPut capturePhotoWithSettings:self.photoSettings delegate:self];
+//             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+//                 if (imageDataSampleBuffer == NULL) {
+//                     return;
+//                 }
+//                 NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+//                 self.image = [UIImage imageWithData:imageData];
+//                 [self.session stopRunning];
+//                 [self saveImageToPhotoAlbum:self.image];
+////                 self.imageView = [[UIImageView alloc] initWithFrame:self.previewLayer.frame];
+////
+////                 [self.view insertSubview:self.imageView belowSubview:self.cameraView.photoButton];
+////                 self.imageView.layer.masksToBounds = YES;
+////                 self.imageView.image = self.image;
+////                 NSLog(@"image size = %@",NSStringFromCGSize(self.image.size));
+//                 [self cancle];
+//             }];
          }];
     } @catch (NSException *exception) {
     
@@ -314,6 +303,27 @@
 #pragma mark - 点击闪光灯按钮
 - (void)tapFlashLightbutton {
     
+    //修改前必须先锁定
+    [self.device lockForConfiguration:nil];
+    
+    //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
+    if ([self.device hasFlash]) {
+        
+        if (self.photoSettings.flashMode == AVCaptureFlashModeOff) {
+            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
+        } else if (self.photoSettings.flashMode == AVCaptureFlashModeOn) {
+            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+        }
+//        if (self.device.flashMode == AVCaptureFlashModeOff) {
+//            self.device.flashMode = AVCaptureFlashModeOn;
+////            self.device.torchMode = AVCaptureTorchModeOn;
+//        } else if (self.device.flashMode == AVCaptureFlashModeOn) {
+//            self.device.flashMode = AVCaptureFlashModeOff;
+////            self.device.torchMode = AVCaptureTorchModeOff;
+//        }
+        
+    }
+    [self.device unlockForConfiguration];
     
 }
 
@@ -370,7 +380,7 @@
 }
 
 - (void)cancle{
-    [self.imageView removeFromSuperview];
+//    [self.imageView removeFromSuperview];
     [self.session startRunning];
     @try {
         AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -394,6 +404,16 @@
     }
 }
 
+#pragma mark - AVCapturePhotoCaptureDelegate
+- (void)captureOutput:(AVCapturePhotoOutput *)captureOutput didFinishProcessingPhotoSampleBuffer:(nullable CMSampleBufferRef)photoSampleBuffer previewPhotoSampleBuffer:(nullable CMSampleBufferRef)previewPhotoSampleBuffer resolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings bracketSettings:(nullable AVCaptureBracketedStillImageSettings *)bracketSettings error:(nullable NSError *)error {
+    
+    NSData *imageData = [AVCapturePhotoOutput JPEGPhotoDataRepresentationForJPEGSampleBuffer:photoSampleBuffer previewPhotoSampleBuffer:previewPhotoSampleBuffer];
+    self.image = [UIImage imageWithData:imageData];
+    
+    [self saveImageToPhotoAlbum:self.image];
+
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
@@ -406,14 +426,6 @@
     SCameraPhotoViewController *vc = [[SCameraPhotoViewController alloc]  initWith:image photoURL:url];
     [picker presentViewController:vc animated:YES completion:nil];
     
-}
-
-#pragma mark - ISO
-- (void)isoChanged:(id)sender {
-    
-    UISlider *slider = (UISlider *)sender;
-    self.currentISO = slider.value;
-    self.isoValueLabel.text = [NSString stringWithFormat:@"%.4f",self.currentISO];
 }
 
 #pragma mark - -聚焦
@@ -493,6 +505,15 @@
     return data;
 }
 
+#pragma mark - ISO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+
+    if ([keyPath isEqualToString:@"iSOValue"]) {
+        self.currentISO = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+    }
+
+}
+
 #pragma - mark 懒加载
 - (CameraView *)cameraView {
     if (!_cameraView) {
@@ -502,12 +523,25 @@
     return _cameraView;
 }
 
+- (UILabel *)isoTitleLabel {
+    if (!_isoTitleLabel) {
+        _isoTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _isoTitleLabel.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+        _isoTitleLabel.text = @"ISO";
+        _isoTitleLabel.font = [UIFont ChinaBoldFontNameOfSize:14];
+        _isoTitleLabel.textAlignment = NSTextAlignmentCenter;
+        [_isoTitleLabel setTextColor:[UIColor whiteColor]];
+        [self.view addSubview:_isoTitleLabel];
+    }
+    return _isoTitleLabel;
+}
+
 - (SCameraISOValueScrollView *)iSOValueScrollView {
     
     if (! _iSOValueScrollView) {
         _iSOValueScrollView = [[SCameraISOValueScrollView alloc] initWithFrame:CGRectZero];
-        _iSOValueScrollView.backgroundColor = [UIColor redColor];
         [self.view addSubview:_iSOValueScrollView];
+        [_iSOValueScrollView addObserver:self forKeyPath:@"iSOValue" options:NSKeyValueObservingOptionNew context:nil];
     }
     
     return _iSOValueScrollView;
@@ -549,39 +583,6 @@
     return _exposureDurationSlider;
 }
 
-- (UILabel *)isoTitleLabel {
-    if (!_isoTitleLabel) {
-        _isoTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _isoTitleLabel.text = @"ISO : ";
-        [_isoTitleLabel setTextColor:[UIColor whiteColor]];
-        [self.view addSubview:_isoTitleLabel];
-    }
-    return _isoTitleLabel;
-}
-
-- (UILabel *)isoValueLabel {
-    if (!_isoValueLabel) {
-        _isoValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _isoValueLabel.text = [NSString stringWithFormat:@"%.4f",self.device.ISO];
-        [_isoValueLabel setTextColor:[UIColor whiteColor]];
-        [self.view addSubview:_isoValueLabel];
-    }
-    return _isoValueLabel;
-}
-
-- (UISlider *)isoSlider {
-    if (!_isoSlider) {
-        _isoSlider = [[UISlider alloc] initWithFrame:CGRectZero];
-        [_isoSlider setContinuous:YES];
-        [_isoSlider setMinimumValue: self.device.activeFormat.minISO];
-        [_isoSlider setMaximumValue: self.device.activeFormat.maxISO];
-        [_isoSlider setValue:self.device.ISO];
-        [_isoSlider addTarget:self action:@selector(isoChanged:) forControlEvents:UIControlEventValueChanged];
-        [self.view addSubview:_isoSlider];
-    }
-    return _isoSlider;
-}
-
 - (AVCaptureDevice *)device {
     if (!_device) {
         //使用AVMediaTypeVideo 指明self.device代表视频，默认使用后置摄像头进行初始化
@@ -590,12 +591,21 @@
     return _device;
 }
 
-- (AVCaptureStillImageOutput *)ImageOutPut {
-    if (!_ImageOutPut) {
-        _ImageOutPut = [[AVCaptureStillImageOutput alloc] init];
+- (AVCapturePhotoOutput *)photoOutPut {
+    
+    if (! _photoOutPut) {
+        _photoOutPut = [[AVCapturePhotoOutput alloc] init];
     }
-    return _ImageOutPut;
+    return _photoOutPut;
+    
 }
+
+//- (AVCaptureStillImageOutput *)ImageOutPut {
+//    if (!_ImageOutPut) {
+//        _ImageOutPut = [[AVCaptureStillImageOutput alloc] init];
+//    }
+//    return _ImageOutPut;
+//}
 
 //生成会话，用来结合输入输出
 - (AVCaptureSession *)session {
