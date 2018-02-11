@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
 #import "SCameraPhotoViewController.h"
-
+#import "BlueManagerViewController.h"
 #import "CameraView.h"
 
 #import "SCameraISOValueScrollView.h"
@@ -309,10 +309,12 @@
     //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
     if ([self.device hasFlash]) {
         
-        if (self.photoSettings.flashMode == AVCaptureFlashModeOff) {
-            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
-        } else if (self.photoSettings.flashMode == AVCaptureFlashModeOn) {
-            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+        if (self.device.torchMode == 0) {
+//            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
+            self.device.torchMode = AVCaptureTorchModeOn;
+        } else if (self.device.torchMode == 1) {
+//            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+            self.device.torchMode = AVCaptureTorchModeOff;
         }
 //        if (self.device.flashMode == AVCaptureFlashModeOff) {
 //            self.device.flashMode = AVCaptureFlashModeOn;
@@ -376,6 +378,9 @@
 #pragma mark - 点击蓝牙
 - (void)tapblueToothButton {
     
+    BlueManagerViewController *blueManagerViewController = [[BlueManagerViewController alloc] initWithNibName:nil bundle:nil];
+    
+    [self.navigationController pushViewController:blueManagerViewController animated:YES];
     
 }
 
