@@ -15,6 +15,7 @@
 
 #import "SCameraISOValueScrollView.h"
 
+#import "SCameraShutterTableView.h"
 
 #define kScreenBounds   [UIScreen mainScreen].bounds
 #define kScreenWidth  kScreenBounds.size.width*1.0
@@ -24,7 +25,7 @@
 #define CANCELBUTTON_DISTANCE_LEFT                                             kScreenWidth*1/4.0 - 30
 #define CANCELBUTTON_WIDTH_HEIGHT                                              60.f
 
-#define EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP                                kScreenHeight - 190
+#define EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP                                kScreenHeight - 175
 #define EXPOSUREDURATIONTITLELABEL_DISTANCE_LEFT                               20.f
 #define EXPOSUREDURATIONTITLELABEL_WIDTH                                       80.f
 #define EXPOSUREDURATIONTITLELABEL_HEIGHT                                      30.f
@@ -45,7 +46,7 @@
 #define ISOTITLELABEL_WIDTH                                                    84.f
 #define ISOTITLELABEL_HEIGHT                                                   35.f
 
-@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate>
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterTableViewDelegage>
 
 @property(nonatomic,strong) AVCaptureDevice *device;;
 
@@ -83,11 +84,15 @@
 
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer* previewLayer; //预览图层
 
-
 @property (nonatomic ,strong) CameraView *cameraView;
 
 @property (nonatomic, strong) SCameraISOValueScrollView *iSOValueScrollView;
 
+@property (nonatomic, strong) SCameraShutterTableView *shutterTableView;
+
+@property (nonatomic, assign) double shutterTimer;
+
+@property (nonatomic, strong) NSString *shutterStr;
 
 @end
 
@@ -136,7 +141,7 @@
     [self.cameraView.timerButton addTarget:self action:@selector(tapTimerButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.exchangeButton addTarget:self action:@selector(tapExchangeButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.photoButton addTarget:self action:@selector(shutterCamera) forControlEvents:UIControlEventTouchUpInside];
-    [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -194,27 +199,27 @@
     
     [self.exposureDurationTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(EXPOSUREDURATIONTITLELABEL_DISTANCE_LEFT);
-        make.width.mas_equalTo(EXPOSUREDURATIONTITLELABEL_WIDTH);
-        make.height.mas_equalTo(EXPOSUREDURATIONTITLELABEL_HEIGHT);
+        make.left.equalTo(self.view);
+        make.width.mas_equalTo(ISOTITLELABEL_WIDTH);
+        make.height.mas_equalTo(ISOTITLELABEL_HEIGHT);
     }];
     
-    [self.exposureDurationValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(EXPOSUREDURATIONVALUELABEL_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(EXPOSUREDURATIONVALUELABEL_DISTANCE_LEFT);
-        make.width.mas_equalTo(EXPOSUREDURATIONVALUELABEL_WIDTH);
-        make.height.mas_equalTo(EXPOSUREDURATIONVALUELABEL_HEIGHT);
-    }];
+//    [self.exposureDurationValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view).offset(EXPOSUREDURATIONVALUELABEL_DISTANCE_TOP);
+//        make.left.equalTo(self.view).offset(EXPOSUREDURATIONVALUELABEL_DISTANCE_LEFT);
+//        make.width.mas_equalTo(EXPOSUREDURATIONVALUELABEL_WIDTH);
+//        make.height.mas_equalTo(EXPOSUREDURATIONVALUELABEL_HEIGHT);
+//    }];
     
-    [self.exposureDurationSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_TOP);
-        make.left.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_LEFT);
-        make.width.mas_equalTo(EXPOSUREDURATIONSLIDER_WIDTH);
-        make.height.mas_equalTo(EXPOSUREDURATIONSLIDER_HEIGHT);
-    }];
+//    [self.exposureDurationSlider mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_TOP);
+//        make.left.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_LEFT);
+//        make.width.mas_equalTo(EXPOSUREDURATIONSLIDER_WIDTH);
+//        make.height.mas_equalTo(EXPOSUREDURATIONSLIDER_HEIGHT);
+//    }];
     
     [self.isoTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(ISOTITLELABEL_DISTANCE_TOP);
+        make.top.equalTo(self.view).offset(ISIphoneX ? 87 : 65);
         make.left.equalTo(self.view);
         make.width.mas_equalTo(ISOTITLELABEL_WIDTH);
         make.height.mas_equalTo(ISOTITLELABEL_HEIGHT);
@@ -226,6 +231,8 @@
         make.right.equalTo(self.view);
         make.height.mas_equalTo(35);
     }];
+    
+    self.shutterTableView.frame = CGRectMake(84, kScreenHeight - 175, kScreenWidth - 84, 35);
     
 //    [self.isoValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_TOP);
@@ -368,9 +375,27 @@
 }
 
 #pragma mark - 点击调节器
-- (void)tapValueButton {
+- (void)tapValueButton:(UIButton *)btn {
     
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.iSOValueScrollView.hidden = NO;
+        self.isoTitleLabel.hidden = NO;
+        self.exposureDurationTitleLabel.hidden = NO;
+        self.shutterTableView.hidden = NO;
+        [self.cameraView showView];
+    } else {
+        self.iSOValueScrollView.hidden = YES;
+        self.isoTitleLabel.hidden = YES;
+        self.exposureDurationTitleLabel.hidden = YES;
+        self.shutterTableView.hidden = YES;
+        [self.cameraView hiddenView];
+    }
+}
+
+- (void)updateValueData {
     
+    self.cameraView.showShutterValue.text = [NSString stringWithFormat:@"Shutter: %@",self.shutterStr];
 }
 
 #pragma mark - 点击蓝牙
@@ -426,6 +451,14 @@
     SCameraPhotoViewController *vc = [[SCameraPhotoViewController alloc]  initWith:image photoURL:url];
     [picker presentViewController:vc animated:YES completion:nil];
     
+}
+
+#pragma mark - SCameraShutterTableViewDelegage
+- (void)scameraShutterTableViewDidSelectRowAndSelectedValue:(double)value withString:(NSString *)timeStr {
+    
+    self.shutterTimer = value;
+    self.shutterStr = timeStr;
+    [self updateValueData];
 }
 
 #pragma mark - -聚焦
@@ -518,6 +551,8 @@
 - (CameraView *)cameraView {
     if (!_cameraView) {
         _cameraView = [[CameraView alloc] initWithFrame:CGRectZero];
+        _cameraView.topWhiteLine.hidden = YES;
+        _cameraView.bottomWhiteLine.hidden = YES;
         [self.view addSubview:_cameraView];
     }
     return _cameraView;
@@ -528,6 +563,7 @@
         _isoTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _isoTitleLabel.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
         _isoTitleLabel.text = @"ISO";
+        _isoTitleLabel.hidden = YES;
         _isoTitleLabel.font = [UIFont ChinaBoldFontNameOfSize:14];
         _isoTitleLabel.textAlignment = NSTextAlignmentCenter;
         [_isoTitleLabel setTextColor:[UIColor whiteColor]];
@@ -540,6 +576,7 @@
     
     if (! _iSOValueScrollView) {
         _iSOValueScrollView = [[SCameraISOValueScrollView alloc] initWithFrame:CGRectZero];
+        _iSOValueScrollView.hidden = YES;
         [self.view addSubview:_iSOValueScrollView];
         [_iSOValueScrollView addObserver:self forKeyPath:@"iSOValue" options:NSKeyValueObservingOptionNew context:nil];
     }
@@ -548,10 +585,24 @@
     
 }
 
+- (SCameraShutterTableView *)shutterTableView {
+    if (!_shutterTableView) {
+        _shutterTableView = [[SCameraShutterTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _shutterTableView.hidden = YES;
+        _shutterTableView.scameraShutterTableViewDelegate = self;
+        [self.view addSubview:_shutterTableView];
+    }
+    return _shutterTableView;
+}
+
 - (UILabel *)exposureDurationTitleLabel {
     if (!_exposureDurationTitleLabel) {
         _exposureDurationTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _exposureDurationTitleLabel.text = @"Shuttle : ";
+        _exposureDurationTitleLabel.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+        _exposureDurationTitleLabel.text = @"Shuttle";
+        _exposureDurationTitleLabel.hidden = YES;
+        _exposureDurationTitleLabel.textAlignment = NSTextAlignmentCenter;
+        _exposureDurationTitleLabel.font = [UIFont ChinaBoldFontNameOfSize:14];
         [_exposureDurationTitleLabel setTextColor:[UIColor whiteColor]];
         [self.view addSubview:_exposureDurationTitleLabel];
     }

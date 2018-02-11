@@ -29,6 +29,8 @@
 		A3D9460E202D34E80001220E /* Camera.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3D9460D202D34E80001220E /* Camera.xcassets */; };
 		A3D94612202D3C7A0001220E /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94611202D3C7A0001220E /* CameraView.m */; };
 		A3D94615202D82B20001220E /* SCameraDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94614202D82B20001220E /* SCameraDevice.m */; };
+		A3FF51CD202FDD820031D1DF /* SCameraShutterTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF51CC202FDD820031D1DF /* SCameraShutterTableView.m */; };
+		A3FF51D1202FE01F0031D1DF /* SCameraShutterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF51D0202FE01F0031D1DF /* SCameraShutterTableViewCell.m */; };
 		F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,10 @@
 		A3D94611202D3C7A0001220E /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
 		A3D94613202D82B20001220E /* SCameraDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraDevice.h; sourceTree = "<group>"; };
 		A3D94614202D82B20001220E /* SCameraDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraDevice.m; sourceTree = "<group>"; };
+		A3FF51CB202FDD820031D1DF /* SCameraShutterTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraShutterTableView.h; sourceTree = "<group>"; };
+		A3FF51CC202FDD820031D1DF /* SCameraShutterTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraShutterTableView.m; sourceTree = "<group>"; };
+		A3FF51CF202FE01F0031D1DF /* SCameraShutterTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraShutterTableViewCell.h; sourceTree = "<group>"; };
+		A3FF51D0202FE01F0031D1DF /* SCameraShutterTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraShutterTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,8 +163,11 @@
 		07523AD8202D768800650E47 /* SCameraValueSwitch */ = {
 			isa = PBXGroup;
 			children = (
+				A3FF51CE202FDFE50031D1DF /* SCameraShttterTableViewCell */,
 				07523AD9202D791F00650E47 /* SCameraISOValueScrollView.h */,
 				07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */,
+				A3FF51CB202FDD820031D1DF /* SCameraShutterTableView.h */,
+				A3FF51CC202FDD820031D1DF /* SCameraShutterTableView.m */,
 			);
 			path = SCameraValueSwitch;
 			sourceTree = "<group>";
@@ -251,6 +260,15 @@
 				A3D94611202D3C7A0001220E /* CameraView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		A3FF51CE202FDFE50031D1DF /* SCameraShttterTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				A3FF51CF202FE01F0031D1DF /* SCameraShutterTableViewCell.h */,
+				A3FF51D0202FE01F0031D1DF /* SCameraShutterTableViewCell.m */,
+			);
+			path = SCameraShttterTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,6 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3FF51D1202FE01F0031D1DF /* SCameraShutterTableViewCell.m in Sources */,
 				0780C3521FE954410044C75D /* ViewController.m in Sources */,
 				07523ADB202D791F00650E47 /* SCameraISOValueScrollView.m in Sources */,
 				0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */,
@@ -390,6 +409,7 @@
 				A3D94615202D82B20001220E /* SCameraDevice.m in Sources */,
 				07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
+				A3FF51CD202FDD820031D1DF /* SCameraShutterTableView.m in Sources */,
 				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
@@ -533,7 +553,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = RKRYP4Q5BD;
+				DEVELOPMENT_TEAM = 4URW8PS6WP;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
@@ -541,8 +561,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e0773cde-c908-4ea8-a13f-de03694defc5";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopQmf3g;
+				PROVISIONING_PROFILE = "29085c0e-939b-4894-b28d-1fa440502395";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopNormal;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

@@ -24,8 +24,24 @@
 
 @property (nonatomic, strong) UIButton *bluetoothButton;    //蓝牙按钮
 
-@property (nonatomic, strong) UIButton *valueButton;         //调节按钮
+@property (nonatomic, strong) UIButton *valueButton;        //调节按钮
+
+@property (nonatomic, strong) UIView *topWhiteLine;         //调节器顶端白线
+
+@property (nonatomic, strong) UIView *bottomWhiteLine;      //调节器底端白线
+
+@property (nonatomic, strong) UILabel *showISOValue;        //显示ISO数据
+
+@property (nonatomic, strong) UILabel *showShutterValue;    //显示shutter数据
+
+@property (nonatomic, strong) UILabel *showAWBValue;        //显示AWB数据
+
+@property (nonatomic, strong) UILabel *showExposureValue;   //显示曝光度
 
 - (instancetype)initWithFrame:(CGRect)frame;
+
+- (void)showView;
+
+- (void)hiddenView;
 
 @end

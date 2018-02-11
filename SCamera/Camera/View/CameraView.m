@@ -116,6 +116,61 @@
         make.top.equalTo(self.whitePoint.mas_bottom).offset(10);
     }];
     
+    [self.topWhiteLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationView.mas_bottom);
+        make.left.right.equalTo(self);
+        make.height.mas_equalTo(1);
+    }];
+    
+    [self.bottomWhiteLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self).offset(-140);
+        make.left.right.equalTo(self);
+        make.height.mas_equalTo(1);
+    }];
+    
+    [self.showISOValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(ISIphoneX ? 121 + [SCameraDevice screenAdaptiveSizeWithIp6Size:40] : 99 + [SCameraDevice screenAdaptiveSizeWithIp6Size:40]);
+        make.width.mas_equalTo(120);
+        make.right.equalTo(self);
+    }];
+    
+    [self.showShutterValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.showISOValue.mas_bottom);
+        make.width.mas_equalTo(120);
+        make.right.equalTo(self.showISOValue);
+    }];
+    
+    [self.showAWBValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.showShutterValue.mas_bottom);
+        make.width.mas_equalTo(120);
+        make.right.equalTo(self.showISOValue);
+    }];
+    
+    [self.showExposureValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.showAWBValue.mas_bottom);
+        make.width.mas_equalTo(120);
+        make.right.equalTo(self.showISOValue);
+    }];
+}
+
+- (void)showView {
+    self.showISOValue.hidden = NO;
+    self.showExposureValue.hidden = NO;
+    self.showAWBValue.hidden = NO;
+    self.showShutterValue.hidden = NO;
+    self.showExposureValue.hidden = NO;
+    self.topWhiteLine.hidden = NO;
+    self.bottomWhiteLine.hidden = NO;
+}
+
+- (void)hiddenView {
+    self.showISOValue.hidden = YES;
+    self.showExposureValue.hidden = YES;
+    self.showAWBValue.hidden = YES;
+    self.showExposureValue.hidden = YES;
+    self.showShutterValue.hidden = YES;
+    self.topWhiteLine.hidden = YES;
+    self.bottomWhiteLine.hidden = YES;
 }
 
 #pragma  -mark 懒加载
@@ -220,6 +275,74 @@
         [self addSubview:_shutterLabel];
     }
     return _shutterLabel;
+}
+
+- (UIView *)topWhiteLine {
+    if (!_topWhiteLine) {
+        _topWhiteLine = [[UIView alloc] initWithFrame:CGRectZero];
+        _topWhiteLine.backgroundColor = [UIColor whiteColor];
+        _topWhiteLine.hidden = YES;
+        [self addSubview:_topWhiteLine];
+    }
+    return _topWhiteLine;
+}
+
+- (UIView *)bottomWhiteLine {
+    if (!_bottomWhiteLine) {
+        _bottomWhiteLine = [[UIView alloc] initWithFrame:CGRectZero];
+        _bottomWhiteLine.backgroundColor = [UIColor whiteColor];
+        _bottomWhiteLine.hidden = YES;
+        [self addSubview:_bottomWhiteLine];
+    }
+    return _bottomWhiteLine;
+}
+
+- (UILabel *)showISOValue {
+    if (!_showISOValue) {
+        _showISOValue = [[UILabel alloc] initWithFrame:CGRectZero];
+        _showISOValue.text = @"IOS: 100";
+        _showISOValue.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
+        _showISOValue.textColor = [UIColor whiteColor];
+        _showISOValue.hidden = YES;
+        [self addSubview:_showISOValue];
+    }
+    return _showISOValue;
+}
+
+- (UILabel *)showShutterValue {
+    if (!_showShutterValue) {
+        _showShutterValue = [[UILabel alloc] initWithFrame:CGRectZero];
+        _showShutterValue.text = @"Shutter: 1/15";
+        _showShutterValue.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
+        _showShutterValue.textColor = [UIColor whiteColor];
+        _showShutterValue.hidden = YES;
+        [self addSubview:_showShutterValue];
+    }
+    return _showShutterValue;
+}
+
+- (UILabel *)showAWBValue {
+    if (!_showAWBValue) {
+        _showAWBValue = [[UILabel alloc] initWithFrame:CGRectZero];
+        _showAWBValue.text = @"AWB: LIGHT";
+        _showAWBValue.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
+        _showAWBValue.textColor = [UIColor whiteColor];
+        _showAWBValue.hidden = YES;
+        [self addSubview:_showAWBValue];
+    }
+    return _showAWBValue;
+}
+
+- (UILabel *)showExposureValue {
+    if (!_showExposureValue) {
+        _showExposureValue = [[UILabel alloc] initWithFrame:CGRectZero];
+        _showExposureValue.text = @"曝光度: +1";
+        _showExposureValue.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
+        _showExposureValue.textColor = [UIColor whiteColor];
+        _showExposureValue.hidden = YES;
+        [self addSubview:_showExposureValue];
+    }
+    return _showExposureValue;
 }
 
 @end
