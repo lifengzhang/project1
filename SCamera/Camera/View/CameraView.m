@@ -36,6 +36,8 @@
 
 @property (nonatomic, strong) UILabel *shutterLabel;
 
+@property (nonatomic, strong) UIView *pickerSelectedView;
+
 @end
 
 @implementation CameraView
@@ -151,6 +153,30 @@
         make.width.mas_equalTo(120);
         make.right.equalTo(self.showISOValue);
     }];
+    
+    [self.shutterView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(kScreenHeight - 176);
+        make.height.mas_equalTo(35);
+        make.left.right.equalTo(self);
+    }];
+    
+    [self.pickerSelectedView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.shutterView);
+        make.centerX.equalTo(self.shutterView);
+        make.width.mas_equalTo(80);
+    }];
+    
+    [self.centerTimerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self);
+        make.width.height.mas_equalTo(80);
+    }];
+    
+    [self.timerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.timerButton.mas_right);
+        make.bottom.equalTo(self.navigationView);
+        make.width.height.mas_equalTo(25);
+    }];
 }
 
 - (void)showView {
@@ -161,6 +187,8 @@
     self.showExposureValue.hidden = NO;
     self.topWhiteLine.hidden = NO;
     self.bottomWhiteLine.hidden = NO;
+    self.shutterView.hidden = NO;
+    self.pickerSelectedView.hidden = NO;
 }
 
 - (void)hiddenView {
@@ -171,6 +199,8 @@
     self.showShutterValue.hidden = YES;
     self.topWhiteLine.hidden = YES;
     self.bottomWhiteLine.hidden = YES;
+    self.shutterView.hidden = YES;
+    self.pickerSelectedView.hidden = YES;
 }
 
 #pragma  -mark 懒加载
@@ -300,7 +330,7 @@
 - (UILabel *)showISOValue {
     if (!_showISOValue) {
         _showISOValue = [[UILabel alloc] initWithFrame:CGRectZero];
-        _showISOValue.text = @"IOS: 100";
+        _showISOValue.text = @"ISO: 100";
         _showISOValue.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         _showISOValue.textColor = [UIColor whiteColor];
         _showISOValue.hidden = YES;
@@ -343,6 +373,52 @@
         [self addSubview:_showExposureValue];
     }
     return _showExposureValue;
+}
+
+- (UIView *)shutterView  {
+    if (!_shutterView) {
+        _shutterView = [[UIView alloc] initWithFrame:CGRectZero];
+        _shutterView.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+        _shutterView.hidden = YES;
+        [self addSubview:_shutterView];
+    }
+    return _shutterView;
+}
+
+- (UIView *)pickerSelectedView {
+    if (!_pickerSelectedView) {
+        _pickerSelectedView = [[UIView alloc] initWithFrame:CGRectZero];
+        _pickerSelectedView.backgroundColor = [UIColor whiteColor];
+        _pickerSelectedView.hidden = YES;
+        [self.shutterView addSubview:_pickerSelectedView];
+    }
+    return _pickerSelectedView;
+}
+
+- (UILabel *)centerTimerLabel {
+    if (!_centerTimerLabel) {
+        _centerTimerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _centerTimerLabel.backgroundColor = [UIColor clearColor];
+        _centerTimerLabel.textColor = [UIColor whiteColor];
+        _centerTimerLabel.hidden = YES;
+        _centerTimerLabel.textAlignment = NSTextAlignmentCenter;
+        _centerTimerLabel.font = [UIFont ChinaBoldFontNameOfSize:25.f];
+        [self addSubview:_centerTimerLabel];
+    }
+    return _centerTimerLabel;
+}
+
+- (UILabel *)timerLabel {
+    if (!_timerLabel) {
+        _timerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _timerLabel.backgroundColor = [UIColor clearColor];
+        _timerLabel.font = [UIFont ChinaDefaultFontNameOfSize:15];
+        _timerLabel.textColor = [UIColor yellowColor];
+        _timerLabel.textAlignment = NSTextAlignmentCenter;
+        _timerLabel.hidden = YES;
+        [self.navigationView addSubview:_timerLabel];
+    }
+    return _timerLabel;
 }
 
 @end

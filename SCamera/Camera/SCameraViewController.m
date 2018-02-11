@@ -15,7 +15,7 @@
 
 #import "SCameraISOValueScrollView.h"
 
-#import "SCameraShutterTableView.h"
+#import "SCameraShutterPickerView.h"
 
 #define kScreenBounds   [UIScreen mainScreen].bounds
 #define kScreenWidth  kScreenBounds.size.width*1.0
@@ -25,7 +25,7 @@
 #define CANCELBUTTON_DISTANCE_LEFT                                             kScreenWidth*1/4.0 - 30
 #define CANCELBUTTON_WIDTH_HEIGHT                                              60.f
 
-#define EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP                                kScreenHeight - 175
+#define EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP                                kScreenHeight - 176
 #define EXPOSUREDURATIONTITLELABEL_DISTANCE_LEFT                               20.f
 #define EXPOSUREDURATIONTITLELABEL_WIDTH                                       80.f
 #define EXPOSUREDURATIONTITLELABEL_HEIGHT                                      30.f
@@ -46,7 +46,7 @@
 #define ISOTITLELABEL_WIDTH                                                    84.f
 #define ISOTITLELABEL_HEIGHT                                                   35.f
 
-@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterTableViewDelegage>
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterPickerViewDelegate>
 
 @property(nonatomic,strong) AVCaptureDevice *device;;
 
@@ -88,11 +88,15 @@
 
 @property (nonatomic, strong) SCameraISOValueScrollView *iSOValueScrollView;
 
-@property (nonatomic, strong) SCameraShutterTableView *shutterTableView;
-
 @property (nonatomic, assign) double shutterTimer;
 
 @property (nonatomic, strong) NSString *shutterStr;
+
+@property (nonatomic, strong) SCameraShutterPickerView *shutterPickerView;
+
+@property (nonatomic, assign) CMTime exposureTime;
+
+@property (nonatomic, assign)  NSInteger clickNumber;
 
 @end
 
@@ -138,15 +142,17 @@
     [self.cameraView.backButton addTarget:self action:@selector(tapCloseButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.photoLibraryButton addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.flashLightButton addTarget:self action:@selector(tapFlashLightbutton) forControlEvents:UIControlEventTouchUpInside];
-    [self.cameraView.timerButton addTarget:self action:@selector(tapTimerButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.timerButton addTarget:self action:@selector(tapTimerButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.exchangeButton addTarget:self action:@selector(tapExchangeButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.cameraView.photoButton addTarget:self action:@selector(shutterCamera) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.photoButton addTarget:self action:@selector(judgeHaveTimerAndShutterCamera) forControlEvents:UIControlEventTouchUpInside];
+
     [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)customCamera{
     self.view.backgroundColor = [UIColor blackColor];
+    self.clickNumber = 0;
     //使用设备初始化输入
     AVCaptureDeviceInput *input = [[AVCaptureDeviceInput alloc]initWithDevice:self.device error:nil];
     
@@ -199,8 +205,8 @@
     
     [self.exposureDurationTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP);
-        make.left.equalTo(self.view);
-        make.width.mas_equalTo(ISOTITLELABEL_WIDTH);
+        make.left.equalTo(self.view).offset(16);
+        make.width.mas_equalTo(60);
         make.height.mas_equalTo(ISOTITLELABEL_HEIGHT);
     }];
     
@@ -210,7 +216,7 @@
 //        make.width.mas_equalTo(EXPOSUREDURATIONVALUELABEL_WIDTH);
 //        make.height.mas_equalTo(EXPOSUREDURATIONVALUELABEL_HEIGHT);
 //    }];
-    
+//
 //    [self.exposureDurationSlider mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_TOP);
 //        make.left.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_LEFT);
@@ -232,8 +238,7 @@
         make.height.mas_equalTo(35);
     }];
     
-    self.shutterTableView.frame = CGRectMake(84, kScreenHeight - 175, kScreenWidth - 84, 35);
-    
+    self.shutterPickerView.frame = CGRectMake(76, kScreenHeight - 176, kScreenWidth - 152, 35);
 //    [self.isoValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_TOP);
 //        make.left.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_LEFT);
@@ -312,10 +317,10 @@
     
     //修改前必须先锁定
     [self.device lockForConfiguration:nil];
-    
+
     //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
     if ([self.device hasFlash]) {
-        
+
         if (self.photoSettings.flashMode == AVCaptureFlashModeOff) {
             [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
         } else if (self.photoSettings.flashMode == AVCaptureFlashModeOn) {
@@ -328,16 +333,61 @@
 //            self.device.flashMode = AVCaptureFlashModeOff;
 ////            self.device.torchMode = AVCaptureTorchModeOff;
 //        }
-        
+
     }
     [self.device unlockForConfiguration];
     
 }
 
 #pragma mark - 点击定时器
-- (void)tapTimerButton {
-    
-    
+- (void)tapTimerButton:(UIButton *)btn {
+    self.clickNumber++;
+    if (self.clickNumber == 1) {
+        self.cameraView.timerLabel.text = @"3";
+        self.cameraView.timerLabel.hidden = NO;
+    } else if (self.clickNumber == 2) {
+        self.cameraView.timerLabel.text = @"10";
+        self.cameraView.timerLabel.hidden = NO;
+    } else {
+        self.clickNumber = 0;
+        self.cameraView.timerLabel.hidden = YES;
+    }
+
+}
+
+- (void)judgeHaveTimerAndShutterCamera {
+    static NSInteger num = 0;
+    if (self.clickNumber == 1) {
+        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            num++;
+            self.cameraView.centerTimerLabel.hidden = NO;
+            self.cameraView.centerTimerLabel.text = [NSString stringWithFormat:@"%ld",4 - num];
+            self.view.userInteractionEnabled = NO;
+            if (num == 4) {
+                [timer invalidate];
+                self.view.userInteractionEnabled = YES;
+                self.cameraView.centerTimerLabel.hidden = YES;
+                [self shutterCamera];
+                num = 0;
+            }
+        }];
+    } else if (self.clickNumber == 2) {
+        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            num++;
+            self.cameraView.centerTimerLabel.hidden = NO;
+            self.cameraView.centerTimerLabel.text = [NSString stringWithFormat:@"%ld",11 - num];
+            self.view.userInteractionEnabled = NO;
+            if (num == 11) {
+                [timer invalidate];
+                self.view.userInteractionEnabled = YES;
+                self.cameraView.centerTimerLabel.hidden = YES;
+                [self shutterCamera];
+                num = 0;
+            }
+        }];
+    } else {
+        [self shutterCamera];
+    }
 }
 
 #pragma mark - 相机转换
@@ -382,13 +432,13 @@
         self.iSOValueScrollView.hidden = NO;
         self.isoTitleLabel.hidden = NO;
         self.exposureDurationTitleLabel.hidden = NO;
-        self.shutterTableView.hidden = NO;
+        self.shutterPickerView.hidden = NO;
         [self.cameraView showView];
     } else {
         self.iSOValueScrollView.hidden = YES;
         self.isoTitleLabel.hidden = YES;
         self.exposureDurationTitleLabel.hidden = YES;
-        self.shutterTableView.hidden = YES;
+        self.shutterPickerView.hidden = YES;
         [self.cameraView hiddenView];
     }
 }
@@ -396,6 +446,7 @@
 - (void)updateValueData {
     
     self.cameraView.showShutterValue.text = [NSString stringWithFormat:@"Shutter: %@",self.shutterStr];
+    self.cameraView.showISOValue.text = [NSString stringWithFormat:@"ISO: %.2f",self.currentISO];
 }
 
 #pragma mark - 点击蓝牙
@@ -453,11 +504,31 @@
     
 }
 
-#pragma mark - SCameraShutterTableViewDelegage
-- (void)scameraShutterTableViewDidSelectRowAndSelectedValue:(double)value withString:(NSString *)timeStr {
-    
-    self.shutterTimer = value;
-    self.shutterStr = timeStr;
+#pragma mark - SCameraShutterPickerViewDelegate
+- (void)scameraShutterPickerViewDidSelectedRowWithValue:(NSString *)value {
+    self.shutterStr = value;
+    int64_t values;
+    int32_t timescale;
+    if ([value isEqualToString:@"1/60"]) {
+        values = 1;
+        timescale = 60;
+    } else if ([value isEqualToString:@"1/35"]) {
+        values = 1;
+        timescale = 35;
+    } else if ([value isEqualToString:@"1/30"]) {
+        values = 1;
+        timescale = 30;
+    } else if ([value isEqualToString:@"1/20"]) {
+        values = 1;
+        timescale = 20;
+    } else {
+        values = 1;
+        timescale = 10;
+    }
+    self.exposureTime = CMTimeMake(values, timescale);
+    [self.device lockForConfiguration:nil];
+    [self.device setExposureModeCustomWithDuration:self.exposureTime ISO:self.currentISO completionHandler:nil];
+    [self.device unlockForConfiguration];
     [self updateValueData];
 }
 
@@ -543,8 +614,12 @@
 
     if ([keyPath isEqualToString:@"iSOValue"]) {
         self.currentISO = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
-    }
 
+        [self.device lockForConfiguration:nil];
+        [self.device setExposureModeCustomWithDuration:self.exposureTime ISO:self.currentISO completionHandler:nil];
+        [self.device unlockForConfiguration];
+        [self updateValueData];
+    }
 }
 
 #pragma - mark 懒加载
@@ -585,20 +660,10 @@
     
 }
 
-- (SCameraShutterTableView *)shutterTableView {
-    if (!_shutterTableView) {
-        _shutterTableView = [[SCameraShutterTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _shutterTableView.hidden = YES;
-        _shutterTableView.scameraShutterTableViewDelegate = self;
-        [self.view addSubview:_shutterTableView];
-    }
-    return _shutterTableView;
-}
-
 - (UILabel *)exposureDurationTitleLabel {
     if (!_exposureDurationTitleLabel) {
         _exposureDurationTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _exposureDurationTitleLabel.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+        _exposureDurationTitleLabel.backgroundColor = [UIColor clearColor];
         _exposureDurationTitleLabel.text = @"Shuttle";
         _exposureDurationTitleLabel.hidden = YES;
         _exposureDurationTitleLabel.textAlignment = NSTextAlignmentCenter;
@@ -632,6 +697,16 @@
         [self.view addSubview:_exposureDurationSlider];
     }
     return _exposureDurationSlider;
+}
+
+- (SCameraShutterPickerView *)shutterPickerView {
+    if (!_shutterPickerView) {
+        _shutterPickerView = [[SCameraShutterPickerView alloc] initWithFrame:CGRectZero];
+        _shutterPickerView.hidden = YES;
+        _shutterPickerView.scameraShutterPickerViewDelegate = self;
+        [self.view addSubview:_shutterPickerView];
+    }
+    return _shutterPickerView;
 }
 
 - (AVCaptureDevice *)device {

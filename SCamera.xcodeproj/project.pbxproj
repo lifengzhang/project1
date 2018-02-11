@@ -29,8 +29,7 @@
 		A3D9460E202D34E80001220E /* Camera.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3D9460D202D34E80001220E /* Camera.xcassets */; };
 		A3D94612202D3C7A0001220E /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94611202D3C7A0001220E /* CameraView.m */; };
 		A3D94615202D82B20001220E /* SCameraDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94614202D82B20001220E /* SCameraDevice.m */; };
-		A3FF51CD202FDD820031D1DF /* SCameraShutterTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF51CC202FDD820031D1DF /* SCameraShutterTableView.m */; };
-		A3FF51D1202FE01F0031D1DF /* SCameraShutterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF51D0202FE01F0031D1DF /* SCameraShutterTableViewCell.m */; };
+		A3FF51D4203033A90031D1DF /* SCameraShutterPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF51D3203033A90031D1DF /* SCameraShutterPickerView.m */; };
 		F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */; };
 /* End PBXBuildFile section */
 
@@ -79,10 +78,8 @@
 		A3D94611202D3C7A0001220E /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
 		A3D94613202D82B20001220E /* SCameraDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraDevice.h; sourceTree = "<group>"; };
 		A3D94614202D82B20001220E /* SCameraDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraDevice.m; sourceTree = "<group>"; };
-		A3FF51CB202FDD820031D1DF /* SCameraShutterTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraShutterTableView.h; sourceTree = "<group>"; };
-		A3FF51CC202FDD820031D1DF /* SCameraShutterTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraShutterTableView.m; sourceTree = "<group>"; };
-		A3FF51CF202FE01F0031D1DF /* SCameraShutterTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraShutterTableViewCell.h; sourceTree = "<group>"; };
-		A3FF51D0202FE01F0031D1DF /* SCameraShutterTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraShutterTableViewCell.m; sourceTree = "<group>"; };
+		A3FF51D2203033A90031D1DF /* SCameraShutterPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraShutterPickerView.h; sourceTree = "<group>"; };
+		A3FF51D3203033A90031D1DF /* SCameraShutterPickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraShutterPickerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,11 +160,10 @@
 		07523AD8202D768800650E47 /* SCameraValueSwitch */ = {
 			isa = PBXGroup;
 			children = (
-				A3FF51CE202FDFE50031D1DF /* SCameraShttterTableViewCell */,
 				07523AD9202D791F00650E47 /* SCameraISOValueScrollView.h */,
 				07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */,
-				A3FF51CB202FDD820031D1DF /* SCameraShutterTableView.h */,
-				A3FF51CC202FDD820031D1DF /* SCameraShutterTableView.m */,
+				A3FF51D2203033A90031D1DF /* SCameraShutterPickerView.h */,
+				A3FF51D3203033A90031D1DF /* SCameraShutterPickerView.m */,
 			);
 			path = SCameraValueSwitch;
 			sourceTree = "<group>";
@@ -260,15 +256,6 @@
 				A3D94611202D3C7A0001220E /* CameraView.m */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		A3FF51CE202FDFE50031D1DF /* SCameraShttterTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				A3FF51CF202FE01F0031D1DF /* SCameraShutterTableViewCell.h */,
-				A3FF51D0202FE01F0031D1DF /* SCameraShutterTableViewCell.m */,
-			);
-			path = SCameraShttterTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,7 +385,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3FF51D1202FE01F0031D1DF /* SCameraShutterTableViewCell.m in Sources */,
 				0780C3521FE954410044C75D /* ViewController.m in Sources */,
 				07523ADB202D791F00650E47 /* SCameraISOValueScrollView.m in Sources */,
 				0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */,
@@ -409,7 +395,6 @@
 				A3D94615202D82B20001220E /* SCameraDevice.m in Sources */,
 				07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
-				A3FF51CD202FDD820031D1DF /* SCameraShutterTableView.m in Sources */,
 				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
@@ -417,6 +402,7 @@
 				07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */,
 				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
+				A3FF51D4203033A90031D1DF /* SCameraShutterPickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
