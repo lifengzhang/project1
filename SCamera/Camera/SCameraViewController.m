@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
 #import "SCameraPhotoViewController.h"
-
+#import "BlueManagerViewController.h"
 #import "CameraView.h"
 
 #import "SCameraISOValueScrollView.h"
@@ -142,7 +142,7 @@
     [self.cameraView.backButton addTarget:self action:@selector(tapCloseButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.photoLibraryButton addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.flashLightButton addTarget:self action:@selector(tapFlashLightbutton) forControlEvents:UIControlEventTouchUpInside];
-    [self.cameraView.timerButton addTarget:self action:@selector(tapTimerButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.timerButton addTarget:self action:@selector(tapTimerButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.exchangeButton addTarget:self action:@selector(tapExchangeButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.photoButton addTarget:self action:@selector(judgeHaveTimerAndShutterCamera) forControlEvents:UIControlEventTouchUpInside];
 
@@ -325,6 +325,13 @@
             [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
         } else if (self.photoSettings.flashMode == AVCaptureFlashModeOn) {
             [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+        
+        if (self.device.torchMode == 0) {
+//            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
+            self.device.torchMode = AVCaptureTorchModeOn;
+        } else if (self.device.torchMode == 1) {
+//            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+            self.device.torchMode = AVCaptureTorchModeOff;
         }
 //        if (self.device.flashMode == AVCaptureFlashModeOff) {
 //            self.device.flashMode = AVCaptureFlashModeOn;
@@ -334,13 +341,12 @@
 ////            self.device.torchMode = AVCaptureTorchModeOff;
 //        }
 
-    }
+      }
     [self.device unlockForConfiguration];
-    
+   }
 }
-
 #pragma mark - 点击定时器
-- (void)tapTimerButton:(UIButton *)btn {
+- (void)tapTimerButton {
     self.clickNumber++;
     if (self.clickNumber == 1) {
         self.cameraView.timerLabel.text = @"3";
@@ -452,6 +458,9 @@
 #pragma mark - 点击蓝牙
 - (void)tapblueToothButton {
     
+    BlueManagerViewController *blueManagerViewController = [[BlueManagerViewController alloc] initWithNibName:nil bundle:nil];
+    
+    [self.navigationController pushViewController:blueManagerViewController animated:YES];
     
 }
 
@@ -746,3 +755,4 @@
 }
 
 @end
+
