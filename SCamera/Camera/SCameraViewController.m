@@ -645,6 +645,9 @@
 
 - (void)focusAtPoint:(CGPoint)point{
     CGSize size = self.view.bounds.size;
+    if (point.y > (size.height - 140)) {
+        return;
+    }
     CGPoint focusPoint = CGPointMake( point.y /size.height ,1-point.x/size.width );
     NSError *error;
     if ([self.device lockForConfiguration:&error]) {
