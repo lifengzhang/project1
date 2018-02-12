@@ -40,6 +40,8 @@
 
 @property (nonatomic, strong) UIView *shutterView;          //shutter背景视图
 
+@property (nonatomic, strong) UIView *isoBackgroundView;    //ios背景视图
+
 @property (nonatomic, strong) UILabel *centerTimerLabel;    //中央倒计时
 
 @property (nonatomic, strong) UILabel *timerLabel;          //button旁边计时

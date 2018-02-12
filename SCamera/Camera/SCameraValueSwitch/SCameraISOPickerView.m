@@ -1,31 +1,31 @@
 //
-//  SCameraShutterPickerView.m
+//  SCameraISOPickerView.m
 //  SCamera
 //
-//  Created by sunny on 2018/2/11.
+//  Created by sunny on 2018/2/12.
 //  Copyright © 2018年 SCamera.com. All rights reserved.
 //
 
-#import "SCameraShutterPickerView.h"
+#import "SCameraISOPickerView.h"
 
-@interface SCameraShutterPickerView ()
+@interface SCameraISOPickerView ()
 
-@property (nonatomic, strong) NSArray *timeArray;
+@property (nonatomic, strong) NSArray *isoArray;
 
 @property (nonatomic, assign) NSInteger selectRow;
 
 @end
 
-@implementation SCameraShutterPickerView
+@implementation SCameraISOPickerView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.delegate = self;
         self.dataSource = self;
         self.transform = CGAffineTransformMakeRotation(M_PI*3/2);
-        self.timeArray = @[@"1/60",@"1/35",@"1/30",@"1/20",@"1/10"];
+        self.isoArray = @[@"25",@"32",@"40",@"64",@"80",@"100",@"125",@"160",@"200",@"250",@"320",@"400",@"500",@"640",@"800"];
         self.backgroundColor = [UIColor clearColor];
-   }
+    }
     return self;
 }
 
@@ -36,7 +36,7 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     
-    return self.timeArray.count;
+    return self.isoArray.count;
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
@@ -50,7 +50,7 @@
     }
     UILabel *reasonLabel = [UILabel new];
     reasonLabel.textAlignment = NSTextAlignmentCenter;
-    reasonLabel.text = self.timeArray[row];
+    reasonLabel.text = self.isoArray[row];
     reasonLabel.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
     reasonLabel.textColor = [UIColor whiteColor];
     reasonLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
@@ -76,9 +76,10 @@
     self.selectRow = row;
     [pickerView reloadComponent:component];
     
-    if (self.scameraShutterPickerViewDelegate && [self.scameraShutterPickerViewDelegate respondsToSelector:@selector(scameraShutterPickerViewDidSelectedRowWithValue:)]) {
-        [self.scameraShutterPickerViewDelegate scameraShutterPickerViewDidSelectedRowWithValue:self.timeArray[row]];
+    if (self.scameraISOPickerViewDelegate && [self.scameraISOPickerViewDelegate respondsToSelector:@selector(scameraISOPickerViewDidSelectedRowWithValue:)]) {
+        [self.scameraISOPickerViewDelegate scameraISOPickerViewDidSelectedRowWithValue:self.isoArray[row]];
     }
 }
+
 
 @end
