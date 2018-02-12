@@ -23,7 +23,7 @@
         self.delegate = self;
         self.dataSource = self;
         self.transform = CGAffineTransformMakeRotation(M_PI*3/2);
-        self.isoArray = @[@"25",@"32",@"40",@"64",@"80",@"100",@"125",@"160",@"200",@"250",@"320",@"400",@"500",@"640",@"800"];
+        self.isoArray = @[@"25",@"32",@"40",@"64",@"80",@"100",@"125",@"160",@"200",@"250",@"320",@"400",@"500",@"640",@"800",@"1000",@"1250",@"1500"];
         self.backgroundColor = [UIColor clearColor];
     }
     return self;

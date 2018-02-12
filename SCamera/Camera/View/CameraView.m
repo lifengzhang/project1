@@ -54,6 +54,8 @@
 
 @property (nonatomic, strong) UIImageView *exchangeImage; //相机转换按钮
 
+@property (nonatomic, strong) UIView *bottomContentView;  //底部视图 为了遮盖focusView
+
 @end
 
 @implementation CameraView
@@ -145,6 +147,11 @@
         make.centerY.equalTo(self.photoButton);
         make.height.mas_equalTo(22);
         make.width.mas_equalTo(15);
+    }];
+    
+    [self.bottomContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self);
+        make.height.mas_equalTo(140);
     }];
     
     [self.bluetoothImage mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -564,6 +571,15 @@
         [self.navigationView addSubview:_timerLabel];
     }
     return _timerLabel;
+}
+
+- (UIView *)bottomContentView {
+    if (!_bottomContentView) {
+        _bottomContentView = [[UIView alloc] initWithFrame:CGRectZero];
+        _bottomContentView.backgroundColor = [UIColor blackColor];
+        [self insertSubview:_bottomContentView belowSubview:self.photoButton];
+    }
+    return _bottomContentView;
 }
 
 @end

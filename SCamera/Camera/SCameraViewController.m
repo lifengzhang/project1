@@ -94,7 +94,9 @@
 
 @property (nonatomic, strong) SCameraISOPickerView *isoPickerView;
 
-@property (nonatomic ,strong) UIImageView *cameraFocusView;  //聚焦视图
+@property (nonatomic, strong) UIImageView *cameraFocusView;  //聚焦视图
+
+@property (nonatomic, assign) float receivedISOValue;
 
 /**
  *  记录开始的缩放比例
@@ -207,10 +209,10 @@
         }
         
         self.firstISO = self.device.ISO;
-        self.currentISO = self.device.ISO;
+//        self.currentISO = self.device.ISO;
         
         self.firstDuration = self.device.exposureDuration;
-        self.currentDuration = self.device.exposureDuration;
+//        self.currentDuration = self.device.exposureDuration;
         [self updateValueData];
         [self.device unlockForConfiguration];
 
@@ -338,7 +340,7 @@
         [device lockForConfiguration:nil];
         
         __weak SCameraViewController *wSelf = self;
-        [device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
+        [device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? self.firstDuration : self.currentDuration ISO:self.currentISO == 0 ? self.firstISO : self.currentISO completionHandler:^(CMTime syncTime)
          {
              AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
              // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
@@ -347,6 +349,8 @@
              //手动模式
              //             device.exposureMode=AVCaptureExposureModeCustom;
              NSLog(@"device.ISO = %f",device.ISO);
+             NSLog(@"device.minISO = %f",device.activeFormat.minISO);
+             NSLog(@"device.maxISO = %f",device.activeFormat.maxISO);
              NSLog(@"device.exposureTargetOffset = %f",device.exposureTargetOffset);
              [device unlockForConfiguration];
              wSelf.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
@@ -368,7 +372,7 @@
 //                 [self cancle];
 //             }];
          }];
-        [self cancle];
+//        [self cancle];
     } @catch (NSException *exception) {
     
     }
@@ -520,19 +524,25 @@
         self.shutterPickerView.hidden = NO;
         [self.cameraView showView];
     } else {
-//        self.iSOValueScrollView.hidden = YES;
-        self.isoPickerView.hidden = YES;
-        self.isoTitleLabel.hidden = YES;
-        self.exposureDurationTitleLabel.hidden = YES;
-        self.shutterPickerView.hidden = YES;
-        [self.cameraView hiddenView];
+        [self hiddenValueView];
     }
 }
 
+- (void)hiddenValueView {
+//        self.iSOValueScrollView.hidden = YES;
+    self.isoPickerView.hidden = YES;
+    self.isoTitleLabel.hidden = YES;
+    self.exposureDurationTitleLabel.hidden = YES;
+    self.shutterPickerView.hidden = YES;
+    [self.cameraView hiddenView];
+}
+
 - (void)updateValueData {
-    
+    if (self.shutterStr.length == 0) {
+        self.shutterStr = @"0";
+    }
     self.cameraView.showShutterValue.text = [NSString stringWithFormat:@"Shutter: %@",self.shutterStr];
-    self.cameraView.showISOValue.text = [NSString stringWithFormat:@"ISO: %.2f",self.currentISO];
+    self.cameraView.showISOValue.text = [NSString stringWithFormat:@"ISO: %.0f",self.receivedISOValue == 0 ? 25 : self.receivedISOValue];
 }
 
 #pragma mark - 点击蓝牙
@@ -620,8 +630,64 @@
 
 #pragma mark - SCameraISOPickerViewDelegate
 - (void)scameraISOPickerViewDidSelectedRowWithValue:(NSString *)value {
-    self.currentISO = [value floatValue];
+    //ISO  minISO=29, maxISO=464;  需要多等分
+     self.receivedISOValue = [value floatValue];
     [self updateValueData];
+    if (_receivedISOValue == 25) {
+        self.currentISO = 29.f;
+        return;
+    } else if (_receivedISOValue == 32) {
+        self.currentISO = 50.f;
+        return;
+    } else if (_receivedISOValue == 40) {
+        self.currentISO = 70.f;
+        return;
+    } else if (_receivedISOValue == 64) {
+        self.currentISO = 90.f;
+        return;
+    } else if (_receivedISOValue == 80) {
+        self.currentISO = 120.f;
+        return;
+    } else if (_receivedISOValue == 100) {
+        self.currentISO = 130.f;
+        return;
+    } else if (_receivedISOValue == 125) {
+        self.currentISO = 150.f;
+        return;
+    } else if (_receivedISOValue == 160) {
+        self.currentISO = 170.f;
+        return;
+    } else if (_receivedISOValue == 200) {
+        self.currentISO = 190.f;
+        return;
+    } else if (_receivedISOValue == 250) {
+        self.currentISO = 220.f;
+        return;
+    } else if (_receivedISOValue == 320) {
+        self.currentISO = 240.f;
+        return;
+    } else if (_receivedISOValue == 400) {
+        self.currentISO = 270.f;
+        return;
+    } else if (_receivedISOValue == 500) {
+        self.currentISO = 300.f;
+        return;
+    } else if (_receivedISOValue == 640) {
+        self.currentISO = 330.f;
+        return;
+    } else if (_receivedISOValue == 800) {
+        self.currentISO = 360;
+        return;
+    } else if (_receivedISOValue == 1000) {
+        self.currentISO = 390;
+        return;
+    } else if (_receivedISOValue == 1250) {
+        self.currentISO = 420;
+        return;
+    } else if (_receivedISOValue == 1500) {
+        self.currentISO = 464.f;
+        return;
+    }
 }
 
 #pragma mark - -聚焦
@@ -645,9 +711,23 @@
 
 - (void)focusAtPoint:(CGPoint)point{
     CGSize size = self.view.bounds.size;
-    if (point.y > (size.height - 140)) {
-        return;
+    if (self.cameraView.valueButton.selected) {
+        if (point.y > (size.height - 175) || point.y < (ISIphoneX ? 121 : 99)) {
+            return;
+        } else {
+            [self hiddenValueView];
+            self.cameraView.valueButton.selected = NO;
+        }
+    } else {
+        if (point.y > (size.height - 140) || point.y < (ISIphoneX ? 86 : 64)) {
+            return;
+        } else {
+            
+            [self hiddenValueView];
+            self.cameraView.valueButton.selected = NO;
+        }
     }
+    
     CGPoint focusPoint = CGPointMake( point.y /size.height ,1-point.x/size.width );
     NSError *error;
     if ([self.device lockForConfiguration:&error]) {
@@ -841,7 +921,7 @@
         _cameraFocusView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_focus_image"]];
         _cameraFocusView.backgroundColor = [UIColor clearColor];
         _cameraFocusView.hidden = YES;
-        [self.view addSubview:_cameraFocusView];
+        [self.view insertSubview:_cameraFocusView belowSubview:self.cameraView];
     }
     return _cameraFocusView;
 }
