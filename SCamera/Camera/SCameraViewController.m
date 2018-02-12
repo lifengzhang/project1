@@ -46,7 +46,7 @@
 #define ISOTITLELABEL_WIDTH                                                    84.f
 #define ISOTITLELABEL_HEIGHT                                                   35.f
 
-@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterPickerViewDelegate>
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate>
 
 @property(nonatomic,strong) AVCaptureDevice *device;;
 
@@ -98,12 +98,26 @@
 
 @property (nonatomic, assign)  NSInteger clickNumber;
 
+/**
+ *  记录开始的缩放比例
+ */
+@property(nonatomic,assign)CGFloat beginGestureScale;
+/**
+ * 最后的缩放比例
+ */
+@property(nonatomic,assign)CGFloat effectiveScale;
+
 @end
 
 @implementation SCameraViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
+    pinchGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:pinchGestureRecognizer];
+    
     [self customCamera];
     [self customUI];
     [self getLatestAsset];
@@ -193,7 +207,7 @@
         
         self.firstDuration = self.device.exposureDuration;
         self.currentDuration = self.device.exposureDuration;
-        [_device unlockForConfiguration];
+        [self.device unlockForConfiguration];
     }
 }
 
@@ -246,6 +260,55 @@
 //        make.height.mas_equalTo(ISOVALUELABEL_HEIGHT);
 //    }];
     
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if ( [gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] ) {
+        self.beginGestureScale = self.effectiveScale;
+    }
+    return YES;
+}
+
+- (void)pinchView:(UIPinchGestureRecognizer *)panGestureRecognizer{
+    
+    BOOL allTouchesAreOnThePreviewLayer = YES;
+    NSUInteger numTouches = [panGestureRecognizer numberOfTouches];
+    for (NSUInteger i = 0; i < numTouches; ++i ) {
+        CGPoint location = [panGestureRecognizer locationOfTouch:i inView:self.view];
+        CGPoint convertedLocation = [self.previewLayer convertPoint:location fromLayer:self.previewLayer.superlayer];
+        if ( ! [self.previewLayer containsPoint:convertedLocation] ) {
+            allTouchesAreOnThePreviewLayer = NO;
+            break;
+        }
+    }
+    
+    if ( allTouchesAreOnThePreviewLayer ) {
+        
+        self.effectiveScale = self.beginGestureScale * panGestureRecognizer.scale;
+        if (self.effectiveScale < 1.0){
+            self.effectiveScale = 1.0;
+        }
+        
+//        NSLog(@"%f-------------->%f------------recognizerScale%f",self.effectiveScale,self.beginGestureScale,panGestureRecognizer.scale);
+        
+        CGFloat maxScaleAndCropFactor = [[self.photoOutPut connectionWithMediaType:AVMediaTypeVideo] videoMaxScaleAndCropFactor];
+
+        if (self.effectiveScale > maxScaleAndCropFactor)
+            self.effectiveScale = maxScaleAndCropFactor;
+        
+        [CATransaction begin];
+        [CATransaction setAnimationDuration:.025];
+        [self.previewLayer setAffineTransform:CGAffineTransformMakeScale(self.effectiveScale, self.effectiveScale)];
+//        NSLog(@"self.previewLayer.frame = %@",NSStringFromCGRect(self.previewLayer.frame));
+        [CATransaction commit];
+        
+        AVCaptureConnection * videoConnection = [self.photoOutPut connectionWithMediaType:AVMediaTypeVideo];
+        [videoConnection setVideoScaleAndCropFactor:self.effectiveScale];
+        
+    }
+    
+
 }
 
 #pragma mark - 截取照片
