@@ -13,9 +13,9 @@
 #import "BlueManagerViewController.h"
 #import "CameraView.h"
 
-#import "SCameraISOValueScrollView.h"
-
 #import "SCameraShutterPickerView.h"
+
+#import "SCameraISOPickerView.h"
 
 #define kScreenBounds   [UIScreen mainScreen].bounds
 #define kScreenWidth  kScreenBounds.size.width*1.0
@@ -46,7 +46,7 @@
 #define ISOTITLELABEL_WIDTH                                                    84.f
 #define ISOTITLELABEL_HEIGHT                                                   35.f
 
-@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate>
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate, SCameraISOPickerViewDelegate>
 
 @property(nonatomic,strong) AVCaptureDevice *device;;
 
@@ -86,17 +86,15 @@
 
 @property (nonatomic ,strong) CameraView *cameraView;
 
-@property (nonatomic, strong) SCameraISOValueScrollView *iSOValueScrollView;
-
-@property (nonatomic, assign) double shutterTimer;
-
-@property (nonatomic, strong) NSString *shutterStr;
+@property (nonatomic, strong) NSString *shutterStr;    //屏幕显示的shutter数值
 
 @property (nonatomic, strong) SCameraShutterPickerView *shutterPickerView;
 
-@property (nonatomic, assign) CMTime exposureTime;
+@property (nonatomic, assign)  NSInteger clickNumber;  //点击定时器的次数
 
-@property (nonatomic, assign)  NSInteger clickNumber;
+@property (nonatomic, strong) SCameraISOPickerView *isoPickerView;
+
+@property (nonatomic ,strong) UIImageView *cameraFocusView;  //聚焦视图
 
 /**
  *  记录开始的缩放比例
@@ -122,6 +120,7 @@
     [self customUI];
     [self getLatestAsset];
     [self addButtonAction];
+    [self addGesture];
 }
 
 - (void)startSession{
@@ -162,6 +161,11 @@
 
     [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)addGesture {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
+    [self.view addGestureRecognizer:tapGesture];
 }
 
 - (void)customCamera{
@@ -207,7 +211,9 @@
         
         self.firstDuration = self.device.exposureDuration;
         self.currentDuration = self.device.exposureDuration;
+        [self updateValueData];
         [self.device unlockForConfiguration];
+
     }
 }
 
@@ -240,18 +246,24 @@
     
     [self.isoTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(ISIphoneX ? 87 : 65);
-        make.left.equalTo(self.view);
-        make.width.mas_equalTo(ISOTITLELABEL_WIDTH);
+        make.left.equalTo(self.view).offset(16.f);
+        make.width.mas_equalTo(60);
         make.height.mas_equalTo(ISOTITLELABEL_HEIGHT);
     }];
     
-    [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.isoTitleLabel);
-        make.left.equalTo(self.isoTitleLabel.mas_right);
-        make.right.equalTo(self.view);
-        make.height.mas_equalTo(35);
+    [self.cameraFocusView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(self.view);
+        make.height.width.mas_equalTo(80);
     }];
     
+//    [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.isoTitleLabel);
+//        make.left.equalTo(self.isoTitleLabel.mas_right);
+//        make.right.equalTo(self.view);
+//        make.height.mas_equalTo(35);
+//    }];
+    
+    self.isoPickerView.frame = CGRectMake(76, ISIphoneX ? 87 : 65, kScreenWidth - 152, 35);
     self.shutterPickerView.frame = CGRectMake(76, kScreenHeight - 176, kScreenWidth - 152, 35);
 //    [self.isoValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_TOP);
@@ -324,6 +336,8 @@
         
         AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [device lockForConfiguration:nil];
+        
+        __weak SCameraViewController *wSelf = self;
         [device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
          {
              AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -335,8 +349,8 @@
              NSLog(@"device.ISO = %f",device.ISO);
              NSLog(@"device.exposureTargetOffset = %f",device.exposureTargetOffset);
              [device unlockForConfiguration];
-             self.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
-             [self.photoOutPut capturePhotoWithSettings:self.photoSettings delegate:self];
+             wSelf.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
+             [wSelf.photoOutPut capturePhotoWithSettings:wSelf.photoSettings delegate:wSelf];
 //             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
 //                 if (imageDataSampleBuffer == NULL) {
 //                     return;
@@ -354,6 +368,7 @@
 //                 [self cancle];
 //             }];
          }];
+        [self cancle];
     } @catch (NSException *exception) {
     
     }
@@ -498,13 +513,15 @@
     
     btn.selected = !btn.selected;
     if (btn.selected) {
-        self.iSOValueScrollView.hidden = NO;
+//        self.iSOValueScrollView.hidden = NO;
+        self.isoPickerView.hidden = NO;
         self.isoTitleLabel.hidden = NO;
         self.exposureDurationTitleLabel.hidden = NO;
         self.shutterPickerView.hidden = NO;
         [self.cameraView showView];
     } else {
-        self.iSOValueScrollView.hidden = YES;
+//        self.iSOValueScrollView.hidden = YES;
+        self.isoPickerView.hidden = YES;
         self.isoTitleLabel.hidden = YES;
         self.exposureDurationTitleLabel.hidden = YES;
         self.shutterPickerView.hidden = YES;
@@ -529,7 +546,7 @@
 
 - (void)cancle{
 //    [self.imageView removeFromSuperview];
-    [self.session startRunning];
+//    [self.session startRunning];
     @try {
         AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [device lockForConfiguration:nil];
@@ -597,26 +614,64 @@
         values = 1;
         timescale = 10;
     }
-    self.exposureTime = CMTimeMake(values, timescale);
-    [self.device lockForConfiguration:nil];
-    [self.device setExposureModeCustomWithDuration:self.exposureTime ISO:self.currentISO completionHandler:nil];
-    [self.device unlockForConfiguration];
+    self.currentDuration = CMTimeMake(values, timescale);
+    [self updateValueData];
+}
+
+#pragma mark - SCameraISOPickerViewDelegate
+- (void)scameraISOPickerViewDidSelectedRowWithValue:(NSString *)value {
+    self.currentISO = [value floatValue];
     [self updateValueData];
 }
 
 #pragma mark - -聚焦
-- (id)focusAtPoint:(CGPoint)point{
+//- (id)focusAtPoint:(CGPoint)point{
+//
+//    if ([self.device isFocusPointOfInterestSupported] && [self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]){
+//        NSError *error;
+//        if ([self.device lockForConfiguration:&error]) {
+//            self.device.focusPointOfInterest = point;
+//            self.device.focusMode = AVCaptureFocusModeAutoFocus;
+//            [self.device unlockForConfiguration];
+//        }
+//        return error;
+//    }
+//    return nil;
+//}
+- (void)focusGesture:(UITapGestureRecognizer*)gesture{
+    CGPoint point = [gesture locationInView:gesture.view];
+    [self focusAtPoint:point];
+}
 
-    if ([self.device isFocusPointOfInterestSupported] && [self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]){
-        NSError *error;
-        if ([self.device lockForConfiguration:&error]) {
-            self.device.focusPointOfInterest = point;
-            self.device.focusMode = AVCaptureFocusModeAutoFocus;
-            [self.device unlockForConfiguration];
+- (void)focusAtPoint:(CGPoint)point{
+    CGSize size = self.view.bounds.size;
+    CGPoint focusPoint = CGPointMake( point.y /size.height ,1-point.x/size.width );
+    NSError *error;
+    if ([self.device lockForConfiguration:&error]) {
+        
+        if ([self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+            [self.device setFocusPointOfInterest:focusPoint];
+            [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
         }
-        return error;
+        
+        if ([self.device isExposureModeSupported:AVCaptureExposureModeAutoExpose ]) {
+            [self.device setExposurePointOfInterest:focusPoint];
+            [self.device setExposureMode:AVCaptureExposureModeAutoExpose];
+        }
+        
+        [self.device unlockForConfiguration];
+        _cameraFocusView.center = point;
+        _cameraFocusView.hidden = NO;
+        [UIView animateWithDuration:0.3 animations:^{
+            _cameraFocusView.transform = CGAffineTransformMakeScale(1.25, 1.25);
+        }completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.5 animations:^{
+                _cameraFocusView.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                _cameraFocusView.hidden = YES;
+            }];
+        }];
     }
-    return nil;
 }
 
 #pragma mark - 曝光时长
@@ -681,19 +736,6 @@
     return data;
 }
 
-#pragma mark - ISO
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-
-    if ([keyPath isEqualToString:@"iSOValue"]) {
-        self.currentISO = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
-
-        [self.device lockForConfiguration:nil];
-        [self.device setExposureModeCustomWithDuration:self.exposureTime ISO:self.currentISO completionHandler:nil];
-        [self.device unlockForConfiguration];
-        [self updateValueData];
-    }
-}
-
 #pragma - mark 懒加载
 - (CameraView *)cameraView {
     if (!_cameraView) {
@@ -708,7 +750,7 @@
 - (UILabel *)isoTitleLabel {
     if (!_isoTitleLabel) {
         _isoTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _isoTitleLabel.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+        _isoTitleLabel.backgroundColor = [UIColor clearColor];
         _isoTitleLabel.text = @"ISO";
         _isoTitleLabel.hidden = YES;
         _isoTitleLabel.font = [UIFont ChinaBoldFontNameOfSize:14];
@@ -719,18 +761,18 @@
     return _isoTitleLabel;
 }
 
-- (SCameraISOValueScrollView *)iSOValueScrollView {
-    
-    if (! _iSOValueScrollView) {
-        _iSOValueScrollView = [[SCameraISOValueScrollView alloc] initWithFrame:CGRectZero];
-        _iSOValueScrollView.hidden = YES;
-        [self.view addSubview:_iSOValueScrollView];
-        [_iSOValueScrollView addObserver:self forKeyPath:@"iSOValue" options:NSKeyValueObservingOptionNew context:nil];
-    }
-    
-    return _iSOValueScrollView;
-    
-}
+//- (SCameraISOValueScrollView *)iSOValueScrollView {
+//
+//    if (! _iSOValueScrollView) {
+//        _iSOValueScrollView = [[SCameraISOValueScrollView alloc] initWithFrame:CGRectZero];
+//        _iSOValueScrollView.hidden = YES;
+//        [self.view addSubview:_iSOValueScrollView];
+//        [_iSOValueScrollView addObserver:self forKeyPath:@"iSOValue" options:NSKeyValueObservingOptionNew context:nil];
+//    }
+//
+//    return _iSOValueScrollView;
+//
+//}
 
 - (UILabel *)exposureDurationTitleLabel {
     if (!_exposureDurationTitleLabel) {
@@ -779,6 +821,26 @@
         [self.view addSubview:_shutterPickerView];
     }
     return _shutterPickerView;
+}
+
+- (SCameraISOPickerView *)isoPickerView {
+    if (!_isoPickerView) {
+        _isoPickerView = [[SCameraISOPickerView alloc] initWithFrame:CGRectZero];
+        _isoPickerView.hidden = YES;
+        _isoPickerView.scameraISOPickerViewDelegate = self;
+        [self.view addSubview:_isoPickerView];
+    }
+    return _isoPickerView;
+}
+
+- (UIImageView *)cameraFocusView {
+    if (!_cameraFocusView) {
+        _cameraFocusView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_focus_image"]];
+        _cameraFocusView.backgroundColor = [UIColor clearColor];
+        _cameraFocusView.hidden = YES;
+        [self.view addSubview:_cameraFocusView];
+    }
+    return _cameraFocusView;
 }
 
 - (AVCaptureDevice *)device {

@@ -36,7 +36,23 @@
 
 @property (nonatomic, strong) UILabel *shutterLabel;
 
-@property (nonatomic, strong) UIView *pickerSelectedView;
+@property (nonatomic, strong) UIView *pickerSelectedView;  //shutter PickerView白色选中区
+
+@property (nonatomic, strong) UIView *isoSelectedView;     //ISO PickerView白色选中区
+
+@property (nonatomic, strong) UIImageView *bluetoothImage; //蓝牙按钮图片
+
+@property (nonatomic, strong) UIImageView *valueImage;   //调节按钮图片
+
+@property (nonatomic, strong) UIImageView *closeImage;  //关闭按钮图片
+
+@property (nonatomic, strong) UIImageView *albumImage; //相册按钮图片
+
+@property (nonatomic, strong) UIImageView *flashImage;  //闪光灯按钮图片
+
+@property (nonatomic, strong) UIImageView *timerImage;  //定时器按钮照片
+
+@property (nonatomic, strong) UIImageView *exchangeImage; //相机转换按钮
 
 @end
 
@@ -58,32 +74,57 @@
     }];
     
     [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.centerY.equalTo(self.closeImage);
+        make.width.height.mas_equalTo(40);
+    }];
+    
+    [self.closeImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.navigationView).offset(BACKBUTTON_DISTANCE_TOP);
         make.left.equalTo(self.navigationView).offset(BACKBUTTON_DISTANCE_LEFT);
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
     }];
     
     [self.photoLibraryButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.backButton.mas_top);
+        make.centerY.centerX.equalTo(self.albumImage);
+        make.width.height.mas_equalTo(40);
+    }];
+    
+    [self.albumImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.closeImage.mas_top);
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
-        make.centerX.equalTo(self.backButton.mas_right).offset((kScreenWidth/2 - 43)/2);
+        make.centerX.equalTo(self.closeImage.mas_right).offset((kScreenWidth/2 - 43)/2);
     }];
     
     [self.flashLightButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.backButton.mas_top);
+        make.centerX.centerY.equalTo(self.flashImage);
+        make.width.height.mas_equalTo(40);
+    }];
+    
+    [self.flashImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.closeImage.mas_top);
         make.centerX.equalTo(self.navigationView);
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
     }];
     
     [self.timerButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.backButton.mas_top);
+        make.width.height.mas_equalTo(40);
+        make.centerX.centerY.equalTo(self.timerImage);
+    }];
+    
+    [self.timerImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.closeImage.mas_top);
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
         make.centerX.equalTo(self.navigationView.mas_right).offset(-((kScreenWidth/2 - 43)/2 + 34));
     }];
     
     [self.exchangeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.centerX.equalTo(self.exchangeImage);
+        make.width.height.mas_equalTo(40);
+    }];
+    
+    [self.exchangeImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.navigationView.mas_right).offset(-16);
-        make.top.equalTo(self.backButton.mas_top);
+        make.top.equalTo(self.closeImage.mas_top);
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
     }];
     
@@ -94,17 +135,30 @@
     }];
     
     [self.valueButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.centerX.equalTo(self.valueImage);
+        make.height.mas_equalTo(60);
+        make.width.mas_equalTo(60);
+    }];
+    
+    [self.valueImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(64);
         make.centerY.equalTo(self.photoButton);
         make.height.mas_equalTo(22);
         make.width.mas_equalTo(15);
     }];
     
-    [self.bluetoothButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bluetoothImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-64);
         make.centerY.equalTo(self.photoButton);
         make.height.mas_equalTo(22);
         make.width.mas_equalTo(15);
+    }];
+    
+    [self.bluetoothButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.bluetoothImage);
+        make.centerY.equalTo(self.bluetoothImage);
+        make.height.mas_equalTo(60);
+        make.width.mas_equalTo(60);
     }];
     
     [self.whitePoint mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -130,6 +184,12 @@
         make.height.mas_equalTo(1);
     }];
     
+    [self.isoBackgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self);
+        make.top.equalTo(self.topWhiteLine.mas_bottom);
+        make.height.mas_equalTo(35);
+    }];
+    
     [self.showISOValue mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(ISIphoneX ? 121 + [SCameraDevice screenAdaptiveSizeWithIp6Size:40] : 99 + [SCameraDevice screenAdaptiveSizeWithIp6Size:40]);
         make.width.mas_equalTo(120);
@@ -148,11 +208,11 @@
         make.right.equalTo(self.showISOValue);
     }];
     
-    [self.showExposureValue mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.showAWBValue.mas_bottom);
-        make.width.mas_equalTo(120);
-        make.right.equalTo(self.showISOValue);
-    }];
+//    [self.showExposureValue mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.showAWBValue.mas_bottom);
+//        make.width.mas_equalTo(120);
+//        make.right.equalTo(self.showISOValue);
+//    }];
     
     [self.shutterView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(kScreenHeight - 176);
@@ -166,6 +226,12 @@
         make.width.mas_equalTo(80);
     }];
     
+    [self.isoSelectedView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.isoBackgroundView);
+        make.centerX.equalTo(self.isoBackgroundView);
+        make.width.mas_equalTo(80);
+    }];
+    
     [self.centerTimerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.centerY.equalTo(self);
@@ -173,7 +239,7 @@
     }];
     
     [self.timerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.timerButton.mas_right);
+        make.left.equalTo(self.timerImage.mas_right);
         make.bottom.equalTo(self.navigationView);
         make.width.height.mas_equalTo(25);
     }];
@@ -189,6 +255,8 @@
     self.bottomWhiteLine.hidden = NO;
     self.shutterView.hidden = NO;
     self.pickerSelectedView.hidden = NO;
+    self.isoBackgroundView.hidden = NO;
+    self.isoSelectedView.hidden = NO;
 }
 
 - (void)hiddenView {
@@ -201,6 +269,8 @@
     self.bottomWhiteLine.hidden = YES;
     self.shutterView.hidden = YES;
     self.pickerSelectedView.hidden = YES;
+    self.isoBackgroundView.hidden = YES;
+    self.isoSelectedView.hidden = YES;
 }
 
 #pragma  -mark 懒加载
@@ -216,46 +286,86 @@
 - (UIButton *)backButton {
     if (!_backButton) {
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_backButton setImage:[UIImage imageNamed:@"Camera_close_image"] forState:UIControlStateNormal];
+        _backButton.backgroundColor = [UIColor clearColor];
         [self.navigationView addSubview:_backButton];
     }
     return _backButton;
 }
 
+- (UIImageView *)closeImage {
+    if (!_closeImage) {
+        _closeImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_close_image"]];
+        [self.navigationView addSubview:_closeImage];
+    }
+    return _closeImage;
+}
+
 - (UIButton *)photoLibraryButton {
     if (!_photoLibraryButton) {
         _photoLibraryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_photoLibraryButton setImage:[UIImage imageNamed:@"Camera_photoAlbum_image"] forState:UIControlStateNormal];
+    _photoLibraryButton.backgroundColor = [UIColor clearColor];
         [self.navigationView addSubview:_photoLibraryButton];
     }
     return _photoLibraryButton;
 }
 
+- (UIImageView *)albumImage {
+    if (!_albumImage) {
+        _albumImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_photoAlbum_image"]];
+        [self.navigationView addSubview:_albumImage];
+    }
+    return _albumImage;
+}
+
 - (UIButton *)flashLightButton {
     if (!_flashLightButton) {
         _flashLightButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_flashLightButton setImage:[UIImage imageNamed:@"Camera_flashLight_image"] forState:UIControlStateNormal];
+        _flashLightButton.backgroundColor = [UIColor clearColor];
         [self.navigationView addSubview:_flashLightButton];
     }
     return _flashLightButton;
 }
 
+-(UIImageView *)flashImage {
+    if (!_flashImage) {
+        _flashImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_flashLight_image"]];
+        [self.navigationView addSubview:_flashImage];
+    }
+    return _flashImage;
+}
+
 - (UIButton *)timerButton {
     if (!_timerButton) {
         _timerButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_timerButton setImage:[UIImage imageNamed:@"Camera_timer_image"] forState:UIControlStateNormal];
+        _timerButton.backgroundColor = [UIColor clearColor];
         [self.navigationView addSubview:_timerButton];
     }
     return _timerButton;
 }
 
+- (UIImageView *)timerImage {
+    if (!_timerImage) {
+        _timerImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_timer_image"]];
+        [self.navigationView addSubview:_timerImage];
+    }
+    return _timerImage;
+}
+
 - (UIButton *)exchangeButton {
     if (!_exchangeButton) {
         _exchangeButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_exchangeButton setImage:[UIImage imageNamed:@"Camera_exchange_image"] forState:UIControlStateNormal];
+        _exchangeButton.backgroundColor = [UIColor clearColor];
         [self.navigationView addSubview:_exchangeButton];
     }
     return _exchangeButton;
+}
+
+- (UIImageView *)exchangeImage {
+    if (!_exchangeImage) {
+        _exchangeImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_exchange_image"]];
+        [self.navigationView addSubview:_exchangeImage];
+    }
+    return _exchangeImage;
 }
 
 - (UIButton *)photoButton {
@@ -270,19 +380,34 @@
 - (UIButton *)valueButton {
     if (!_valueButton) {
         _valueButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_valueButton setImage:[UIImage imageNamed:@"Camera_value_image"] forState:(UIControlState)UIControlStateNormal];
         [self addSubview:_valueButton];
     }
     return _valueButton;
 }
 
+-  (UIImageView *)valueImage {
+    if (!_valueImage) {
+        _valueImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_value_image"]];
+        [self addSubview:_valueImage];
+    }
+    return _valueImage;
+}
+
 - (UIButton *)bluetoothButton {
     if (!_bluetoothButton) {
         _bluetoothButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_bluetoothButton setImage:[UIImage imageNamed:@"Camera_bluetooth_image"] forState:UIControlStateNormal];
         [self addSubview:_bluetoothButton];
     }
     return _bluetoothButton;
+}
+
+- (UIImageView *)bluetoothImage {
+    if (!_bluetoothImage) {
+        _bluetoothImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _bluetoothImage.image = [UIImage imageNamed:@"Camera_bluetooth_image"];
+        [self addSubview:_bluetoothImage];
+    }
+    return _bluetoothImage;
 }
 
 - (UIView *)whitePoint {
@@ -395,6 +520,26 @@
     return _pickerSelectedView;
 }
 
+- (UIView *)isoSelectedView {
+    if (!_isoSelectedView) {
+        _isoSelectedView = [[UIView alloc] initWithFrame:CGRectZero];
+        _isoSelectedView.backgroundColor = [UIColor whiteColor];
+        _isoSelectedView.hidden = YES;
+        [self.isoBackgroundView addSubview:_isoSelectedView];
+    }
+    return _isoSelectedView;
+}
+
+- (UIView *)isoBackgroundView {
+    if (!_isoBackgroundView) {
+        _isoBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+        _isoBackgroundView.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+        _isoBackgroundView.hidden = YES;
+        [self addSubview:_isoBackgroundView];
+    }
+    return _isoBackgroundView;
+}
+
 - (UILabel *)centerTimerLabel {
     if (!_centerTimerLabel) {
         _centerTimerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -402,7 +547,7 @@
         _centerTimerLabel.textColor = [UIColor whiteColor];
         _centerTimerLabel.hidden = YES;
         _centerTimerLabel.textAlignment = NSTextAlignmentCenter;
-        _centerTimerLabel.font = [UIFont ChinaBoldFontNameOfSize:25.f];
+        _centerTimerLabel.font = [UIFont boldSystemFontOfSize:60];
         [self addSubview:_centerTimerLabel];
     }
     return _centerTimerLabel;
