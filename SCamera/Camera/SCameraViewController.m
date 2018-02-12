@@ -98,6 +98,8 @@
 
 @property (nonatomic, strong) SCameraISOPickerView *isoPickerView;
 
+@property (nonatomic ,strong) UIImageView *cameraFocusView;  //聚焦视图
+
 @end
 
 @implementation SCameraViewController
@@ -108,6 +110,7 @@
     [self customUI];
     [self getLatestAsset];
     [self addButtonAction];
+    [self addGesture];
 }
 
 - (void)startSession{
@@ -150,6 +153,11 @@
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)addGesture {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
+    [self.view addGestureRecognizer:tapGesture];
+}
+
 - (void)customCamera{
     self.view.backgroundColor = [UIColor blackColor];
     self.clickNumber = 0;
@@ -189,10 +197,10 @@
         }
         
         self.firstISO = self.device.ISO;
-        self.currentISO = self.device.ISO;
+//        self.currentISO = self.device.ISO;
         
         self.firstDuration = self.device.exposureDuration;
-        self.currentDuration = self.device.exposureDuration;
+//        self.currentDuration = self.device.exposureDuration;
         [_device unlockForConfiguration];
     }
 }
@@ -231,6 +239,11 @@
         make.height.mas_equalTo(ISOTITLELABEL_HEIGHT);
     }];
     
+    [self.cameraFocusView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(self.view);
+        make.height.width.mas_equalTo(80);
+    }];
+    
 //    [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.isoTitleLabel);
 //        make.left.equalTo(self.isoTitleLabel.mas_right);
@@ -260,9 +273,10 @@
     
     @try {
         
-        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        [device lockForConfiguration:nil];
-        [device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
+//        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        [self.device lockForConfiguration:nil];
+        
+        [self.device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
          {
              AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
              // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
@@ -272,7 +286,7 @@
              //             device.exposureMode=AVCaptureExposureModeCustom;
              NSLog(@"device.ISO = %f",device.ISO);
              NSLog(@"device.exposureTargetOffset = %f",device.exposureTargetOffset);
-             [device unlockForConfiguration];
+             [self.device unlockForConfiguration];
              self.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
              [self.photoOutPut capturePhotoWithSettings:self.photoSettings delegate:self];
 //             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
@@ -549,18 +563,53 @@
 }
 
 #pragma mark - -聚焦
-- (id)focusAtPoint:(CGPoint)point{
+//- (id)focusAtPoint:(CGPoint)point{
+//
+//    if ([self.device isFocusPointOfInterestSupported] && [self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]){
+//        NSError *error;
+//        if ([self.device lockForConfiguration:&error]) {
+//            self.device.focusPointOfInterest = point;
+//            self.device.focusMode = AVCaptureFocusModeAutoFocus;
+//            [self.device unlockForConfiguration];
+//        }
+//        return error;
+//    }
+//    return nil;
+//}
+- (void)focusGesture:(UITapGestureRecognizer*)gesture{
+    CGPoint point = [gesture locationInView:gesture.view];
+    [self focusAtPoint:point];
+}
 
-    if ([self.device isFocusPointOfInterestSupported] && [self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]){
-        NSError *error;
-        if ([self.device lockForConfiguration:&error]) {
-            self.device.focusPointOfInterest = point;
-            self.device.focusMode = AVCaptureFocusModeAutoFocus;
-            [self.device unlockForConfiguration];
+- (void)focusAtPoint:(CGPoint)point{
+    CGSize size = self.view.bounds.size;
+    CGPoint focusPoint = CGPointMake( point.y /size.height ,1-point.x/size.width );
+    NSError *error;
+    if ([self.device lockForConfiguration:&error]) {
+        
+        if ([self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+            [self.device setFocusPointOfInterest:focusPoint];
+            [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
         }
-        return error;
+        
+        if ([self.device isExposureModeSupported:AVCaptureExposureModeAutoExpose ]) {
+            [self.device setExposurePointOfInterest:focusPoint];
+            [self.device setExposureMode:AVCaptureExposureModeAutoExpose];
+        }
+        
+        [self.device unlockForConfiguration];
+        _cameraFocusView.center = point;
+        _cameraFocusView.hidden = NO;
+        [UIView animateWithDuration:0.3 animations:^{
+            _cameraFocusView.transform = CGAffineTransformMakeScale(1.25, 1.25);
+        }completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.5 animations:^{
+                _cameraFocusView.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                _cameraFocusView.hidden = YES;
+            }];
+        }];
     }
-    return nil;
 }
 
 #pragma mark - 曝光时长
@@ -730,6 +779,16 @@
         [self.view addSubview:_isoPickerView];
     }
     return _isoPickerView;
+}
+
+- (UIImageView *)cameraFocusView {
+    if (!_cameraFocusView) {
+        _cameraFocusView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Camera_focus_image"]];
+        _cameraFocusView.backgroundColor = [UIColor clearColor];
+        _cameraFocusView.hidden = YES;
+        [self.view addSubview:_cameraFocusView];
+    }
+    return _cameraFocusView;
 }
 
 - (AVCaptureDevice *)device {
