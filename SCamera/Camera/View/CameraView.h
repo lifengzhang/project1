@@ -46,6 +46,8 @@
 
 @property (nonatomic, strong) UILabel *timerLabel;          //button旁边计时
 
+@property (nonatomic, strong) UIImageView *flashImage;  //闪光灯按钮图片
+
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)showView;

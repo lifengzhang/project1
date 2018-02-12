@@ -98,6 +98,12 @@
 
 @property (nonatomic, assign) float receivedISOValue;
 
+@property (nonatomic, strong) AVCaptureDeviceInput *input;
+
+@property (nonatomic, assign) AVCaptureFlashMode mode; // 闪光灯模式
+
+@property (nonatomic, assign) AVCaptureDevicePosition position;
+
 /**
  *  记录开始的缩放比例
  */
@@ -113,10 +119,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
-    pinchGestureRecognizer.delegate = self;
-    [self.view addGestureRecognizer:pinchGestureRecognizer];
     
     [self customCamera];
     [self customUI];
@@ -156,7 +158,7 @@
 - (void)addButtonAction {
     [self.cameraView.backButton addTarget:self action:@selector(tapCloseButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.photoLibraryButton addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
-    [self.cameraView.flashLightButton addTarget:self action:@selector(tapFlashLightbutton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.flashLightButton addTarget:self action:@selector(tapFlashLightbutton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.timerButton addTarget:self action:@selector(tapTimerButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.exchangeButton addTarget:self action:@selector(tapExchangeButton) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.photoButton addTarget:self action:@selector(judgeHaveTimerAndShutterCamera) forControlEvents:UIControlEventTouchUpInside];
@@ -166,22 +168,28 @@
 }
 
 - (void)addGesture {
+    
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
     [self.view addGestureRecognizer:tapGesture];
+    
+    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
+    pinchGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:pinchGestureRecognizer];
 }
 
 - (void)customCamera{
     self.view.backgroundColor = [UIColor blackColor];
     self.clickNumber = 0;
     //使用设备初始化输入
-    AVCaptureDeviceInput *input = [[AVCaptureDeviceInput alloc]initWithDevice:self.device error:nil];
+    self.position = AVCaptureDevicePositionBack;
+    self.input = [[AVCaptureDeviceInput alloc] initWithDevice:self.device error:nil];
     
     if ([self.session canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
         self.session.sessionPreset = AVCaptureSessionPreset1280x720;
     }
     
-    if ([self.session canAddInput:input]) {
-        [self.session addInput:input];
+    if ([self.session canAddInput:_input]) {
+        [self.session addInput:_input];
     }
     
 //    if ([self.session canAddOutput:self.ImageOutPut]) {
@@ -336,24 +344,25 @@
     
     @try {
         
-        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        [device lockForConfiguration:nil];
+//        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        [self.device lockForConfiguration:nil];
         
         __weak SCameraViewController *wSelf = self;
-        [device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? self.firstDuration : self.currentDuration ISO:self.currentISO == 0 ? self.firstISO : self.currentISO completionHandler:^(CMTime syncTime)
+        [self.device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? self.firstDuration : self.currentDuration ISO:self.currentISO == 0 ? 34 : self.currentISO completionHandler:^(CMTime syncTime)
          {
-             AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//             AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
              // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
              //        [self.mExposureBias setValue:device.exposureTargetOffset];
              
              //手动模式
              //             device.exposureMode=AVCaptureExposureModeCustom;
-             NSLog(@"device.ISO = %f",device.ISO);
-             NSLog(@"device.minISO = %f",device.activeFormat.minISO);
-             NSLog(@"device.maxISO = %f",device.activeFormat.maxISO);
-             NSLog(@"device.exposureTargetOffset = %f",device.exposureTargetOffset);
-             [device unlockForConfiguration];
+             NSLog(@"device.ISO = %f",wSelf.device.ISO);
+             NSLog(@"device.minISO = %f",wSelf.device.activeFormat.minISO);
+             NSLog(@"device.maxISO = %f",wSelf.device.activeFormat.maxISO);
+             NSLog(@"device.exposureTargetOffset = %f",wSelf.device.exposureTargetOffset);
+             [wSelf.device unlockForConfiguration];
              wSelf.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
+             [wSelf.photoSettings setFlashMode:wSelf.mode];
              [wSelf.photoOutPut capturePhotoWithSettings:wSelf.photoSettings delegate:wSelf];
 //             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
 //                 if (imageDataSampleBuffer == NULL) {
@@ -395,38 +404,20 @@
 }
 
 #pragma mark - 点击闪光灯按钮
-- (void)tapFlashLightbutton {
-    
-    //修改前必须先锁定
-    [self.device lockForConfiguration:nil];
-
-    //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
-    if ([self.device hasFlash]) {
-
-        if (self.photoSettings.flashMode == AVCaptureFlashModeOff) {
-            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
-        } else if (self.photoSettings.flashMode == AVCaptureFlashModeOn) {
-            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
-        
-        if (self.device.torchMode == 0) {
-//            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
-            self.device.torchMode = AVCaptureTorchModeOn;
-        } else if (self.device.torchMode == 1) {
-//            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
-            self.device.torchMode = AVCaptureTorchModeOff;
-        }
-//        if (self.device.flashMode == AVCaptureFlashModeOff) {
-//            self.device.flashMode = AVCaptureFlashModeOn;
-////            self.device.torchMode = AVCaptureTorchModeOn;
-//        } else if (self.device.flashMode == AVCaptureFlashModeOn) {
-//            self.device.flashMode = AVCaptureFlashModeOff;
-////            self.device.torchMode = AVCaptureTorchModeOff;
-//        }
-
-      }
-    [self.device unlockForConfiguration];
-   }
+- (void)tapFlashLightbutton:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flash_selected_image"]];
+    } else {
+        [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flashLight_image"]];
+    }
+    if (self.mode == AVCaptureFlashModeOn) {
+        [self setMode:AVCaptureFlashModeOff];
+    } else {
+        [self setMode:AVCaptureFlashModeOn];
+    }
 }
+
 #pragma mark - 点击定时器
 - (void)tapTimerButton {
     self.clickNumber++;
@@ -481,35 +472,31 @@
 #pragma mark - 相机转换
 - (void)tapExchangeButton {
     
-    NSArray *inputs =self.session.inputs;
-    for (AVCaptureDeviceInput *input in inputs ) {
-        AVCaptureDevice *device = input.device;
-        if ( [device hasMediaType:AVMediaTypeVideo] ) {
-            AVCaptureDevicePosition position = device.position;
-            AVCaptureDevice *newCamera =nil;
-            AVCaptureDeviceInput *newInput =nil;
-            
-            if (position ==AVCaptureDevicePositionFront)
-                newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
-            else
-                newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
-            newInput = [AVCaptureDeviceInput deviceInputWithDevice:newCamera error:nil];
-            [self.session beginConfiguration];
-            [self.session removeInput:input];
-            [self.session addInput:newInput];
+    CATransition *animation = [CATransition animation];
+    animation.duration = .5f;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = @"oglFlip";
+
+    if (self.position == AVCaptureDevicePositionBack) {
+        self.position = AVCaptureDevicePositionFront;
+        animation.subtype = kCATransitionFromRight;
+    } else {
+        self.position = AVCaptureDevicePositionBack;
+        animation.subtype = kCATransitionFromLeft;
+    }
+    [self.previewLayer addAnimation:animation forKey:nil];
+    AVCaptureDevice * device = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:self.position];
+    if (device) {
+        self.device = device;
+        AVCaptureDeviceInput *input1 = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
+        [self.session beginConfiguration];
+        [self.session removeInput:self.input];
+        if ([self.session canAddInput:input1]) {
+            [self.session addInput:input1];
+            self.input = input1;
             [self.session commitConfiguration];
-            break;
         }
     }
-}
-
-- (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position{
-    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    for ( AVCaptureDevice *device in devices )
-        if ( device.position == position ){
-            return device;
-        }
-    return nil;
 }
 
 #pragma mark - 点击调节器
@@ -634,7 +621,7 @@
      self.receivedISOValue = [value floatValue];
     [self updateValueData];
     if (_receivedISOValue == 25) {
-        self.currentISO = 29.f;
+        self.currentISO = 34.f;
         return;
     } else if (_receivedISOValue == 32) {
         self.currentISO = 50.f;

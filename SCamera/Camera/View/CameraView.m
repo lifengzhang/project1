@@ -48,8 +48,6 @@
 
 @property (nonatomic, strong) UIImageView *albumImage; //相册按钮图片
 
-@property (nonatomic, strong) UIImageView *flashImage;  //闪光灯按钮图片
-
 @property (nonatomic, strong) UIImageView *timerImage;  //定时器按钮照片
 
 @property (nonatomic, strong) UIImageView *exchangeImage; //相机转换按钮
