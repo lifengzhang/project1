@@ -197,10 +197,11 @@
         }
         
         self.firstISO = self.device.ISO;
-//        self.currentISO = self.device.ISO;
+        self.currentISO = self.device.ISO;
         
         self.firstDuration = self.device.exposureDuration;
-//        self.currentDuration = self.device.exposureDuration;
+        self.currentDuration = self.device.exposureDuration;
+        [self updateValueData];
         [_device unlockForConfiguration];
     }
 }
@@ -273,10 +274,11 @@
     
     @try {
         
-//        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        [self.device lockForConfiguration:nil];
+        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        [device lockForConfiguration:nil];
         
-        [self.device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
+        __weak SCameraViewController *wSelf = self;
+        [device setExposureModeCustomWithDuration:self.currentDuration ISO:self.currentISO completionHandler:^(CMTime syncTime)
          {
              AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
              // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
@@ -286,9 +288,9 @@
              //             device.exposureMode=AVCaptureExposureModeCustom;
              NSLog(@"device.ISO = %f",device.ISO);
              NSLog(@"device.exposureTargetOffset = %f",device.exposureTargetOffset);
-             [self.device unlockForConfiguration];
-             self.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
-             [self.photoOutPut capturePhotoWithSettings:self.photoSettings delegate:self];
+             [device unlockForConfiguration];
+             wSelf.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
+             [wSelf.photoOutPut capturePhotoWithSettings:wSelf.photoSettings delegate:wSelf];
 //             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
 //                 if (imageDataSampleBuffer == NULL) {
 //                     return;
