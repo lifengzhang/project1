@@ -102,6 +102,10 @@
 
 @property (nonatomic, assign) AVCaptureDevicePosition position;
 
+@property (nonatomic, assign) float deviceMinISO; //设备最小ISO
+
+@property (nonatomic, assign) float deviceMaxISO; //设备最大ISO
+
 /**
  *  记录开始的缩放比例
  */
@@ -178,6 +182,8 @@
 - (void)customCamera{
     self.view.backgroundColor = [UIColor blackColor];
     self.clickNumber = 0;
+    self.deviceMinISO = self.device.activeFormat.minISO;
+    self.deviceMaxISO = self.device.activeFormat.maxISO;
     //使用设备初始化输入
     self.position = AVCaptureDevicePositionBack;
     self.input = [[AVCaptureDeviceInput alloc] initWithDevice:self.device error:nil];
@@ -186,8 +192,8 @@
         self.session.sessionPreset = AVCaptureSessionPreset1280x720;
     }
     
-    if ([self.session canAddInput:_input]) {
-        [self.session addInput:_input];
+    if ([self.session canAddInput:self.input]) {
+        [self.session addInput:self.input];
     }
     
 //    if ([self.session canAddOutput:self.ImageOutPut]) {
@@ -346,7 +352,7 @@
         [self.device lockForConfiguration:nil];
         
         __weak SCameraViewController *wSelf = self;
-        [self.device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? self.firstDuration : self.currentDuration ISO:self.currentISO == 0 ? 34 : self.currentISO completionHandler:^(CMTime syncTime)
+        [self.device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? CMTimeMake(1,60) : self.currentDuration ISO:self.currentISO == 0 ? self.deviceMinISO : self.currentISO completionHandler:^(CMTime syncTime)
          {
 //             AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
              // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
@@ -408,35 +414,29 @@
     } else {
         [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flashLight_image"]];
     }
-    //    修改前必须先锁定
-        [self.device lockForConfiguration:nil];
+    //修改前必须先锁定
+    [self.device lockForConfiguration:nil];
     
-        //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
-        if ([self.device hasFlash]) {
-    
-            if (self.photoSettings.flashMode == AVCaptureFlashModeOff) {
-                [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
-            } else if (self.photoSettings.flashMode == AVCaptureFlashModeOn) {
-                [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
-    
-            if (self.device.torchMode == 0) {
-    //            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
-                self.device.torchMode = AVCaptureTorchModeOn;
-            } else if (self.device.torchMode == 1) {
-    //            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
-                self.device.torchMode = AVCaptureTorchModeOff;
-            }
-    //        if (self.device.flashMode == AVCaptureFlashModeOff) {
-    //            self.device.flashMode = AVCaptureFlashModeOn;
-    ////            self.device.torchMode = AVCaptureTorchModeOn;
-    //        } else if (self.device.flashMode == AVCaptureFlashModeOn) {
-    //            self.device.flashMode = AVCaptureFlashModeOff;
-    ////            self.device.torchMode = AVCaptureTorchModeOff;
-    //        }
-    
-          }
-        [self.device unlockForConfiguration];
-       }
+    //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
+    if ([self.device hasFlash]) {
+        
+        if (self.device.torchMode == 0) {
+            //            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
+            self.device.torchMode = AVCaptureTorchModeOn;
+        } else if (self.device.torchMode == 1) {
+            //            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+            self.device.torchMode = AVCaptureTorchModeOff;
+        }
+        //        if (self.device.flashMode == AVCaptureFlashModeOff) {
+        //            self.device.flashMode = AVCaptureFlashModeOn;
+        ////            self.device.torchMode = AVCaptureTorchModeOn;
+        //        } else if (self.device.flashMode == AVCaptureFlashModeOn) {
+        //            self.device.flashMode = AVCaptureFlashModeOff;
+        ////            self.device.torchMode = AVCaptureTorchModeOff;
+        //        }
+        
+    }
+    [self.device unlockForConfiguration];
 }
 
 #pragma mark - 点击定时器
@@ -547,7 +547,7 @@
 
 - (void)updateValueData {
     if (self.shutterStr.length == 0) {
-        self.shutterStr = @"0";
+        self.shutterStr = @"1/60";
     }
     self.cameraView.showShutterValue.text = [NSString stringWithFormat:@"Shutter: %@",self.shutterStr];
     self.cameraView.showISOValue.text = [NSString stringWithFormat:@"ISO: %.0f",self.receivedISOValue == 0 ? 25 : self.receivedISOValue];
@@ -638,63 +638,25 @@
 
 #pragma mark - SCameraISOPickerViewDelegate
 - (void)scameraISOPickerViewDidSelectedRowWithValue:(NSString *)value {
-    //ISO  minISO=29, maxISO=464;  需要多等分
-     self.receivedISOValue = [value floatValue];
+
+    self.receivedISOValue = [value floatValue];
     [self updateValueData];
-    if (_receivedISOValue == 25) {
-        self.currentISO = 34.f;
-        return;
-    } else if (_receivedISOValue == 32) {
-        self.currentISO = 50.f;
-        return;
-    } else if (_receivedISOValue == 40) {
-        self.currentISO = 70.f;
-        return;
-    } else if (_receivedISOValue == 64) {
-        self.currentISO = 90.f;
-        return;
-    } else if (_receivedISOValue == 80) {
-        self.currentISO = 120.f;
-        return;
-    } else if (_receivedISOValue == 100) {
-        self.currentISO = 130.f;
-        return;
-    } else if (_receivedISOValue == 125) {
-        self.currentISO = 150.f;
-        return;
-    } else if (_receivedISOValue == 160) {
-        self.currentISO = 170.f;
-        return;
-    } else if (_receivedISOValue == 200) {
-        self.currentISO = 190.f;
-        return;
-    } else if (_receivedISOValue == 250) {
-        self.currentISO = 220.f;
-        return;
-    } else if (_receivedISOValue == 320) {
-        self.currentISO = 240.f;
-        return;
-    } else if (_receivedISOValue == 400) {
-        self.currentISO = 270.f;
-        return;
-    } else if (_receivedISOValue == 500) {
-        self.currentISO = 300.f;
-        return;
-    } else if (_receivedISOValue == 640) {
-        self.currentISO = 330.f;
-        return;
-    } else if (_receivedISOValue == 800) {
-        self.currentISO = 360;
-        return;
-    } else if (_receivedISOValue == 1000) {
-        self.currentISO = 390;
-        return;
-    } else if (_receivedISOValue == 1250) {
-        self.currentISO = 420;
-        return;
-    } else if (_receivedISOValue == 1500) {
-        self.currentISO = 464.f;
-        return;
+   NSArray *isoArray = @[@"25",@"32",@"40",@"64",@"80",@"100",@"125",@"160",@"200",@"250",@"320",@"400",@"500",@"640",@"800",@"1000",@"1250",@"1500"];
+    //每个isoArray[i]对应的增量
+    float increaseISO = (self.deviceMaxISO - self.deviceMinISO)/(isoArray.count - 1);
+    for (int i = 0; i < isoArray.count; i++) {
+        if (i == 0 &&  self.receivedISOValue == [isoArray[0] floatValue]) {
+            self.currentISO = self.deviceMinISO;
+            return;
+        } else if (i == 17 && self.receivedISOValue == [isoArray[17] floatValue]) {
+            self.currentISO = self.deviceMaxISO;
+            return;
+        } else {
+            if (self.receivedISOValue == [isoArray[i] floatValue]) {
+                self.currentISO = self.deviceMinISO + i*increaseISO;
+                return;
+            }
+        }
     }
 }
 
@@ -751,15 +713,15 @@
         }
         
         [self.device unlockForConfiguration];
-        _cameraFocusView.center = point;
-        _cameraFocusView.hidden = NO;
+        self.cameraFocusView.center = point;
+        self.cameraFocusView.hidden = NO;
         [UIView animateWithDuration:0.3 animations:^{
-            _cameraFocusView.transform = CGAffineTransformMakeScale(1.25, 1.25);
+            self.cameraFocusView.transform = CGAffineTransformMakeScale(1.25, 1.25);
         }completion:^(BOOL finished) {
             [UIView animateWithDuration:0.5 animations:^{
-                _cameraFocusView.transform = CGAffineTransformIdentity;
+                self.cameraFocusView.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
-                _cameraFocusView.hidden = YES;
+                self.cameraFocusView.hidden = YES;
             }];
         }];
     }
