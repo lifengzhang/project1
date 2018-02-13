@@ -106,6 +106,8 @@
 
 @property (nonatomic, assign) float deviceMaxISO; //设备最大ISO
 
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
+
 /**
  *  记录开始的缩放比例
  */
@@ -167,6 +169,7 @@
 
     [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.cameraView.deleteButton addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)addGesture {
@@ -174,9 +177,9 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
     [self.view addGestureRecognizer:tapGesture];
     
-    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
-    pinchGestureRecognizer.delegate = self;
-    [self.view addGestureRecognizer:pinchGestureRecognizer];
+    self.pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
+    self.pinchGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:self.pinchGestureRecognizer];
 }
 
 - (void)customCamera{
@@ -345,9 +348,21 @@
 //        NSLog(@"take photo failed!");
 //        return;
 //    }
-    
+    if (self.cameraView.photoButton.selected) {
+        [self saveImageToPhotoAlbum:self.image];
+        self.cameraView.shutterLabel.text = @"快门";
+        self.cameraView.bluetoothImage.hidden = NO;
+        self.cameraView.bluetoothButton.enabled = YES;
+        self.cameraView.navigationView.hidden = NO;
+        self.cameraView.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
+        self.cameraView.valueButton.hidden = NO;
+        self.cameraView.showShutterImage.image = nil;
+        self.cameraView.photoButton.selected = NO;
+        self.cameraView.deleteButton.hidden = YES;
+        [self.view addGestureRecognizer:self.pinchGestureRecognizer];
+        return;
+    }
     @try {
-        
 //        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [self.device lockForConfiguration:nil];
         
@@ -509,6 +524,9 @@
     AVCaptureDevice * device = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:self.position];
     if (device) {
         self.device = device;
+        //变化设备要重新获取ISO值
+        self.deviceMinISO = self.device.activeFormat.minISO;
+        self.deviceMaxISO = self.device.activeFormat.maxISO;
         AVCaptureDeviceInput *input1 = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
         [self.session beginConfiguration];
         [self.session removeInput:self.input];
@@ -534,6 +552,21 @@
     } else {
         [self hiddenValueView];
     }
+}
+
+#pragma mark - 点击删除按钮返回
+- (void)deletePhoto:(UIButton *)btn {
+    
+        self.cameraView.shutterLabel.text = @"快门";
+        self.cameraView.bluetoothImage.hidden = NO;
+        self.cameraView.bluetoothButton.enabled = YES;
+        self.cameraView.navigationView.hidden = NO;
+        self.cameraView.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
+        self.cameraView.valueButton.hidden = NO;
+        self.cameraView.showShutterImage.image = nil;
+        self.cameraView.photoButton.selected = NO;
+        [self.view addGestureRecognizer:self.pinchGestureRecognizer];
+        btn.hidden = YES;
 }
 
 - (void)hiddenValueView {
@@ -593,8 +626,23 @@
     NSData *imageData = [AVCapturePhotoOutput JPEGPhotoDataRepresentationForJPEGSampleBuffer:photoSampleBuffer previewPhotoSampleBuffer:previewPhotoSampleBuffer];
     self.image = [UIImage imageWithData:imageData];
     
-    [self saveImageToPhotoAlbum:self.image];
+    self.cameraView.showShutterImage.image = self.image;
+//    [self saveImageToPhotoAlbum:self.image];
+    [self showPhotoAndJudgeSaveOrDelete];
+}
 
+- (void)showPhotoAndJudgeSaveOrDelete {
+    self.cameraView.photoButton.selected = YES;
+    self.cameraView.shutterLabel.text = @"确认";
+    self.cameraView.bluetoothImage.hidden = YES;
+    self.cameraView.bluetoothButton.enabled = NO;
+    self.cameraView.valueImage.image = [UIImage imageNamed:@"camera_back_image"];
+    self.cameraView.valueButton.selected = NO;
+    self.cameraView.valueButton.hidden = YES;
+    self.cameraView.deleteButton.hidden = NO;
+    self.cameraView.navigationView.hidden = YES;
+    [self.view removeGestureRecognizer:self.pinchGestureRecognizer];
+    [self hiddenValueView];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -645,10 +693,7 @@
     //每个isoArray[i]对应的增量
     float increaseISO = (self.deviceMaxISO - self.deviceMinISO)/(isoArray.count - 1);
     for (int i = 0; i < isoArray.count; i++) {
-        if (i == 0 &&  self.receivedISOValue == [isoArray[0] floatValue]) {
-            self.currentISO = self.deviceMinISO;
-            return;
-        } else if (i == 17 && self.receivedISOValue == [isoArray[17] floatValue]) {
+        if (i == 17 && self.receivedISOValue == [isoArray[17] floatValue]) {
             self.currentISO = self.deviceMaxISO;
             return;
         } else {

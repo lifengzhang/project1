@@ -30,19 +30,11 @@
 
 @interface CameraView ()
 
-@property (nonatomic, strong) UIView *navigationView; //导航视图
-
 @property (nonatomic, strong) UIView *whitePoint;
-
-@property (nonatomic, strong) UILabel *shutterLabel;
 
 @property (nonatomic, strong) UIView *pickerSelectedView;  //shutter PickerView白色选中区
 
 @property (nonatomic, strong) UIView *isoSelectedView;     //ISO PickerView白色选中区
-
-@property (nonatomic, strong) UIImageView *bluetoothImage; //蓝牙按钮图片
-
-@property (nonatomic, strong) UIImageView *valueImage;   //调节按钮图片
 
 @property (nonatomic, strong) UIImageView *closeImage;  //关闭按钮图片
 
@@ -135,6 +127,12 @@
     }];
     
     [self.valueButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.centerX.equalTo(self.valueImage);
+        make.height.mas_equalTo(60);
+        make.width.mas_equalTo(60);
+    }];
+    
+    [self.deleteButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.centerX.equalTo(self.valueImage);
         make.height.mas_equalTo(60);
         make.width.mas_equalTo(60);
@@ -247,6 +245,11 @@
         make.left.equalTo(self.timerImage.mas_right);
         make.bottom.equalTo(self.navigationView);
         make.width.height.mas_equalTo(25);
+    }];
+    
+    [self.showShutterImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self);
+        make.height.mas_equalTo(kScreenHeight - 140);
     }];
 }
 
@@ -377,6 +380,7 @@
     if (!_photoButton) {
         _photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_photoButton setImage:[UIImage imageNamed:@"Camera_photo_Image"] forState:UIControlStateNormal];
+        [_photoButton setImage:[UIImage imageNamed:@"Camera_shutter_selected_image"] forState:UIControlStateSelected];
         [self addSubview:_photoButton];
     }
     return _photoButton;
@@ -578,6 +582,24 @@
         [self insertSubview:_bottomContentView belowSubview:self.photoButton];
     }
     return _bottomContentView;
+}
+
+- (UIImageView *)showShutterImage {
+    if (!_showShutterImage) {
+        _showShutterImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [self insertSubview:_showShutterImage aboveSubview:self.navigationView];
+    }
+    return _showShutterImage;
+}
+
+- (UIButton *)deleteButton {
+    if (!_deleteButton) {
+        _deleteButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        _deleteButton.backgroundColor = [UIColor clearColor];
+        _deleteButton.hidden = YES;
+        [self addSubview:_deleteButton];
+    }
+    return _deleteButton;
 }
 
 @end
