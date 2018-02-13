@@ -48,20 +48,10 @@
 
 @property (nonatomic, strong) UIImageView *flashImage;  //闪光灯按钮图片
 
-@property (nonatomic, strong) UIImageView *showShutterImage; //显示拍摄的照片
-
-@property (nonatomic, strong) UIButton *deleteButton;   //照相机返回按钮
-
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)showView;
 
 - (void)hiddenView;
-
-- (void)clickPhotoButtonAndChangeView;
-
-- (void)clickSavePhotoButton;
-
-- (void)clickBackButtonAndDeletePhoto;
 
 @end

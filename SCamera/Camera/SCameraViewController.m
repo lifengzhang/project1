@@ -17,6 +17,8 @@
 
 #import "SCameraISOPickerView.h"
 
+#import "SCameraPictureViewController.h"
+
 #define kScreenBounds   [UIScreen mainScreen].bounds
 #define kScreenWidth  kScreenBounds.size.width*1.0
 #define kScreenHeight kScreenBounds.size.height*1.0
@@ -106,8 +108,6 @@
 
 @property (nonatomic, assign) float deviceMaxISO; //设备最大ISO
 
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
-
 /**
  *  记录开始的缩放比例
  */
@@ -169,7 +169,6 @@
 
     [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.cameraView.deleteButton addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)addGesture {
@@ -177,9 +176,9 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
     [self.view addGestureRecognizer:tapGesture];
     
-    self.pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
-    self.pinchGestureRecognizer.delegate = self;
-    [self.view addGestureRecognizer:self.pinchGestureRecognizer];
+    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
+    pinchGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:pinchGestureRecognizer];
 }
 
 - (void)customCamera{
@@ -348,12 +347,7 @@
 //        NSLog(@"take photo failed!");
 //        return;
 //    }
-    if (self.cameraView.photoButton.selected) {
-        [self saveImageToPhotoAlbum:self.image];
-        [self.cameraView clickSavePhotoButton];
-        [self.view addGestureRecognizer:self.pinchGestureRecognizer];
-        return;
-    }
+
     @try {
 //        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [self.device lockForConfiguration:nil];
@@ -546,14 +540,6 @@
     }
 }
 
-#pragma mark - 点击删除按钮返回
-- (void)deletePhoto:(UIButton *)btn {
-    
-    [self.cameraView clickBackButtonAndDeletePhoto];
-    [self.view addGestureRecognizer:self.pinchGestureRecognizer];
-    btn.hidden = YES;
-}
-
 - (void)hiddenValueView {
 //        self.iSOValueScrollView.hidden = YES;
     self.isoPickerView.hidden = YES;
@@ -611,16 +597,10 @@
     NSData *imageData = [AVCapturePhotoOutput JPEGPhotoDataRepresentationForJPEGSampleBuffer:photoSampleBuffer previewPhotoSampleBuffer:previewPhotoSampleBuffer];
     self.image = [UIImage imageWithData:imageData];
     
-    self.cameraView.showShutterImage.image = self.image;
-//    [self saveImageToPhotoAlbum:self.image];
-    [self showPhotoAndJudgeSaveOrDelete];
+    SCameraPictureViewController *vc = [[SCameraPictureViewController alloc] initWithPicture:self.image];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 
-- (void)showPhotoAndJudgeSaveOrDelete {
-    [self.cameraView clickPhotoButtonAndChangeView];
-    [self.view removeGestureRecognizer:self.pinchGestureRecognizer];
-    [self hiddenValueView];
-}
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -683,19 +663,6 @@
 }
 
 #pragma mark - -聚焦
-//- (id)focusAtPoint:(CGPoint)point{
-//
-//    if ([self.device isFocusPointOfInterestSupported] && [self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]){
-//        NSError *error;
-//        if ([self.device lockForConfiguration:&error]) {
-//            self.device.focusPointOfInterest = point;
-//            self.device.focusMode = AVCaptureFocusModeAutoFocus;
-//            [self.device unlockForConfiguration];
-//        }
-//        return error;
-//    }
-//    return nil;
-//}
 - (void)focusGesture:(UITapGestureRecognizer*)gesture{
     CGPoint point = [gesture locationInView:gesture.view];
     [self focusAtPoint:point];
@@ -749,29 +716,13 @@
     }
 }
 
-#pragma mark - 曝光时长
-- (void)exposureDurationChanged:(id)sender{
-    
-    UISlider *slider = (UISlider *)sender;
-    self.currentDuration = CMTimeMakeWithSeconds(slider.value, 1000000);
-    self.exposureDurationValueLabel.text = [NSString stringWithFormat:@"%.0f",slider.value*1000000];
-}
-
-#pragma - 保存至相册
-- (void)saveImageToPhotoAlbum:(UIImage*)savedImage {
-    
-    UIImageWriteToSavedPhotosAlbum(savedImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-    
-}
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    NSString *msg = nil ;
-    if(error != NULL){
-        msg = @"保存图片失败" ;
-    }else{
-        msg = @"保存图片成功" ;
-    }
-}
+//#pragma mark - 曝光时长
+//- (void)exposureDurationChanged:(id)sender{
+//
+//    UISlider *slider = (UISlider *)sender;
+//    self.currentDuration = CMTimeMakeWithSeconds(slider.value, 1000000);
+//    self.exposureDurationValueLabel.text = [NSString stringWithFormat:@"%.0f",slider.value*1000000];
+//}
 
 #pragma - 获取相册图片
 - (void)getLatestAsset {

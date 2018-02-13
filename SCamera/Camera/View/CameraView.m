@@ -62,7 +62,6 @@
     if (self = [super initWithFrame:frame]) {
         [self setUpConstraints];
     }
-    
     return self;
 }
 
@@ -135,12 +134,6 @@
     }];
     
     [self.valueButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.centerX.equalTo(self.valueImage);
-        make.height.mas_equalTo(60);
-        make.width.mas_equalTo(60);
-    }];
-    
-    [self.deleteButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.centerX.equalTo(self.valueImage);
         make.height.mas_equalTo(60);
         make.width.mas_equalTo(60);
@@ -255,10 +248,6 @@
         make.width.height.mas_equalTo(25);
     }];
     
-    [self.showShutterImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self);
-        make.height.mas_equalTo(kScreenHeight - 140);
-    }];
 }
 
 - (void)showView {
@@ -287,44 +276,6 @@
     self.pickerSelectedView.hidden = YES;
     self.isoBackgroundView.hidden = YES;
     self.isoSelectedView.hidden = YES;
-}
-
-- (void)clickSavePhotoButton {
-    
-    self.shutterLabel.text = @"快门";
-    self.bluetoothImage.hidden = NO;
-    self.bluetoothButton.enabled = YES;
-    self.navigationView.hidden = NO;
-    self.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
-    self.valueButton.hidden = NO;
-    self.showShutterImage.image = nil;
-    self.photoButton.selected = NO;
-    self.deleteButton.hidden = YES;
-}
-
-- (void)clickBackButtonAndDeletePhoto {
-    
-    self.shutterLabel.text = @"快门";
-    self.bluetoothImage.hidden = NO;
-    self.bluetoothButton.enabled = YES;
-    self.navigationView.hidden = NO;
-    self.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
-    self.valueButton.hidden = NO;
-    self.showShutterImage.image = nil;
-    self.photoButton.selected = NO;
-}
-
-- (void)clickPhotoButtonAndChangeView {
-    
-    self.photoButton.selected = YES;
-    self.shutterLabel.text = @"确认";
-    self.bluetoothImage.hidden = YES;
-    self.bluetoothButton.enabled = NO;
-    self.valueImage.image = [UIImage imageNamed:@"camera_back_image"];
-    self.valueButton.selected = NO;
-    self.valueButton.hidden = YES;
-    self.deleteButton.hidden = NO;
-    self.navigationView.hidden = YES;
 }
 
 #pragma  -mark 懒加载
@@ -426,7 +377,6 @@
     if (!_photoButton) {
         _photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_photoButton setImage:[UIImage imageNamed:@"Camera_photo_Image"] forState:UIControlStateNormal];
-        [_photoButton setImage:[UIImage imageNamed:@"Camera_shutter_selected_image"] forState:UIControlStateSelected];
         [self addSubview:_photoButton];
     }
     return _photoButton;
@@ -628,24 +578,6 @@
         [self insertSubview:_bottomContentView belowSubview:self.photoButton];
     }
     return _bottomContentView;
-}
-
-- (UIImageView *)showShutterImage {
-    if (!_showShutterImage) {
-        _showShutterImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [self insertSubview:_showShutterImage aboveSubview:self.navigationView];
-    }
-    return _showShutterImage;
-}
-
-- (UIButton *)deleteButton {
-    if (!_deleteButton) {
-        _deleteButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        _deleteButton.backgroundColor = [UIColor clearColor];
-        _deleteButton.hidden = YES;
-        [self addSubview:_deleteButton];
-    }
-    return _deleteButton;
 }
 
 @end
