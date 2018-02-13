@@ -100,8 +100,6 @@
 
 @property (nonatomic, strong) AVCaptureDeviceInput *input;
 
-@property (nonatomic, assign) AVCaptureFlashMode mode; // 闪光灯模式
-
 @property (nonatomic, assign) AVCaptureDevicePosition position;
 
 /**
@@ -362,7 +360,6 @@
              NSLog(@"device.exposureTargetOffset = %f",wSelf.device.exposureTargetOffset);
              [wSelf.device unlockForConfiguration];
              wSelf.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
-             [wSelf.photoSettings setFlashMode:wSelf.mode];
              [wSelf.photoOutPut capturePhotoWithSettings:wSelf.photoSettings delegate:wSelf];
 //             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
 //                 if (imageDataSampleBuffer == NULL) {
@@ -411,11 +408,35 @@
     } else {
         [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flashLight_image"]];
     }
-    if (self.mode == AVCaptureFlashModeOn) {
-        [self setMode:AVCaptureFlashModeOff];
-    } else {
-        [self setMode:AVCaptureFlashModeOn];
-    }
+    //    修改前必须先锁定
+        [self.device lockForConfiguration:nil];
+    
+        //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
+        if ([self.device hasFlash]) {
+    
+            if (self.photoSettings.flashMode == AVCaptureFlashModeOff) {
+                [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
+            } else if (self.photoSettings.flashMode == AVCaptureFlashModeOn) {
+                [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+    
+            if (self.device.torchMode == 0) {
+    //            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
+                self.device.torchMode = AVCaptureTorchModeOn;
+            } else if (self.device.torchMode == 1) {
+    //            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
+                self.device.torchMode = AVCaptureTorchModeOff;
+            }
+    //        if (self.device.flashMode == AVCaptureFlashModeOff) {
+    //            self.device.flashMode = AVCaptureFlashModeOn;
+    ////            self.device.torchMode = AVCaptureTorchModeOn;
+    //        } else if (self.device.flashMode == AVCaptureFlashModeOn) {
+    //            self.device.flashMode = AVCaptureFlashModeOff;
+    ////            self.device.torchMode = AVCaptureTorchModeOff;
+    //        }
+    
+          }
+        [self.device unlockForConfiguration];
+       }
 }
 
 #pragma mark - 点击定时器
