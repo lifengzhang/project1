@@ -50,20 +50,18 @@
 
 @property (nonatomic, strong) UIImageView *showShutterImage; //显示拍摄的照片
 
-@property (nonatomic, strong) UILabel *shutterLabel;       //快门提示语 or 保存
-
-@property (nonatomic, strong) UIImageView *bluetoothImage; //蓝牙按钮图片
-
-@property (nonatomic, strong) UIImageView *valueImage;   //调节按钮图片
-
 @property (nonatomic, strong) UIButton *deleteButton;   //照相机返回按钮
-
-@property (nonatomic, strong) UIView *navigationView; //导航视图
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)showView;
 
 - (void)hiddenView;
+
+- (void)clickPhotoButtonAndChangeView;
+
+- (void)clickSavePhotoButton;
+
+- (void)clickBackButtonAndDeletePhoto;
 
 @end

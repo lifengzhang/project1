@@ -30,6 +30,8 @@
 
 @interface CameraView ()
 
+@property (nonatomic, strong) UIView *navigationView; //导航视图
+
 @property (nonatomic, strong) UIView *whitePoint;
 
 @property (nonatomic, strong) UIView *pickerSelectedView;  //shutter PickerView白色选中区
@@ -43,6 +45,12 @@
 @property (nonatomic, strong) UIImageView *timerImage;  //定时器按钮照片
 
 @property (nonatomic, strong) UIImageView *exchangeImage; //相机转换按钮
+
+@property (nonatomic, strong) UIImageView *valueImage;   //调节按钮图片
+
+@property (nonatomic, strong) UIImageView *bluetoothImage; //蓝牙按钮图片
+
+@property (nonatomic, strong) UILabel *shutterLabel;       //快门提示语 or 保存
 
 @property (nonatomic, strong) UIView *bottomContentView;  //底部视图 为了遮盖focusView
 
@@ -279,6 +287,44 @@
     self.pickerSelectedView.hidden = YES;
     self.isoBackgroundView.hidden = YES;
     self.isoSelectedView.hidden = YES;
+}
+
+- (void)clickSavePhotoButton {
+    
+    self.shutterLabel.text = @"快门";
+    self.bluetoothImage.hidden = NO;
+    self.bluetoothButton.enabled = YES;
+    self.navigationView.hidden = NO;
+    self.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
+    self.valueButton.hidden = NO;
+    self.showShutterImage.image = nil;
+    self.photoButton.selected = NO;
+    self.deleteButton.hidden = YES;
+}
+
+- (void)clickBackButtonAndDeletePhoto {
+    
+    self.shutterLabel.text = @"快门";
+    self.bluetoothImage.hidden = NO;
+    self.bluetoothButton.enabled = YES;
+    self.navigationView.hidden = NO;
+    self.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
+    self.valueButton.hidden = NO;
+    self.showShutterImage.image = nil;
+    self.photoButton.selected = NO;
+}
+
+- (void)clickPhotoButtonAndChangeView {
+    
+    self.photoButton.selected = YES;
+    self.shutterLabel.text = @"确认";
+    self.bluetoothImage.hidden = YES;
+    self.bluetoothButton.enabled = NO;
+    self.valueImage.image = [UIImage imageNamed:@"camera_back_image"];
+    self.valueButton.selected = NO;
+    self.valueButton.hidden = YES;
+    self.deleteButton.hidden = NO;
+    self.navigationView.hidden = YES;
 }
 
 #pragma  -mark 懒加载

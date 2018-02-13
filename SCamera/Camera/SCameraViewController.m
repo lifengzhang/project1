@@ -350,15 +350,7 @@
 //    }
     if (self.cameraView.photoButton.selected) {
         [self saveImageToPhotoAlbum:self.image];
-        self.cameraView.shutterLabel.text = @"快门";
-        self.cameraView.bluetoothImage.hidden = NO;
-        self.cameraView.bluetoothButton.enabled = YES;
-        self.cameraView.navigationView.hidden = NO;
-        self.cameraView.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
-        self.cameraView.valueButton.hidden = NO;
-        self.cameraView.showShutterImage.image = nil;
-        self.cameraView.photoButton.selected = NO;
-        self.cameraView.deleteButton.hidden = YES;
+        [self.cameraView clickSavePhotoButton];
         [self.view addGestureRecognizer:self.pinchGestureRecognizer];
         return;
     }
@@ -557,16 +549,9 @@
 #pragma mark - 点击删除按钮返回
 - (void)deletePhoto:(UIButton *)btn {
     
-        self.cameraView.shutterLabel.text = @"快门";
-        self.cameraView.bluetoothImage.hidden = NO;
-        self.cameraView.bluetoothButton.enabled = YES;
-        self.cameraView.navigationView.hidden = NO;
-        self.cameraView.valueImage.image = [UIImage imageNamed:@"Camera_value_image"];
-        self.cameraView.valueButton.hidden = NO;
-        self.cameraView.showShutterImage.image = nil;
-        self.cameraView.photoButton.selected = NO;
-        [self.view addGestureRecognizer:self.pinchGestureRecognizer];
-        btn.hidden = YES;
+    [self.cameraView clickBackButtonAndDeletePhoto];
+    [self.view addGestureRecognizer:self.pinchGestureRecognizer];
+    btn.hidden = YES;
 }
 
 - (void)hiddenValueView {
@@ -632,15 +617,7 @@
 }
 
 - (void)showPhotoAndJudgeSaveOrDelete {
-    self.cameraView.photoButton.selected = YES;
-    self.cameraView.shutterLabel.text = @"确认";
-    self.cameraView.bluetoothImage.hidden = YES;
-    self.cameraView.bluetoothButton.enabled = NO;
-    self.cameraView.valueImage.image = [UIImage imageNamed:@"camera_back_image"];
-    self.cameraView.valueButton.selected = NO;
-    self.cameraView.valueButton.hidden = YES;
-    self.cameraView.deleteButton.hidden = NO;
-    self.cameraView.navigationView.hidden = YES;
+    [self.cameraView clickPhotoButtonAndChangeView];
     [self.view removeGestureRecognizer:self.pinchGestureRecognizer];
     [self hiddenValueView];
 }
