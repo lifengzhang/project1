@@ -25,10 +25,14 @@
 		0780C35A1FE954410044C75D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3581FE954410044C75D /* LaunchScreen.storyboard */; };
 		0780C35D1FE954410044C75D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C35C1FE954410044C75D /* main.m */; };
 		A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */; };
+		A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3144756203317AB00874CAF /* SCameraPictureViewController.m */; };
+		A314475A2033180100874CAF /* SCameraPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = A31447592033180100874CAF /* SCameraPictureView.m */; };
 		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
+		A37FC23920312C83007892B6 /* SCameraISOPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37FC23820312C83007892B6 /* SCameraISOPickerView.m */; };
 		A3D9460E202D34E80001220E /* Camera.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3D9460D202D34E80001220E /* Camera.xcassets */; };
 		A3D94612202D3C7A0001220E /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94611202D3C7A0001220E /* CameraView.m */; };
 		A3D94615202D82B20001220E /* SCameraDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94614202D82B20001220E /* SCameraDevice.m */; };
+		A3FF51D4203033A90031D1DF /* SCameraShutterPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF51D3203033A90031D1DF /* SCameraShutterPickerView.m */; };
 		F97AE32FDA1592020581D932 /* libPods-SCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2A5A2BC6E1060C5EA672C8 /* libPods-SCamera.a */; };
 /* End PBXBuildFile section */
 
@@ -71,12 +75,20 @@
 		A30DA1F0201C202A00C82D2E /* SCameraPhotoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPhotoViewController.h; sourceTree = "<group>"; };
 		A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPhotoViewController.m; sourceTree = "<group>"; };
 		A30DA1F5201C25B400C82D2E /* SCamera-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCamera-Prefix.pch"; sourceTree = "<group>"; };
+		A3144755203317AB00874CAF /* SCameraPictureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPictureViewController.h; sourceTree = "<group>"; };
+		A3144756203317AB00874CAF /* SCameraPictureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPictureViewController.m; sourceTree = "<group>"; };
+		A31447582033180100874CAF /* SCameraPictureView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPictureView.h; sourceTree = "<group>"; };
+		A31447592033180100874CAF /* SCameraPictureView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPictureView.m; sourceTree = "<group>"; };
 		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
+		A37FC23720312C83007892B6 /* SCameraISOPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraISOPickerView.h; sourceTree = "<group>"; };
+		A37FC23820312C83007892B6 /* SCameraISOPickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraISOPickerView.m; sourceTree = "<group>"; };
 		A3D9460D202D34E80001220E /* Camera.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Camera.xcassets; sourceTree = "<group>"; };
 		A3D94610202D3C7A0001220E /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
 		A3D94611202D3C7A0001220E /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
 		A3D94613202D82B20001220E /* SCameraDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraDevice.h; sourceTree = "<group>"; };
 		A3D94614202D82B20001220E /* SCameraDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraDevice.m; sourceTree = "<group>"; };
+		A3FF51D2203033A90031D1DF /* SCameraShutterPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraShutterPickerView.h; sourceTree = "<group>"; };
+		A3FF51D3203033A90031D1DF /* SCameraShutterPickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraShutterPickerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +151,8 @@
 				0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */,
 				A30DA1F0201C202A00C82D2E /* SCameraPhotoViewController.h */,
 				A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */,
+				A3144755203317AB00874CAF /* SCameraPictureViewController.h */,
+				A3144756203317AB00874CAF /* SCameraPictureViewController.m */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -159,6 +173,10 @@
 			children = (
 				07523AD9202D791F00650E47 /* SCameraISOValueScrollView.h */,
 				07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */,
+				A3FF51D2203033A90031D1DF /* SCameraShutterPickerView.h */,
+				A3FF51D3203033A90031D1DF /* SCameraShutterPickerView.m */,
+				A37FC23720312C83007892B6 /* SCameraISOPickerView.h */,
+				A37FC23820312C83007892B6 /* SCameraISOPickerView.m */,
 			);
 			path = SCameraValueSwitch;
 			sourceTree = "<group>";
@@ -249,6 +267,8 @@
 			children = (
 				A3D94610202D3C7A0001220E /* CameraView.h */,
 				A3D94611202D3C7A0001220E /* CameraView.m */,
+				A31447582033180100874CAF /* SCameraPictureView.h */,
+				A31447592033180100874CAF /* SCameraPictureView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -383,6 +403,7 @@
 				0780C3521FE954410044C75D /* ViewController.m in Sources */,
 				07523ADB202D791F00650E47 /* SCameraISOValueScrollView.m in Sources */,
 				0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */,
+				A37FC23920312C83007892B6 /* SCameraISOPickerView.m in Sources */,
 				A3D94612202D3C7A0001220E /* CameraView.m in Sources */,
 				0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */,
 				07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */,
@@ -391,12 +412,15 @@
 				07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
 				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
+				A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
+				A314475A2033180100874CAF /* SCameraPictureView.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
 				07523ACD202AD34800650E47 /* BlueDevicesManager.m in Sources */,
 				07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */,
 				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
+				A3FF51D4203033A90031D1DF /* SCameraShutterPickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,7 +557,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = RKRYP4Q5BD;
+				DEVELOPMENT_TEAM = 4URW8PS6WP;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
@@ -541,8 +565,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e0773cde-c908-4ea8-a13f-de03694defc5";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopQmf3g;
+				PROVISIONING_PROFILE = "29085c0e-939b-4894-b28d-1fa440502395";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopNormal;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
