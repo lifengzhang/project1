@@ -15,7 +15,7 @@
 
 @interface BlueManagerViewController () <BlueToothMeDelegate, BlueManageDeviceTableViewDelegate>
 
-@property (nonatomic, strong) BlueToothMe *bluetoothManager;
+//@property (nonatomic, strong) BlueToothMe *bluetoothManager;
 
 @property (nonatomic, assign) CBManagerState currentState;
 
@@ -35,7 +35,13 @@
     self.title = @"我的设备";
     self.scanArray = [NSMutableArray array];
     [self setUpConstrain];
-    [self.bluetoothManager startScan];
+    
+    BTMe.blueToothMeDelegate = self;
+    [BTMe hardwareResponse:^(CBPeripheral *peripheral, BlueToothMeState status, NSError *error) {
+        
+    }];
+    [BTMe startScan];
+    
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
@@ -64,16 +70,16 @@
 
 #pragma mark - lazy load
 
-- (BlueToothMe *)bluetoothManager {
-    if (! _bluetoothManager) {
-        _bluetoothManager = [[BlueToothMe alloc] init];
-        _bluetoothManager.blueToothMeDelegate = self;
-        [_bluetoothManager hardwareResponse:^(CBPeripheral *peripheral, BlueToothMeState status, NSError *error) {
-            
-        }];
-    }
-    return _bluetoothManager;
-}
+//- (BlueToothMe *)bluetoothManager {
+//    if (! _bluetoothManager) {
+//        _bluetoothManager = [[BlueToothMe alloc] init];
+//        _bluetoothManager.blueToothMeDelegate = self;
+//        [_bluetoothManager hardwareResponse:^(CBPeripheral *peripheral, BlueToothMeState status, NSError *error) {
+//
+//        }];
+//    }
+//    return _bluetoothManager;
+//}
 
 - (BlueManageDeviceTableView *)deviceTable {
     if (! _deviceTable) {
@@ -111,9 +117,9 @@
     
     BlueToothDeviceModel *blueToothDeviceModel = self.scanArray[indexPath.row];
     CBPeripheral *cbPeripheral = nil;
-    for (NSUInteger i = 0; i < [self.bluetoothManager.dicoveredPeripherals count] ; i++)
+    for (NSUInteger i = 0; i < [BTMe.dicoveredPeripherals count] ; i++)
     {
-        CBPeripheral *cbPeripheralTemp = [self.bluetoothManager.dicoveredPeripherals objectAtIndex:i];
+        CBPeripheral *cbPeripheralTemp = [BTMe.dicoveredPeripherals objectAtIndex:i];
         
         if (cbPeripheralTemp.name == blueToothDeviceModel.name) {
             cbPeripheral = cbPeripheralTemp;
@@ -122,8 +128,8 @@
     
 
     if (cbPeripheral) {
-        [self.bluetoothManager.manager connectPeripheral:cbPeripheral
-                                                 options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:CBConnectPeripheralOptionNotifyOnDisconnectionKey]];
+        [BTMe.manager connectPeripheral:cbPeripheral
+                                options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:CBConnectPeripheralOptionNotifyOnDisconnectionKey]];
     }
     
 }
@@ -153,10 +159,15 @@
         BOOL isInScaned = NO;
         for (NSUInteger j = 0;j < [self.scanArray count];j++) {
             BlueToothDeviceModel *scanedBlueToothDevice = [self.scanArray objectAtIndex:j];
+            
+            if ([blueToothDevice.identifier isEqualToString:@"094CEAA8-20E3-0C85-388B-08938E662567"]) {
+                
+            }
+            
             if ([scanedBlueToothDevice.identifier isEqualToString:blueToothDevice.identifier]) {
                 isInScaned = YES;
                 break;
-            } else if ([scanedBlueToothDevice.identifier isEqualToString:BDManager.connectedBlueToothDeviceModel.identifier]) {
+            } else if ([blueToothDevice.identifier isEqualToString:[BTMe.connectedPeripheral.identifier UUIDString]]) {
                 isInScaned = YES;
                 break;
             } else {
@@ -167,7 +178,7 @@
             [self.scanArray addObject:blueToothDevice];
         }
     }
-    [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:BDManager.connectedBlueToothDeviceModel];
+    [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:BTMe.connectedPeripheral];
 //    [self refreshView];
 //    
 //    if (self.refreshTimer && [self.refreshTimer isValid]) {
@@ -186,7 +197,6 @@
 }
 
 - (void)didConnectPeripheral:(CBPeripheral *)peripheral {
-    
     BlueToothDeviceModel *blueToothDevice = [[BlueToothDeviceModel alloc] init];
     blueToothDevice.name = peripheral.name;
     blueToothDevice.identifier = [peripheral.identifier UUIDString];
@@ -195,7 +205,7 @@
     {
         BlueToothDeviceModel *scanedBlueToothDevice = [self.scanArray objectAtIndex:i];
         if ([scanedBlueToothDevice.identifier isEqualToString:[peripheral.identifier UUIDString]]) {
-            BDManager.connectedBlueToothDeviceModel = blueToothDevice;
+//            BDManager.connectedBlueToothDeviceModel = blueToothDevice;
             removeFlag = i;
             break;
         } else {
@@ -204,7 +214,7 @@
     }
     if (removeFlag >= 0) {
         [self.scanArray removeObjectAtIndex:removeFlag];
-        [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:blueToothDevice];
+        [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:peripheral];
     }
     
 }
@@ -239,7 +249,7 @@
 - (void)startScan {
 
     
-    [self.bluetoothManager startScan];
+    [BTMe startScan];
 
 }
 
@@ -272,41 +282,14 @@
 //    NSLog(@"写%@",d1);
 //    NSLog(@"%@",self.bluetoothManager.testPeripheral);
     
-    [self.bluetoothManager.testPeripheral writeValue:[self setSplightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
+//    [BTMe.connectedPeripheral writeValue:[self setSplightValue] forCharacteristic:BTMe.characteristic1 type:CBCharacteristicWriteWithResponse];
+    [BTMe SplightFire];
     
 //    [self.bluetoothManager.testPeripheral writeValue:[self prelightValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
 //    
 //    [self.bluetoothManager.testPeripheral writeValue:[self fireValue] forCharacteristic:self.bluetoothManager.characteristic1 type:CBCharacteristicWriteWithResponse];
 //    
 //    [self.bluetoothManager.testPeripheral readValueForCharacteristic:self.bluetoothManager.characteristicReadInfo];
-    
-}
-
-- (NSData *)setSplightValue {
-    
-//    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
-//
-//    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
-    
-    Byte reg[14];
-    reg[0]=0xbe;
-    reg[1]=0x01;
-    reg[2]=0x20;
-    reg[3]=0x00;
-    reg[4]=0x00;
-    reg[5]=0x00;
-    reg[6]=0x00;
-    reg[7]=0x00;
-    reg[8]=0x00;
-    reg[9]=0x00;
-    reg[10]=0x10;
-    reg[11]=0x06;
-    reg[12]=0xff;
-    reg[13]=0xef;
-//    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
-    NSData *data=[NSData dataWithBytes:reg length:14];
-
-    return data;
     
 }
 
@@ -365,6 +348,11 @@
     NSData *data=[NSData dataWithBytes:reg length:14];
     
     return data;
+    
+}
+
+- (void)dealloc {
+    
     
 }
 

@@ -13,7 +13,6 @@
 		07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */ = {isa = PBXBuildFile; fileRef = 07369BC41FEB5F1200BB825B /* BlueToothMe.m */; };
 		07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07369BC71FEBA13300BB825B /* BlueManagerViewController.m */; };
 		0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */; };
-		07523ACD202AD34800650E47 /* BlueDevicesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523ACC202AD34800650E47 /* BlueDevicesManager.m */; };
 		07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523ACF202AD52800650E47 /* BlueNoDeviceCell.m */; };
 		07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD3202AD64800650E47 /* UIFont+Additions.m */; };
 		07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */; };
@@ -49,8 +48,6 @@
 		07369BC71FEBA13300BB825B /* BlueManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManagerViewController.m; sourceTree = "<group>"; };
 		0741F2FE1FEAA9F700BB27BA /* SCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraViewController.h; sourceTree = "<group>"; };
 		0741F2FF1FEAA9F700BB27BA /* SCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraViewController.m; sourceTree = "<group>"; };
-		07523ACB202AD34800650E47 /* BlueDevicesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueDevicesManager.h; sourceTree = "<group>"; };
-		07523ACC202AD34800650E47 /* BlueDevicesManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueDevicesManager.m; sourceTree = "<group>"; };
 		07523ACE202AD52800650E47 /* BlueNoDeviceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueNoDeviceCell.h; sourceTree = "<group>"; };
 		07523ACF202AD52800650E47 /* BlueNoDeviceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueNoDeviceCell.m; sourceTree = "<group>"; };
 		07523AD2202AD64800650E47 /* UIFont+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+Additions.h"; sourceTree = "<group>"; };
@@ -136,8 +133,6 @@
 				0723FB541FF3885800503CF7 /* BlueToothDeviceModel.m */,
 				07369BC61FEBA13300BB825B /* BlueManagerViewController.h */,
 				07369BC71FEBA13300BB825B /* BlueManagerViewController.m */,
-				07523ACB202AD34800650E47 /* BlueDevicesManager.h */,
-				07523ACC202AD34800650E47 /* BlueDevicesManager.m */,
 			);
 			path = BlueManager;
 			sourceTree = "<group>";
@@ -416,7 +411,6 @@
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				A314475A2033180100874CAF /* SCameraPictureView.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
-				07523ACD202AD34800650E47 /* BlueDevicesManager.m in Sources */,
 				07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */,
 				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
@@ -557,7 +551,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 4URW8PS6WP;
+				DEVELOPMENT_TEAM = RKRYP4Q5BD;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SCamera/SCamera-Prefix.pch";
 				INFOPLIST_FILE = SCamera/Info.plist;
@@ -565,8 +559,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinaums.ios.chinaumsonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "29085c0e-939b-4894-b28d-1fa440502395";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopNormal;
+				PROVISIONING_PROFILE = "e0773cde-c908-4ea8-a13f-de03694defc5";
+				PROVISIONING_PROFILE_SPECIFIER = DevelopQmf3g;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

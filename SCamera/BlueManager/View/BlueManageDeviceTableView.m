@@ -22,7 +22,7 @@ static NSString *blueNoDeviceCellID = @"bluetooth_NO_Device_Table_Cell_ID";
 
 @property (nonatomic, strong) NSArray<BlueToothDeviceModel *> *blueToothDeviceList;
 
-@property (nonatomic, strong) BlueToothDeviceModel *connectBlueToothDevice;
+@property (nonatomic, strong) CBPeripheral *connectBlueToothDevice;
 
 @property (nonatomic, assign) NSUInteger selectedIndex;
 
@@ -47,7 +47,7 @@ static NSString *blueNoDeviceCellID = @"bluetooth_NO_Device_Table_Cell_ID";
     return self;
 }
 
-- (void)reloadWithBlueToothDeviceList:(NSArray<BlueToothDeviceModel *> *)blueToothDeviceList connectBlueToothDevice:(BlueToothDeviceModel *)connectBlueToothDevice {
+- (void)reloadWithBlueToothDeviceList:(NSArray<BlueToothDeviceModel *> *)blueToothDeviceList connectBlueToothDevice:(CBPeripheral *)connectBlueToothDevice {
     
     self.blueToothDeviceList = blueToothDeviceList;
     self.connectBlueToothDevice = connectBlueToothDevice;

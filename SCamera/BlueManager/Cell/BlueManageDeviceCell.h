@@ -18,6 +18,6 @@
 
 @property (nonatomic, strong) UIView *lineView;
 
-- (void)updateCellContentWithDeviceModel:(BlueToothDeviceModel *)deviceModel isSelected:(BOOL)isSelected;
+- (void)updateCellContentWithDeviceModel:(CBPeripheral *)deviceModel isSelected:(BOOL)isSelected;
 
 @end

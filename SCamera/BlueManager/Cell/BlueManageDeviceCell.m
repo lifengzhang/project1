@@ -34,7 +34,7 @@
     return self;
 }
 
-- (void)updateCellContentWithDeviceModel:(BlueToothDeviceModel *)deviceModel isSelected:(BOOL)isSelected {
+- (void)updateCellContentWithDeviceModel:(CBPeripheral *)deviceModel isSelected:(BOOL)isSelected {
     self.deviceNameLabel.text = deviceModel.name;
     self.selectButton.selected = isSelected;
 }

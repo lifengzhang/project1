@@ -182,8 +182,8 @@
 
 - (void)updateView {
     
-    if (BDManager.connectedBlueToothDeviceModel.name.length > 0) {
-        self.myDeviceText.text = [NSString stringWithFormat:@"我的设备：%@",BDManager.connectedBlueToothDeviceModel.name];
+    if (BTMe.connectedPeripheral.name.length > 0) {
+        self.myDeviceText.text = [NSString stringWithFormat:@"我的设备：%@",BTMe.connectedPeripheral.name];
         [self.connectSignImage setImage:[UIImage imageNamed:@"HomePage_connected"]];
     } else {
         self.myDeviceText.text = @"我的设备：未连接";

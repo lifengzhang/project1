@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+#define BTMe                       [BlueToothMe sharedInstance]
+
 typedef NS_ENUM(NSUInteger, BlueToothMeState) {
     BlueToothMeStateDisconnected = 0,
     BlueToothMeStateFailToConnnected,
@@ -48,7 +50,7 @@ typedef void (^EventHardwareBlock)(CBPeripheral *peripheral, BlueToothMeState st
 
 @property (nonatomic, strong) CBCentralManager *manager;
 @property (nonatomic, strong) NSArray *servicesCBUUID;
-@property (nonatomic, strong) CBPeripheral *testPeripheral;
+@property (nonatomic, strong) CBPeripheral *connectedPeripheral;
 @property (nonatomic, strong) NSDictionary *characteristicsCBUUID;
 
 @property (strong , nonatomic) CBCharacteristic *characteristic1;
@@ -59,11 +61,14 @@ typedef void (^EventHardwareBlock)(CBPeripheral *peripheral, BlueToothMeState st
 // add by shasha ;2014-3-16;蓝牙状态描述
 @property (nonatomic, copy) NSString *stateDesc;
 
++ (instancetype)sharedInstance;
 - (void)startScan;
 - (void)stopScan;
 - (void)setServicesUID:(NSArray *)cbuuid;
 - (void)setCharacteristics:(NSArray *)characteristics forServiceCBUUID:(NSString *)serviceCBUUID;
 - (void)setValuesToNotify:(NSArray *)notifiers;
 - (void)hardwareResponse:(EventHardwareBlock)block;
+
+- (void)SplightFire;
 
 @end

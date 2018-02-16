@@ -20,6 +20,6 @@
 
 @property (nonatomic, weak) id<BlueManageDeviceTableViewDelegate> manageDeviceTableDelegate;
 
-- (void)reloadWithBlueToothDeviceList:(NSArray<BlueToothDeviceModel *> *)blueToothDeviceList connectBlueToothDevice:(BlueToothDeviceModel *)connectBlueToothDevice;
+- (void)reloadWithBlueToothDeviceList:(NSArray<BlueToothDeviceModel *> *)blueToothDeviceList connectBlueToothDevice:(CBPeripheral *)connectBlueToothDevice;
 
 @end
