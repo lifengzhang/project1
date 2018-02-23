@@ -82,6 +82,7 @@
     [self.settingButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(16);
         make.bottom.equalTo(self.view.mas_top).offset(ISIphoneX ? 88 : 64);
+        make.width.height.mas_equalTo(24);
     }];
     
     [self.lampImage mas_makeConstraints:^(MASConstraintMaker *make) {
