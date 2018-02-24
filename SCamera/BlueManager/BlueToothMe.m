@@ -7,6 +7,7 @@
 //
 
 #import "BlueToothMe.h"
+#import "SCameraFlashLightManager.h"
 
 #define kWriteCharacteristicUUID @"0003CDD2-0000-1000-8000-00805F9B0131" //特征的UUID
 #define kNotifyCharacteristicUUID @"0003CDD1-0000-1000-8000-00805F9B0131" //特征的UUID
@@ -387,30 +388,46 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
 
 - (NSData *)setSplightValue {
     
-    //    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
-    //
-    //    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+//    //    UInt8 packet[8] = {0xce,0x00,0x00,0x00,0x00,0x00,0xff,0xef};
+//    //
+//    //    NSData *data = [[NSData alloc] initWithBytes:packet length:8];//将byte数组转化为data类型；
+//
+//    Byte reg[14];
+//    reg[0]=0xbe;
+//    reg[1]=0x01;
+//    reg[2]=0x20;
+//    reg[3]=0x00;
+//    reg[4]=0x00;
+//    reg[5]=0x00;
+//    reg[6]=0x00;
+//    reg[7]=0x00;
+//    reg[8]=0x00;
+//    reg[9]=0x00;
+//    reg[10]=0x10;
+//    reg[11]=0x06;
+//    reg[12]=0xff;
+//    reg[13]=0xef;
+//    //    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
+//    NSData *data=[NSData dataWithBytes:reg length:14];
+//
+//    return data;
     
-    Byte reg[14];
-    reg[0]=0xbe;
-    reg[1]=0x01;
-    reg[2]=0x20;
-    reg[3]=0x00;
-    reg[4]=0x00;
-    reg[5]=0x00;
-    reg[6]=0x00;
-    reg[7]=0x00;
-    reg[8]=0x00;
-    reg[9]=0x00;
-    reg[10]=0x10;
-    reg[11]=0x06;
-    reg[12]=0xff;
-    reg[13]=0xef;
-    //    reg[8]=(Byte)(reg[0]^reg[1]^reg[2]^reg[3]^reg[4]^reg[5]^reg[6]^reg[7]);
-    NSData *data=[NSData dataWithBytes:reg length:14];
-    
+    SCameraFlashLightManager *a = [[SCameraFlashLightManager alloc] init];
+    a.isSoundOpen = NO;
+    a.isPoseOpen = NO;
+    a.channel = 0x01;
+    a.aModel = FlashLightModelManual;
+    a.bModel = FlashLightModelStandby;
+    a.cModel = FlashLightModelStandby;
+    a.dModel = FlashLightModelStandby;
+    a.aPower = FlashLightPowerStandby;
+    a.bPower = FlashLightPowerStandby;
+    a.cPower = FlashLightPowerStandby;
+    a.dPower = FlashLightPowerStandby;
+    a.flashNumber = 1;
+    a.flashFrequency = 60;
+    NSData *data = [a getSettingBytes];
     return data;
-    
 }
 
 - (void)dealloc {

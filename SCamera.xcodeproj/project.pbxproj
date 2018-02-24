@@ -17,6 +17,7 @@
 		07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD3202AD64800650E47 /* UIFont+Additions.m */; };
 		07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */; };
 		07523ADB202D791F00650E47 /* SCameraISOValueScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */; };
+		07783CC520400FBD00F1F277 /* SCameraFlashLightManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783CC420400FBD00F1F277 /* SCameraFlashLightManager.m */; };
 		0780C34F1FE954410044C75D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C34E1FE954410044C75D /* AppDelegate.m */; };
 		0780C3521FE954410044C75D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0780C3511FE954410044C75D /* ViewController.m */; };
 		0780C3551FE954410044C75D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0780C3531FE954410044C75D /* Main.storyboard */; };
@@ -56,6 +57,8 @@
 		07523AD6202ADE5900650E47 /* BlueManagerTableViewSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueManagerTableViewSection.m; sourceTree = "<group>"; };
 		07523AD9202D791F00650E47 /* SCameraISOValueScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraISOValueScrollView.h; sourceTree = "<group>"; };
 		07523ADA202D791F00650E47 /* SCameraISOValueScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraISOValueScrollView.m; sourceTree = "<group>"; };
+		07783CC320400FBD00F1F277 /* SCameraFlashLightManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraFlashLightManager.h; sourceTree = "<group>"; };
+		07783CC420400FBD00F1F277 /* SCameraFlashLightManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraFlashLightManager.m; sourceTree = "<group>"; };
 		0780C34A1FE954410044C75D /* SCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0780C34D1FE954410044C75D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0780C34E1FE954410044C75D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 		A3C4DDCF202BF102003B25F5 /* FlashLight */ = {
 			isa = PBXGroup;
 			children = (
+				07783CC320400FBD00F1F277 /* SCameraFlashLightManager.h */,
+				07783CC420400FBD00F1F277 /* SCameraFlashLightManager.m */,
 			);
 			path = FlashLight;
 			sourceTree = "<group>";
@@ -409,6 +414,7 @@
 				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
 				A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
+				07783CC520400FBD00F1F277 /* SCameraFlashLightManager.m in Sources */,
 				A314475A2033180100874CAF /* SCameraPictureView.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
 				07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */,
