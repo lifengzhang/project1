@@ -138,7 +138,8 @@
     [self.cameraImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.secondLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:69.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:47.f]);
         make.centerX.equalTo(self.view);
-        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:50.f]);
+        make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:50.f]);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:45.f]);
     }];
     
     [self.cameraLabel mas_makeConstraints:^(MASConstraintMaker *make) {
