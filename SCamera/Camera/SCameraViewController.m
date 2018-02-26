@@ -552,6 +552,7 @@
 
 - (void)hiddenValueView {
 //        self.iSOValueScrollView.hidden = YES;
+    self.cameraView.valueImage.alpha = 1.0;
     self.isoPickerView.hidden = YES;
     self.isoTitleLabel.hidden = YES;
     self.exposureDurationTitleLabel.hidden = YES;
