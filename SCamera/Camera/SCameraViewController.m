@@ -19,27 +19,23 @@
 
 #import "SCameraPictureViewController.h"
 
-#define kScreenBounds   [UIScreen mainScreen].bounds
-#define kScreenWidth  kScreenBounds.size.width*1.0
-#define kScreenHeight kScreenBounds.size.height*1.0
-
-#define CANCELBUTTON_DISTANCE_TOP                                              kScreenHeight - 100
-#define CANCELBUTTON_DISTANCE_LEFT                                             kScreenWidth*1/4.0 - 30
+#define CANCELBUTTON_DISTANCE_TOP                                              Height_Screen - 100
+#define CANCELBUTTON_DISTANCE_LEFT                                             Width_Screen*1/4.0 - 30
 #define CANCELBUTTON_WIDTH_HEIGHT                                              60.f
 
-#define EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP                                kScreenHeight - 176
+#define EXPOSUREDURATIONTITLELABEL_DISTANCE_TOP                                Height_Screen - 176
 #define EXPOSUREDURATIONTITLELABEL_DISTANCE_LEFT                               20.f
 #define EXPOSUREDURATIONTITLELABEL_WIDTH                                       80.f
 #define EXPOSUREDURATIONTITLELABEL_HEIGHT                                      30.f
 
-#define EXPOSUREDURATIONVALUELABEL_DISTANCE_TOP                                kScreenHeight - 190
+#define EXPOSUREDURATIONVALUELABEL_DISTANCE_TOP                                Height_Screen - 190
 #define EXPOSUREDURATIONVALUELABEL_DISTANCE_LEFT                               100.f
 #define EXPOSUREDURATIONVALUELABEL_WIDTH                                       100.f
 #define EXPOSUREDURATIONVALUELABEL_HEIGHT                                      30.f
 
-#define EXPOSUREDURATIONSLIDER_DISTANCE_TOP                                    kScreenHeight - 150
+#define EXPOSUREDURATIONSLIDER_DISTANCE_TOP                                    Height_Screen - 150
 #define EXPOSUREDURATIONSLIDER_DISTANCE_LEFT                                   20.f
-#define EXPOSUREDURATIONSLIDER_WIDTH                                           kScreenWidth - 40
+#define EXPOSUREDURATIONSLIDER_WIDTH                                           Width_Screen - 40
 #define EXPOSUREDURATIONSLIDER_HEIGHT                                          30.f
 
 
@@ -208,7 +204,7 @@
     }
     
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
-    self.previewLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - 140);
+    self.previewLayer.frame = CGRectMake(0, 0, Width_Screen, Height_Screen - 140);
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.previewLayer];
     //开始启动
@@ -279,8 +275,8 @@
 //        make.height.mas_equalTo(35);
 //    }];
     
-    self.isoPickerView.frame = CGRectMake(76, ISIphoneX ? 87 : 65, kScreenWidth - 152, 35);
-    self.shutterPickerView.frame = CGRectMake(76, kScreenHeight - 176, kScreenWidth - 152, 35);
+    self.isoPickerView.frame = CGRectMake(76, ISIphoneX ? 87 : 65, Width_Screen - 152, 35);
+    self.shutterPickerView.frame = CGRectMake(76, Height_Screen - 176, Width_Screen - 152, 35);
 //    [self.isoValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_TOP);
 //        make.left.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_LEFT);
@@ -444,10 +440,22 @@
 - (void)tapTimerButton {
     self.clickNumber++;
     if (self.clickNumber == 1) {
-        self.cameraView.timerLabel.text = @"3";
+        
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"3s"];
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 2)];
+        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 1)];
+        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(1, 1)];
+        [self.cameraView.timerLabel setAttributedText:string];
+
         self.cameraView.timerLabel.hidden = NO;
     } else if (self.clickNumber == 2) {
-        self.cameraView.timerLabel.text = @"10";
+        
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"10s"];
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 3)];
+        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 2)];
+        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(2, 1)];
+        [self.cameraView.timerLabel setAttributedText:string];
+
         self.cameraView.timerLabel.hidden = NO;
     } else {
         self.clickNumber = 0;
@@ -529,6 +537,7 @@
     
     btn.selected = !btn.selected;
     if (btn.selected) {
+        self.cameraView.valueImage.alpha = 0.64;
 //        self.iSOValueScrollView.hidden = NO;
         self.isoPickerView.hidden = NO;
         self.isoTitleLabel.hidden = NO;
@@ -536,6 +545,7 @@
         self.shutterPickerView.hidden = NO;
         [self.cameraView showView];
     } else {
+        self.cameraView.valueImage.alpha = 1.0;
         [self hiddenValueView];
     }
 }

@@ -81,12 +81,12 @@
     
     [self.settingButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(16);
-        make.bottom.equalTo(self.view.mas_top).offset(ISIphoneX ? 88 : 64);
+        make.centerY.equalTo(self.view.mas_top).offset(ISIphoneX ? 64 : 42);
         make.width.height.mas_equalTo(24);
     }];
     
     [self.lampImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:107.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:87.f]);
+        make.top.equalTo(self.view).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:109.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:87.f]);
         make.centerX.equalTo(self.view);
         make.width.height.mas_equalTo(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:70.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:50.f]);
     }];
@@ -95,7 +95,7 @@
         make.top.equalTo(self.view).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:199.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:177.f]);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:60.f]);
-        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:15.f]);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:12.f]);
     }];
     
     [self.ledButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,10 +117,10 @@
     }];
     
     [self.flashLightText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:150.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:130.f]);
+        make.top.equalTo(self.firstLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:152.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:130.f]);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(60);
-        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:15.f]);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:12.f]);
     }];
     
     [self.flashButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -129,23 +129,23 @@
     }];
     
     [self.secondLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:202.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:182.f]);
+        make.top.equalTo(self.firstLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:204.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:182.f]);
         make.left.equalTo(self.view).offset(28);
         make.right.equalTo(self.view).offset(-28);
         make.height.mas_equalTo(1);
     }];
     
     [self.cameraImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.secondLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:67.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:47.f]);
+        make.top.equalTo(self.secondLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:69.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:47.f]);
         make.centerX.equalTo(self.view);
         make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:50.f]);
     }];
     
     [self.cameraLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.secondLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:150.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:130.f]);
+        make.top.equalTo(self.secondLine.mas_bottom).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:152.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:130.f]);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(60);
-        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:15.f]);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:12.f]);
     }];
     
     [self.cameraButton mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -48,6 +48,8 @@
 
 @property (nonatomic, strong) UIImageView *flashImage;  //闪光灯按钮图片
 
+@property (nonatomic, strong) UIImageView *valueImage;   //调节按钮图片
+
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)showView;
