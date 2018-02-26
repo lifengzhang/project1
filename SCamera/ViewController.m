@@ -95,7 +95,7 @@
         make.top.equalTo(self.view).offset(ISIphoneX ? [SCameraDevice screenAdaptiveSizeWithIp6Size:199.f] : [SCameraDevice screenAdaptiveSizeWithIp6Size:177.f]);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:60.f]);
-        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:12.f]);
+        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:15.f]);
     }];
     
     [self.ledButton mas_makeConstraints:^(MASConstraintMaker *make) {
