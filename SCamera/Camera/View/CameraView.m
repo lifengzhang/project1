@@ -8,23 +8,17 @@
 
 #import "CameraView.h"
 
-#define kScreenBounds   [UIScreen mainScreen].bounds
-#define kScreenWidth  kScreenBounds.size.width*1.0
-#define kScreenHeight kScreenBounds.size.height*1.0
-
-#
-
 #define BACKBUTTON_DISTANCE_TOP                                                (ISIphoneX ? 58 : 36)
 #define BACKBUTTON_DISTANCE_LEFT                                               16.f
 #define BACKBUTTON_WIDTH_HEIGHT                                                18.f
 
-#define PHOTOLIBRARYBUTTON_DISTANCE_TOP                                        kScreenHeight - 100
+#define PHOTOLIBRARYBUTTON_DISTANCE_TOP                                        Height_Screen - 100
 #define PHOTOLIBRARYBUTTON_DISTANCE_LEFT                                       30.f
 #define PHOTOLIBRARYBUTTON_WIDTH_HEIGHT                                        60.f
 
-#define PHOTOBUTTON_DISTANCE_TOP                                               kScreenHeight - 100
-#define PHOTOBUTTON_DISTANCE_LEFT                                              kScreenWidth*1/2.0 - 30
-#define PHOTOBUTTON_WIDTH_HEIGHT                                               60.f
+#define PHOTOBUTTON_DISTANCE_TOP                                               Height_Screen - 100
+#define PHOTOBUTTON_DISTANCE_LEFT                                              Width_Screen*1/2.0 - 30
+#define PHOTOBUTTON_WIDTH_HEIGHT                                               62.f
 
 #define NAVIGATIONHEIGHT                                                      (ISIphoneX ? 88 : 64)
 
@@ -45,8 +39,6 @@
 @property (nonatomic, strong) UIImageView *timerImage;  //定时器按钮照片
 
 @property (nonatomic, strong) UIImageView *exchangeImage; //相机转换按钮
-
-@property (nonatomic, strong) UIImageView *valueImage;   //调节按钮图片
 
 @property (nonatomic, strong) UIImageView *bluetoothImage; //蓝牙按钮图片
 
@@ -91,7 +83,7 @@
     [self.albumImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.closeImage.mas_top);
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
-        make.centerX.equalTo(self.closeImage.mas_right).offset((kScreenWidth/2 - 43)/2);
+        make.centerX.equalTo(self.closeImage.mas_right).offset((Width_Screen/2 - 43)/2);
     }];
     
     [self.flashLightButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -113,7 +105,7 @@
     [self.timerImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.closeImage.mas_top);
         make.width.height.mas_equalTo(BACKBUTTON_WIDTH_HEIGHT);
-        make.centerX.equalTo(self.navigationView.mas_right).offset(-((kScreenWidth/2 - 43)/2 + 34));
+        make.centerX.equalTo(self.navigationView.mas_right).offset(-((Width_Screen/2 - 43)/2 + 34));
     }];
     
     [self.exchangeButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -128,7 +120,7 @@
     }];
     
     [self.photoButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(kScreenHeight - 140 + 19);
+        make.top.equalTo(self).offset(Height_Screen - 140 + 19);
         make.centerX.equalTo(self);
         make.width.height.mas_equalTo(PHOTOBUTTON_WIDTH_HEIGHT);
     }];
@@ -219,7 +211,7 @@
 //    }];
     
     [self.shutterView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(kScreenHeight - 176);
+        make.top.equalTo(self).offset(Height_Screen - 176);
         make.height.mas_equalTo(35);
         make.left.right.equalTo(self);
     }];
@@ -238,8 +230,7 @@
     
     [self.centerTimerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.centerY.equalTo(self);
-        make.width.height.mas_equalTo(80);
+        make.top.equalTo(self.navigationView.mas_bottom).offset([SCameraDevice screenAdaptiveSizeWithIp6Size:165.f]);
     }];
     
     [self.timerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -552,7 +543,7 @@
         _centerTimerLabel.textColor = [UIColor whiteColor];
         _centerTimerLabel.hidden = YES;
         _centerTimerLabel.textAlignment = NSTextAlignmentCenter;
-        _centerTimerLabel.font = [UIFont boldSystemFontOfSize:60];
+        _centerTimerLabel.font = [UIFont boldSystemFontOfSize:84.f];
         [self addSubview:_centerTimerLabel];
     }
     return _centerTimerLabel;
@@ -562,8 +553,6 @@
     if (!_timerLabel) {
         _timerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _timerLabel.backgroundColor = [UIColor clearColor];
-        _timerLabel.font = [UIFont ChinaDefaultFontNameOfSize:15];
-        _timerLabel.textColor = [UIColor yellowColor];
         _timerLabel.textAlignment = NSTextAlignmentCenter;
         _timerLabel.hidden = YES;
         [self.navigationView addSubview:_timerLabel];

@@ -9,7 +9,8 @@
 #ifndef SCamera_Prefix_pch
 #define SCamera_Prefix_pch
 
-#define Width_Screen [UIScreen mainScreen].bounds.size.width
+#define Width_Screen  [UIScreen mainScreen].bounds.size.width
+#define Height_Screen [UIScreen mainScreen].bounds.size.height
 
 #import "BlueToothMe.h"
 
