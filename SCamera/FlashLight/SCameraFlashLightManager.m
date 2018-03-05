@@ -10,6 +10,21 @@
 
 @implementation SCameraFlashLightManager
 
+static SCameraFlashLightManager *sharedInstance = nil;
+
++ (instancetype)sharedInstance {
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        sharedInstance = [[SCameraFlashLightManager alloc] init];
+        
+    });
+    return sharedInstance;
+}
+
+
+
 - (instancetype)init {
     
     self = [super init];

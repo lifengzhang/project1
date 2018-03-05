@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define FlashLightManager                       [SCameraFlashLightManager sharedInstance]
+
 typedef enum : Byte {
     
     FlashLightModelStandby = 0x00,
@@ -100,6 +102,8 @@ typedef enum : Byte {
 
 //第十一组
 @property (nonatomic, assign) NSUInteger flashFrequency;
+
++ (instancetype)sharedInstance;
 
 - (NSData *)getSettingBytes;
 
