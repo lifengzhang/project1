@@ -30,7 +30,7 @@
     
     [self.headerSectionTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).with.offset(17);
-        make.top.equalTo(self).with.offset(21);
+        make.centerY.equalTo(self);
     }];
     
 }

@@ -10,6 +10,7 @@
 #import "SCameraViewController.h"
 #import "BlueManagerViewController.h"
 #import "BlueManageDeviceTableView.h"
+#import "SCameraFlashLightSettingViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
 #define HOMEPAGE_LINE_COLOR                                         \
@@ -225,7 +226,8 @@
 
 - (void)tapFlashLightButton {
     
-    
+    SCameraFlashLightSettingViewController *vc = [[SCameraFlashLightSettingViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

@@ -15,6 +15,7 @@
 #import "BlueToothMe.h"
 
 #import "UIFont+Additions.h"
+#import "SCamera-UI-Constant.h"
 #import "Masonry.h"
 #import "SCameraDevice.h"
 
