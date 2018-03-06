@@ -108,8 +108,7 @@
 - (UIButton *)voiceBtn {
     if (!_voiceBtn) {
         _voiceBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_voiceBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        _voiceBtn.backgroundColor = [UIColor whiteColor];
+        [_voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice"] forState:UIControlStateNormal];
         [self addSubview:_voiceBtn];
     }
     return _voiceBtn;
@@ -118,8 +117,7 @@
 - (UIButton *)modelLampBtn {
     if (!_modelLampBtn) {
         _modelLampBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_modelLampBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        _modelLampBtn.backgroundColor = [UIColor whiteColor];
+        [_modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_ModelLamp"] forState:UIControlStateNormal];
         [self addSubview:_modelLampBtn];
     }
     return _modelLampBtn;

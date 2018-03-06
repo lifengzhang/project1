@@ -29,7 +29,6 @@
     [self setUpConstrains];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//    self.values = @[@"1/128",@"1/128+0.3",@"1/128+0.7",@"1/64",@"1/64+0.3",@"1/64+0.7", @"1/32",@"1/32+0.3",@"1/32 +0.7", @"1/16",@"1/16+0.3",@"1/16+0.7", @"1/8",@"1/8+0.3",@"1/8+0.7",@"1/4",@"1/4+0.3",@"1/4+0.7",@"1/2",@"1/2+0.3",@"1/2+0/7", @"1"];
     self.values = @[@{@"1/128":@(FlashLightPower1_128)},@{@"1/128+0.3":@(FlashLightPower1_128_1)},@{@"1/128+0.7":@(FlashLightPower1_128_2)},
                     @{@"1/64":@(FlashLightPower1_64)},@{@"1/64+0.3":@(FlashLightPower1_64_1)},@{@"1/64+0.7":@(FlashLightPower1_64_2)},
                     @{@"1/32":@(FlashLightPower1_32)},@{@"1/32+0.3":@(FlashLightPower1_32_1)},@{@"1/32+0.7":@(FlashLightPower1_32_2)},
@@ -97,11 +96,12 @@
 
     NSUInteger index = (NSUInteger)(slider.value + 0.5);
     [slider setValue:index animated:NO];
-    NSString *value = self.values[index];
-    self.sliderValue = value;
-    label.text = value;
-    NSLog(@"sliderIndex: %i", (int)index);
-    NSLog(@"value: %@", value);
+    NSDictionary *value = self.values[index];
+    self.sliderValue = value.allKeys.firstObject;
+    label.text = value.allKeys.firstObject;
+    NSNumber *power = value.allValues.firstObject;
+    FlashLightManager.aPower = power.integerValue;
+    
 }
 
 //增加安妞
@@ -112,7 +112,6 @@
     }
     NSUInteger index = (NSUInteger)(slider.value + 1);
     [slider setValue:index animated:NO];
-//    NSString *value = self.values[index];
     NSDictionary *value = self.values[index];
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;
@@ -129,9 +128,6 @@
     }
     NSUInteger index = (NSUInteger)(slider.value - 1);
     [slider setValue:index animated:NO];
-//    NSString *value = self.values[index];
-//    self.sliderValue = value;
-//    label.text = value;
     NSDictionary *value = self.values[index];
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;

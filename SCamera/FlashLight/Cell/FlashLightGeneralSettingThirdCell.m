@@ -31,7 +31,6 @@
         make.right.equalTo(self).offset(-16);
         make.bottom.equalTo(self).offset(-[SCameraDevice screenAdaptiveSizeWithIp6Size:17.f]);
         make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
-
     }];
     
     [self.redeceButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -46,8 +45,9 @@
     }];
     
     [self.minLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.redeceButton.mas_right).offset(7);
+        make.left.equalTo(self.redeceButton.mas_right);
         make.centerY.equalTo(self.redeceButton);
+        make.right.equalTo(self.flashLightSlider.mas_left);
     }];
     
     [self.maxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -56,9 +56,9 @@
     }];
 
     [self.flashLightSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.minLabel.mas_right).offset(4);
+        make.left.equalTo(self.redeceButton.mas_right).offset(36);
         make.centerY.equalTo(self.minLabel);
-        make.right.equalTo(self.maxLabel.mas_left).offset(-4);
+        make.right.equalTo(self.addButton.mas_left).offset(-36);
     }];
     
     [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -132,6 +132,7 @@
         _minLabel.textColor = [UIColor whiteColor];
         _minLabel.font = [UIFont ChinaDefaultFontNameOfSize:12.f];
         _minLabel.text = @"1/128";
+        _minLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_minLabel];
     }
     return _minLabel;
@@ -186,7 +187,7 @@
         _flashLightSlider.backgroundColor = Scamera_Cell_Background;
         _flashLightSlider.maximumTrackTintColor = [UIColor whiteColor];
         _flashLightSlider.minimumTrackTintColor = [UIColor whiteColor];
-      NSArray *numbers = @[@"1/128",@"1/128+0.3",@"1/128+0.7",@"1/64",@"1/64+0.3",@"1/64+0.7", @"1/32",@"1/32+0.3",@"1/32 +0.7", @"1/16",@"1/16+0.3",@"1/16+0.7", @"1/8",@"1/8+0.3",@"1/8+0.7",@"1/4",@"1/4+0.3",@"1/4+0.7",@"1/2",@"1/2+0.3",@"1/2+0/7", @"1"];
+      NSArray *numbers = @[@"1/128",@"1/128+0.3",@"1/128+0.7",@"1/64",@"1/64+0.3",@"1/64+0.7", @"1/32",@"1/32+0.3",@"1/32+0.7", @"1/16",@"1/16+0.3",@"1/16+0.7", @"1/8",@"1/8+0.3",@"1/8+0.7",@"1/4",@"1/4+0.3",@"1/4+0.7",@"1/2",@"1/2+0.3",@"1/2+0/7", @"1"];
         NSInteger numberOfSteps = ((float)[numbers count] - 1);
         _flashLightSlider.maximumValue = numberOfSteps;
         _flashLightSlider.minimumValue = 0;
