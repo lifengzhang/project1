@@ -107,9 +107,9 @@
     self.minLabel.text = @"1";
     self.maxLabel.text = @"199";
     self.detail.text = @"1";
-    if (FlashLightDataManager.frequence && FlashLightDataManager.frequence.length > 0) {
-        [self.flashLightSlider setValue:[FlashLightDataManager.frequence intValue] animated:NO];
-        self.detail.text = FlashLightDataManager.frequence;
+    if (FlashLightManager.flashFrequency && FlashLightManager.flashFrequency > 0) {
+        [self.flashLightSlider setValue:FlashLightManager.flashFrequency animated:NO];
+        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashFrequency];
     }
 }
 
@@ -124,9 +124,9 @@
     self.minLabel.text = @"1";
     self.maxLabel.text = @"40";
     self.detail.text = @"1";
-    if (FlashLightDataManager.times && FlashLightDataManager.times.length > 0) {
-        [self.flashLightSlider setValue:[FlashLightDataManager.times intValue] animated:NO];
-        self.detail.text = FlashLightDataManager.times;
+    if (FlashLightManager.flashNumber && FlashLightManager.flashNumber > 0) {
+        [self.flashLightSlider setValue:FlashLightManager.flashNumber animated:NO];
+        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashNumber];
     }
 }
 
@@ -135,11 +135,11 @@
     NSInteger numberOfSteps = ((float)[numbers count] - 1);
     self.flashLightSlider.maximumValue = numberOfSteps;
     self.flashLightSlider.minimumValue = 0;
-    if (FlashLightDataManager.flashPower && FlashLightDataManager.flashPower.length > 0) {
+    if (FlashLightManager.flashPower && FlashLightManager.flashPower.length > 0) {
         for (int i = 0; i < numberOfSteps + 1; i++) {
-            if ([numbers[i] isEqualToString:FlashLightDataManager.flashPower]) {
+            if ([numbers[i] isEqualToString:FlashLightManager.flashPower]) {
                 [self.flashLightSlider setValue:i animated:NO];
-                self.valueLabel.text = FlashLightDataManager.flashPower;
+                self.valueLabel.text = FlashLightManager.flashPower;
             }
         }
     }
@@ -168,7 +168,7 @@
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.textColor = [UIColor whiteColor];
         _valueLabel.font = [UIFont ChinaDefaultFontNameOfSize:19.f];
-        _valueLabel.text = FlashLightDataManager.flashPower.length > 0 ? FlashLightDataManager.flashPower : @"1/128";
+        _valueLabel.text = FlashLightManager.flashPower.length > 0 ? FlashLightManager.flashPower : @"1/128";
         [self addSubview:_valueLabel];
     }
     return _valueLabel;

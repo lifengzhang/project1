@@ -173,4 +173,120 @@ static SCameraFlashLightManager *sharedInstance = nil;
     
 }
 
+#pragma - mark Property get method
+- (BOOL)isPoseOpen {
+    
+    return [[NSUserDefaults standardUserDefaults] boolForKey:FlashLightIsPoseOpen];
+
+}
+
+- (BOOL)isSoundOpen {
+    
+    return [[NSUserDefaults standardUserDefaults] boolForKey:FlashLightIsSoundOpen];
+    
+}
+
+- (NSUInteger)flashNumber {
+    
+    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightTimes];
+
+}
+
+- (NSUInteger)flashFrequency {
+    
+    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightFrequence];
+
+}
+
+- (NSString *)flashPower {
+    
+    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightFlashPower];
+    
+}
+
+- (FlashLightPower)aPower {
+    
+    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightApower];
+}
+
+#pragma - mark 属性持久化
+- (void)saveAPower:(FlashLightPower)aPower {
+    
+    if (aPower > 0) {
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:aPower forKey:FlashLightApower];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    } else {
+        [[NSUserDefaults standardUserDefaults] setInteger:FlashLightPower1_128 forKey:FlashLightApower];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)saveChannel:(NSInteger)channel {
+    
+    if (channel > 0) {
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:channel forKey:FlashLightChannel];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    } else {
+        [[NSUserDefaults standardUserDefaults] setInteger: 1 forKey:FlashLightChannel];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)saveIsPoseOpen:(BOOL)isPoseOpen {
+    
+    [[NSUserDefaults standardUserDefaults] setBool:isPoseOpen forKey:FlashLightIsPoseOpen];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
+- (void)saveIsSoundOpen:(BOOL)isSoundOpen {
+    
+    [[NSUserDefaults standardUserDefaults] setBool:isSoundOpen forKey:FlashLightIsSoundOpen];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
+- (void)saveFrequence:(NSInteger)frequence {
+    
+    if (frequence > 0) {
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:frequence forKey:FlashLightFrequence];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:FlashLightFrequence];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)saveTimes:(NSInteger)times {
+    
+    if (times > 0) {
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:times forKey:FlashLightTimes];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:FlashLightTimes];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)saveFlashPower:(NSString *)flashPower {
+    
+    if (flashPower && flashPower.length > 0) {
+        
+        [[NSUserDefaults standardUserDefaults] setObject:flashPower forKey:FlashLightFlashPower];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:@"1/128" forKey:FlashLightFlashPower];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+
 @end

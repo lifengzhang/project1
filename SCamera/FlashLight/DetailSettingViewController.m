@@ -46,15 +46,15 @@
 
 - (void)saveValue {
     
-        if (self.channelStr.length > 0) {
-            [FlashLightDataManager saveChannel:self.channelStr];
-            
-        }
+//        if (self.channelStr.length > 0) {
+//            [FlashLightManager saveChannel:self.channelStr.integerValue];
+//
+//        }
         if (self.frequenceValue.length > 0) {
-            [FlashLightDataManager saveFrequence:self.frequenceValue];
+            [FlashLightManager saveFrequence:self.frequenceValue.integerValue];
         }
         if (self.times.length > 0) {
-            [FlashLightDataManager saveTimes:self.times];
+            [FlashLightManager saveTimes:self.times.integerValue];
         }
     
 }
@@ -120,7 +120,7 @@
     [slider setValue:index animated:NO];
     self.frequenceValue = [NSString stringWithFormat:@"%.f",slider.value];
     label.text = self.frequenceValue;
-    FlashLightManager.flashFrequency = [self.frequenceValue integerValue];
+    [FlashLightManager saveFrequence:[self.frequenceValue integerValue]];
 }
 
 //点击频闪频率减少按钮
@@ -133,7 +133,7 @@
     [slider setValue:index animated:NO];
     self.frequenceValue = [NSString stringWithFormat:@"%.f",slider.value];
     label.text = self.frequenceValue;
-    FlashLightManager.flashFrequency = [self.frequenceValue integerValue];
+    [FlashLightManager saveFrequence:[self.frequenceValue integerValue]];
 }
 
 //点击频闪频率增加按钮
@@ -146,7 +146,7 @@
     [slider setValue:index animated:NO];
     self.frequenceValue = [NSString stringWithFormat:@"%.f",slider.value];
     label.text = self.frequenceValue;
-    FlashLightManager.flashFrequency = [self.frequenceValue integerValue];
+    [FlashLightManager saveFrequence:[self.frequenceValue integerValue]];
 }
 
 //滑动频闪次数Slider
@@ -156,7 +156,7 @@
     [slider setValue:index animated:NO];
     self.times = [NSString stringWithFormat:@"%.f",slider.value];
     label.text = self.times;
-    FlashLightManager.flashNumber = [self.times integerValue];
+    [FlashLightManager saveTimes:[self.times integerValue]];
 }
 
 //点击次数Cell减少按钮
@@ -166,7 +166,8 @@
     [slider setValue:index animated:NO];
     self.times = [NSString stringWithFormat:@"%.f",slider.value];
     label.text = self.times;
-    FlashLightManager.flashNumber = [self.times integerValue];
+//    FlashLightManager.flashNumber = [self.times integerValue];
+    [FlashLightManager saveTimes:[self.times integerValue]];
 }
 
 //点击次数Cell增加按钮
@@ -176,7 +177,7 @@
     [slider setValue:index animated:NO];
     self.times = [NSString stringWithFormat:@"%.f",slider.value];
     label.text = self.times;
-    FlashLightManager.flashNumber = [self.times integerValue];
+    [FlashLightManager saveTimes:[self.times integerValue]];
 }
 
 //声音
@@ -184,11 +185,11 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         FlashLightManager.isSoundOpen = YES;
-        [FlashLightDataManager saveIsSoundOpen:YES];
+        [FlashLightManager saveIsSoundOpen:YES];
         self.voiceStatus = @"声音 开";
     } else {
         FlashLightManager.isSoundOpen = NO;
-        [FlashLightDataManager saveIsSoundOpen:NO];
+        [FlashLightManager saveIsSoundOpen:NO];
         self.voiceStatus = @"声音 关";
     }
 }
@@ -198,11 +199,11 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         FlashLightManager.isPoseOpen = YES;
-        [FlashLightDataManager saveIsPoseOpen:YES];
+        [FlashLightManager saveIsPoseOpen:YES];
         self.modelLampStatus = @"造型灯 开";
     } else {
         FlashLightManager.isPoseOpen = NO;
-        [FlashLightDataManager saveIsPoseOpen:NO];
+        [FlashLightManager saveIsPoseOpen:NO];
         self.modelLampStatus = @"造型灯 关";
     }
 }

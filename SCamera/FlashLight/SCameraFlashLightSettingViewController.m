@@ -43,7 +43,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if (self.sliderValue.length > 0) {
-        [FlashLightDataManager saveFlashPower:self.sliderValue];
+        [FlashLightManager saveFlashPower:self.sliderValue];
 
     }
 }
@@ -108,8 +108,8 @@
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;
     NSNumber *power = value.allValues.firstObject;
-    FlashLightManager.aPower = power.integerValue;
-    
+//    FlashLightManager.aPower = power.integerValue;
+    [FlashLightManager saveAPower:power.integerValue];
 }
 
 //增加安妞
@@ -124,7 +124,8 @@
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;
     NSNumber *power = value.allValues.firstObject;
-    FlashLightManager.aPower = power.integerValue;
+//    FlashLightManager.aPower = power.integerValue;
+    [FlashLightManager saveAPower:power.integerValue];
 
 }
 
@@ -140,7 +141,8 @@
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;
     NSNumber *power = value.allValues.firstObject;
-    FlashLightManager.aPower = power.integerValue;
+//    FlashLightManager.aPower = power.integerValue;
+    [FlashLightManager saveAPower:power.integerValue];
 }
 
 //通用->详细设置

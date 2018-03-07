@@ -10,6 +10,14 @@
 
 #define FlashLightManager                       [SCameraFlashLightManager sharedInstance]
 
+#define FlashLightChannel                                  @"flashLight_channel"
+#define FlashLightIsPoseOpen                               @"flashLight_isPoseOpen"
+#define FlashLightIsSoundOpen                              @"flashLight_isSoundOpen"
+#define FlashLightFrequence                                @"flashLight_frequence"
+#define FlashLightTimes                                    @"flashLight_times"
+#define FlashLightFlashPower                               @"flashLight_flashPower"
+#define FlashLightApower                                   @"flashLight_aPower"
+
 typedef enum : Byte {
     
     FlashLightModelStandby = 0x00,
@@ -103,8 +111,24 @@ typedef enum : Byte {
 //第十一组
 @property (nonatomic, assign) NSUInteger flashFrequency;
 
+@property (nonatomic, strong) NSString *flashPower;
+
 + (instancetype)sharedInstance;
 
 - (NSData *)getSettingBytes;
+
+- (void)saveChannel:(NSInteger)channel;
+
+- (void)saveIsPoseOpen:(BOOL )isPoseOpen;
+
+- (void)saveIsSoundOpen:(BOOL )isSoundOpen;
+
+- (void)saveFrequence:(NSInteger)frequence;
+
+- (void)saveTimes:(NSInteger)times;
+
+- (void)saveFlashPower:(NSString *)flashPower;
+
+- (void)saveAPower:(FlashLightPower)aPower;
 
 @end

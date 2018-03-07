@@ -111,7 +111,7 @@
 //        [_voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice"] forState:UIControlStateNormal];
         [_voiceBtn setTitle:@"打开" forState:UIControlStateSelected];
         [_voiceBtn setTitle:@"关闭" forState:UIControlStateNormal];
-        _voiceBtn.selected = FlashLightDataManager.isSoundOpen;
+        _voiceBtn.selected = FlashLightManager.isSoundOpen;
         [self addSubview:_voiceBtn];
     }
     return _voiceBtn;
@@ -123,7 +123,7 @@
 //        [_modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_ModelLamp"] forState:UIControlStateNormal];
         [_modelLampBtn setTitle:@"打开" forState:UIControlStateSelected];
         [_modelLampBtn setTitle:@"关闭" forState:UIControlStateNormal];
-        _modelLampBtn.selected = FlashLightDataManager.isPoseOpen;
+        _modelLampBtn.selected = FlashLightManager.isPoseOpen;
         [self addSubview:_modelLampBtn];
     }
     return _modelLampBtn;

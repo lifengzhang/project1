@@ -184,13 +184,12 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     
 }
 
-//fixedParameter = @[self.channelStr,self.frequenceValue,self.times,self.voiceStatus,self.modelLampStatus];
 - (void)update{
     
-    self.secondCell.channelLabel.text = FlashLightDataManager.channel.length > 0 ? FlashLightDataManager.channel : @"频道 1";
-    self.secondCell.frequenceLabel.text = [NSString stringWithFormat:@"频闪 %@Hz/%@次",FlashLightDataManager.frequence.length > 0 ? FlashLightDataManager.frequence : @"1",FlashLightDataManager.times.length > 0 ? FlashLightDataManager.times : @"1"];
-    self.secondCell.voiceLabel.text = FlashLightDataManager.isSoundOpen ? @"声音 开" : @"声音 关";
-    self.secondCell.modelLightLabel.text = FlashLightDataManager.isPoseOpen ? @"造型灯 开" : @"造型灯 关";
+//    self.secondCell.channelLabel.text = FlashLightDataManager.channel.length > 0 ? FlashLightDataManager.channel : @"频道 1";
+    self.secondCell.frequenceLabel.text = [NSString stringWithFormat:@"频闪 %luHz/%lu次",(unsigned long)(FlashLightManager.flashFrequency > 0 ? FlashLightManager.flashFrequency : 1),(unsigned long)(FlashLightManager.flashNumber > 0 ? FlashLightManager.flashNumber : 1)];
+    self.secondCell.voiceLabel.text = FlashLightManager.isSoundOpen ? @"声音 开" : @"声音 关";
+    self.secondCell.modelLightLabel.text = FlashLightManager.isPoseOpen ? @"造型灯 开" : @"造型灯 关";
     [self reloadData];
 }
 

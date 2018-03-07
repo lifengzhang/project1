@@ -33,7 +33,6 @@
 		A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3144756203317AB00874CAF /* SCameraPictureViewController.m */; };
 		A314475A2033180100874CAF /* SCameraPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = A31447592033180100874CAF /* SCameraPictureView.m */; };
 		A350EF17204CDF9200821FB7 /* Navigation.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A350EF16204CDF9200821FB7 /* Navigation.xcassets */; };
-		A35F6E41204F8095003085BE /* FlashLightDatePersistenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A35F6E40204F8095003085BE /* FlashLightDatePersistenceManager.m */; };
 		A363F635204997D20037C9ED /* FlashLightSetting.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A363F634204997D20037C9ED /* FlashLightSetting.xcassets */; };
 		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
 		A37FC23920312C83007892B6 /* SCameraISOPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37FC23820312C83007892B6 /* SCameraISOPickerView.m */; };
@@ -104,8 +103,6 @@
 		A31447582033180100874CAF /* SCameraPictureView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPictureView.h; sourceTree = "<group>"; };
 		A31447592033180100874CAF /* SCameraPictureView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPictureView.m; sourceTree = "<group>"; };
 		A350EF16204CDF9200821FB7 /* Navigation.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Navigation.xcassets; sourceTree = "<group>"; };
-		A35F6E3F204F8095003085BE /* FlashLightDatePersistenceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlashLightDatePersistenceManager.h; sourceTree = "<group>"; };
-		A35F6E40204F8095003085BE /* FlashLightDatePersistenceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashLightDatePersistenceManager.m; sourceTree = "<group>"; };
 		A363F634204997D20037C9ED /* FlashLightSetting.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FlashLightSetting.xcassets; sourceTree = "<group>"; };
 		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
 		A37FC23720312C83007892B6 /* SCameraISOPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraISOPickerView.h; sourceTree = "<group>"; };
@@ -304,8 +301,6 @@
 				A3CE6D412049308500811DA8 /* View */,
 				07783CC320400FBD00F1F277 /* SCameraFlashLightManager.h */,
 				07783CC420400FBD00F1F277 /* SCameraFlashLightManager.m */,
-				A35F6E3F204F8095003085BE /* FlashLightDatePersistenceManager.h */,
-				A35F6E40204F8095003085BE /* FlashLightDatePersistenceManager.m */,
 				A3CE6D432049313500811DA8 /* SCameraFlashLightSettingViewController.h */,
 				A3CE6D442049313500811DA8 /* SCameraFlashLightSettingViewController.m */,
 				A3122AFF204AC63A00D2254C /* DetailSettingViewController.h */,
@@ -494,7 +489,6 @@
 				A3CE6D4B204935E700811DA8 /* FlashLightGeneralSettingCell.m in Sources */,
 				0741F3001FEAA9F700BB27BA /* SCameraViewController.m in Sources */,
 				A37FC23920312C83007892B6 /* SCameraISOPickerView.m in Sources */,
-				A35F6E41204F8095003085BE /* FlashLightDatePersistenceManager.m in Sources */,
 				A3CE6D452049313500811DA8 /* SCameraFlashLightSettingViewController.m in Sources */,
 				A3D94612202D3C7A0001220E /* CameraView.m in Sources */,
 				0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */,
