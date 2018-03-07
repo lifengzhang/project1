@@ -412,22 +412,22 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
 //
 //    return data;
     
-    SCameraFlashLightManager *a = [[SCameraFlashLightManager alloc] init];
-    a.isSoundOpen = NO;
-    a.isPoseOpen = NO;
-    a.channel = 0x01;
-    a.aModel = FlashLightModelManual;
-    a.bModel = FlashLightModelStandby;
-    a.cModel = FlashLightModelStandby;
-    a.dModel = FlashLightModelStandby;
-    a.aPower = FlashLightPowerStandby;
-    a.bPower = FlashLightPowerStandby;
-    a.cPower = FlashLightPowerStandby;
-    a.dPower = FlashLightPowerStandby;
-    a.flashNumber = 1;
-    a.flashFrequency = 60;
-    NSData *data = [a getSettingBytes];
-    return data;
+//    SCameraFlashLightManager *a = [[SCameraFlashLightManager alloc] init];
+//    a.isSoundOpen = NO;
+//    a.isPoseOpen = NO;
+//    a.channel = 0x01;
+//    a.aModel = FlashLightModelManual;
+//    a.bModel = FlashLightModelStandby;
+//    a.cModel = FlashLightModelStandby;
+//    a.dModel = FlashLightModelStandby;
+//    a.aPower = FlashLightPowerStandby;
+//    a.bPower = FlashLightPowerStandby;
+//    a.cPower = FlashLightPowerStandby;
+//    a.dPower = FlashLightPowerStandby;
+//    a.flashNumber = 1;
+//    a.flashFrequency = 60;
+//    NSData *data = [a getSettingBytes];
+    return [FlashLightManager getSettingBytes];
 }
 
 - (void)dealloc {

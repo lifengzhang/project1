@@ -159,7 +159,9 @@
 //测试按钮
 - (void)ScameraFlashLightSettingClickTestBtn:(UIButton *)btn {
     
-    NSData *data = [FlashLightManager getSettingBytes];
+//    NSData *data = [FlashLightManager getSettingBytes];
+    
+    [BTMe SplightFire];
     
 }
 
