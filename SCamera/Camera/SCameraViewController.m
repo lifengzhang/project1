@@ -46,7 +46,7 @@
 
 @interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate, SCameraISOPickerViewDelegate>
 
-@property(nonatomic,strong) AVCaptureDevice *device;;
+@property(nonatomic,strong) AVCaptureDevice *device;
 
 @property (nonatomic, strong) AVCaptureSession* session; //AVCapturemSession对象来执行输入设备和输出设备之间的数据传递
 

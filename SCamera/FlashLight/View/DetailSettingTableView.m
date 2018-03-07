@@ -23,6 +23,8 @@ static NSString *voiceAndeModelLampCellId = @"voice_ModelLamp_Cell_ID";
 
 @property (nonatomic, strong) FlashLightGeneralSettingThirdCell *timesCell;
 
+@property (nonatomic, strong) VoiceAndModelLampCell *voiceCell;
+
 @end
 
 @implementation DetailSettingTableView
@@ -67,28 +69,20 @@ static NSString *voiceAndeModelLampCellId = @"voice_ModelLamp_Cell_ID";
         [self.frenquenceCell.redeceButton addTarget:self action:@selector(frenquenceReduceValue) forControlEvents:UIControlEventTouchUpInside];
         [self.frenquenceCell.addButton addTarget:self action:@selector(frenquenceAddValue) forControlEvents:UIControlEventTouchUpInside];
         [self.frenquenceCell.flashLightSlider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
-        self.frenquenceCell.bottomLine.hidden = NO;
-        self.frenquenceCell.valueLabel.hidden = YES;
-        self.frenquenceCell.title.text = @"频闪频率";
-        self.frenquenceCell.detail.text = @"24";
-        self.frenquenceCell.minLabel.text = @"1/128";
-        self.frenquenceCell.maxLabel.text = @"1/4";
+        [self.frenquenceCell updateSliderForFrequence];
         return self.frenquenceCell;
     } else if (indexPath.row == 2) {
         self.timesCell = [tableView dequeueReusableCellWithIdentifier:flashLightGeneralSettingThirdCellID forIndexPath:indexPath];
         [self.timesCell.redeceButton addTarget:self action:@selector(timesReduceValue) forControlEvents:UIControlEventTouchUpInside];
         [self.timesCell.addButton addTarget:self action:@selector(timesAddValue) forControlEvents:UIControlEventTouchUpInside];
         [self.timesCell.flashLightSlider addTarget:self action:@selector(timesCellSliderValueChange:) forControlEvents:UIControlEventValueChanged];
-        self.timesCell.bottomLine.hidden = NO;
-        self.timesCell.valueLabel.hidden = YES;
-        self.timesCell.title.text = @"闪烁次数";
-        self.timesCell.detail.text = @"24";
-        self.timesCell.minLabel.text = @"1";
-        self.timesCell.maxLabel.text = @"199";
+        [self.timesCell updateSliderForTimes];
         return self.timesCell;
     } else if (indexPath.row == 3) {
-        VoiceAndModelLampCell *cell = [tableView dequeueReusableCellWithIdentifier:voiceAndeModelLampCellId forIndexPath:indexPath];
-        return cell;
+        self.voiceCell = [tableView dequeueReusableCellWithIdentifier:voiceAndeModelLampCellId forIndexPath:indexPath];
+        [self.voiceCell.voiceBtn addTarget:self action:@selector(voiceStatus:) forControlEvents:UIControlEventTouchUpInside];
+        [self.voiceCell.modelLampBtn addTarget:self action:@selector(modelLampStatus:) forControlEvents:UIControlEventTouchUpInside];
+        return self.voiceCell;
         
     } else if (indexPath.row == 4) {
         DetailSettingCustomCell *cell = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellID forIndexPath:indexPath];
@@ -100,6 +94,18 @@ static NSString *voiceAndeModelLampCellId = @"voice_ModelLamp_Cell_ID";
         cell.title.text = @"导出设置";
         cell.detail.hidden = YES;
         return cell;
+    }
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        return [SCameraDevice screenAdaptiveSizeWithIp6Size:53.f];
+    } else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3) {
+        return [SCameraDevice screenAdaptiveSizeWithIp6Size:83.f];
+    } else {
+        return [SCameraDevice screenAdaptiveSizeWithIp6Size:53.f];
     }
     return 0;
 }
@@ -159,21 +165,23 @@ static NSString *voiceAndeModelLampCellId = @"voice_ModelLamp_Cell_ID";
 
 - (void)timesCellSliderValueChange:(UISlider *)slider {
     
-    if (self.detailSettingTableViewDelegateDelegate && [self.detailSettingTableViewDelegateDelegate respondsToSelector:@selector(DetailSettingTableViewDidSliderValueChange:andValueLabel:)]) {
-        [self.detailSettingTableViewDelegateDelegate DetailSettingTableViewDidSliderValueChange:self.timesCell.flashLightSlider andValueLabel:self.timesCell.detail];
+    if (self.detailSettingTableViewDelegateDelegate && [self.detailSettingTableViewDelegateDelegate respondsToSelector:@selector(DetailSettingTableViewDidTimesCellSliderValueChange:andValueLabel:)]) {
+        [self.detailSettingTableViewDelegateDelegate DetailSettingTableViewDidTimesCellSliderValueChange:self.timesCell.flashLightSlider andValueLabel:self.timesCell.detail];
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)voiceStatus:(UIButton *)btn {
     
-    if (indexPath.row == 0) {
-        return [SCameraDevice screenAdaptiveSizeWithIp6Size:53.f];
-    } else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3) {
-        return [SCameraDevice screenAdaptiveSizeWithIp6Size:83.f];
-    } else {
-        return [SCameraDevice screenAdaptiveSizeWithIp6Size:53.f];
+    if (self.detailSettingTableViewDelegateDelegate && [self.detailSettingTableViewDelegateDelegate respondsToSelector:@selector(ClickVoiceButton:)]) {
+        [self.detailSettingTableViewDelegateDelegate ClickVoiceButton:btn];
     }
-    return 0;
+}
+
+- (void)modelLampStatus:(UIButton *)btn {
+    
+    if (self.detailSettingTableViewDelegateDelegate && [self.detailSettingTableViewDelegateDelegate respondsToSelector:@selector(ClickModelLampButton:)]) {
+        [self.detailSettingTableViewDelegateDelegate ClickModelLampButton:btn];
+    }
 }
 
 @end

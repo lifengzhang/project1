@@ -18,6 +18,8 @@
 
 - (void)DetailSettingTableViewDidSliderValueChange:(UISlider *)slider andValueLabel:(UILabel *)label;
 
+- (void)DetailSettingTableViewDidTimesCellSliderValueChange:(UISlider *)slider andValueLabel:(UILabel *)label;
+
 - (void)Slider:(UISlider *)slider ClickIncreaseBtnWithValue:(UILabel *)label;
 
 - (void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label;
@@ -25,6 +27,10 @@
 - (void)Slider:(UISlider *)slider TimesCellClickIncreaseBtnWithValue:(UILabel *)label;
 
 - (void)Slider:(UISlider *)slider TimesCellClickReduceBtnWithValue:(UILabel *)label;
+
+- (void)ClickVoiceButton:(UIButton *)btn;
+
+- (void)ClickModelLampButton:(UIButton *)btn;
 
 @end
 

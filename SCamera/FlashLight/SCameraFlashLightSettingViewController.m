@@ -139,6 +139,9 @@
 - (void)ScameraFlashLightSettingClickDetilSettingCell {
     
     DetailSettingViewController *vc = [[DetailSettingViewController alloc] initWithNibName:nil bundle:nil];
+    vc.blockparameter = ^(NSArray *fixedParameter) {
+        [self.flashLightSettingView updateViewWithArray:fixedParameter];
+    };
     [self.navigationController pushViewController:vc animated:YES];
     
 }

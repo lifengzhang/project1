@@ -97,6 +97,31 @@
     self.flashLightSlider.enabled = NO;
 }
 
+- (void)updateSliderForFrequence {
+    self.title.text = @"闪频频率";
+    self.bottomLine.hidden = NO;
+    self.valueLabel.hidden = YES;
+    NSInteger numberOfSteps = 199;
+    self.flashLightSlider.maximumValue = numberOfSteps;
+    self.flashLightSlider.minimumValue = 1;
+    self.minLabel.text = @"1";
+    self.maxLabel.text = @"199";
+    self.detail.text = @"1";
+}
+
+- (void)updateSliderForTimes {
+    
+    NSInteger numberOfSteps = 40;
+    self.flashLightSlider.maximumValue = numberOfSteps;
+    self.flashLightSlider.minimumValue = 1;
+    self.bottomLine.hidden = NO;
+    self.valueLabel.hidden = YES;
+    self.title.text = @"闪烁次数";
+    self.minLabel.text = @"1";
+    self.maxLabel.text = @"40";
+    self.detail.text = @"1";
+}
+
 - (UIButton *)addButton {
     if (!_addButton) {
         _addButton = [[UIButton alloc] initWithFrame:CGRectZero];

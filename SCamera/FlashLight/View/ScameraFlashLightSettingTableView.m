@@ -183,6 +183,16 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     
 }
 
+//fixedParameter = @[self.channelStr,self.frequenceValue,self.times,self.voiceStatus,self.modelLampStatus];
+- (void)updateViewWithArray:(NSArray *)array {
+    
+    self.secondCell.channelLabel.text = array[0];
+    self.secondCell.frequenceLabel.text = [NSString stringWithFormat:@"频闪 %@Hz/%@次",array[1],array[2]];
+    self.secondCell.voiceLabel.text = array[3];
+    self.secondCell.modelLightLabel.text = array[4];
+    [self reloadData];
+}
+
 - (void)addGroupSetting {
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingClickAddGroup)]) {

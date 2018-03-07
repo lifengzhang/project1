@@ -32,4 +32,8 @@
 
 - (void)disableView;
 
+- (void)updateSliderForFrequence;
+
+- (void)updateSliderForTimes;
+
 @end
