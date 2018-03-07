@@ -29,7 +29,19 @@ static SCameraFlashLightManager *sharedInstance = nil;
     
     self = [super init];
     if (self) {
-
+        self.isSoundOpen = NO;
+        self.isPoseOpen = NO;
+        self.channel = 0x01;
+        self.aModel = FlashLightModelManual;
+        self.bModel = FlashLightModelStandby;
+        self.cModel = FlashLightModelStandby;
+        self.dModel = FlashLightModelStandby;
+        self.aPower = FlashLightPowerStandby;
+        self.bPower = FlashLightPowerStandby;
+        self.cPower = FlashLightPowerStandby;
+        self.dPower = FlashLightPowerStandby;
+        self.flashNumber = 1;
+        self.flashFrequency = 60;
     }
     
     return self;
