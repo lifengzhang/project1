@@ -109,6 +109,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
             [self.thirdCell.flashLightSlider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
             [self.thirdCell.addButton addTarget:self action:@selector(increaseValue) forControlEvents:UIControlEventTouchUpInside];
             [self.thirdCell.redeceButton addTarget:self action:@selector(reduceValue) forControlEvents:UIControlEventTouchUpInside];
+            [self.thirdCell updateHomePageSlider];
             self.valueLabel = self.thirdCell.valueLabel;
             return self.thirdCell;
         }
@@ -184,12 +185,12 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 }
 
 //fixedParameter = @[self.channelStr,self.frequenceValue,self.times,self.voiceStatus,self.modelLampStatus];
-- (void)updateViewWithArray:(NSArray *)array {
+- (void)update{
     
-    self.secondCell.channelLabel.text = array[0];
-    self.secondCell.frequenceLabel.text = [NSString stringWithFormat:@"频闪 %@Hz/%@次",array[1],array[2]];
-    self.secondCell.voiceLabel.text = array[3];
-    self.secondCell.modelLightLabel.text = array[4];
+    self.secondCell.channelLabel.text = FlashLightDataManager.channel.length > 0 ? FlashLightDataManager.channel : @"频道 1";
+    self.secondCell.frequenceLabel.text = [NSString stringWithFormat:@"频闪 %@Hz/%@次",FlashLightDataManager.frequence.length > 0 ? FlashLightDataManager.frequence : @"1",FlashLightDataManager.times.length > 0 ? FlashLightDataManager.times : @"1"];
+    self.secondCell.voiceLabel.text = FlashLightDataManager.isSoundOpen ? @"声音 开" : @"声音 关";
+    self.secondCell.modelLightLabel.text = FlashLightDataManager.isPoseOpen ? @"造型灯 开" : @"造型灯 关";
     [self reloadData];
 }
 

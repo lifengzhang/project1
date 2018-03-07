@@ -107,6 +107,10 @@
     self.minLabel.text = @"1";
     self.maxLabel.text = @"199";
     self.detail.text = @"1";
+    if (FlashLightDataManager.frequence && FlashLightDataManager.frequence.length > 0) {
+        [self.flashLightSlider setValue:[FlashLightDataManager.frequence intValue] animated:NO];
+        self.detail.text = FlashLightDataManager.frequence;
+    }
 }
 
 - (void)updateSliderForTimes {
@@ -116,10 +120,29 @@
     self.flashLightSlider.minimumValue = 1;
     self.bottomLine.hidden = NO;
     self.valueLabel.hidden = YES;
-    self.title.text = @"闪烁次数";
+    self.title.text = @"频闪次数";
     self.minLabel.text = @"1";
     self.maxLabel.text = @"40";
     self.detail.text = @"1";
+    if (FlashLightDataManager.times && FlashLightDataManager.times.length > 0) {
+        [self.flashLightSlider setValue:[FlashLightDataManager.times intValue] animated:NO];
+        self.detail.text = FlashLightDataManager.times;
+    }
+}
+
+- (void)updateHomePageSlider {
+    NSArray *numbers = @[@"1/128",@"1/128+0.3",@"1/128+0.7",@"1/64",@"1/64+0.3",@"1/64+0.7", @"1/32",@"1/32+0.3",@"1/32+0.7", @"1/16",@"1/16+0.3",@"1/16+0.7", @"1/8",@"1/8+0.3",@"1/8+0.7",@"1/4",@"1/4+0.3",@"1/4+0.7",@"1/2",@"1/2+0.3",@"1/2+0/7", @"1"];
+    NSInteger numberOfSteps = ((float)[numbers count] - 1);
+    self.flashLightSlider.maximumValue = numberOfSteps;
+    self.flashLightSlider.minimumValue = 0;
+    if (FlashLightDataManager.flashPower && FlashLightDataManager.flashPower.length > 0) {
+        for (int i = 0; i < numberOfSteps + 1; i++) {
+            if ([numbers[i] isEqualToString:FlashLightDataManager.flashPower]) {
+                [self.flashLightSlider setValue:i animated:NO];
+                self.valueLabel.text = FlashLightDataManager.flashPower;
+            }
+        }
+    }
 }
 
 - (UIButton *)addButton {
@@ -145,7 +168,7 @@
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.textColor = [UIColor whiteColor];
         _valueLabel.font = [UIFont ChinaDefaultFontNameOfSize:19.f];
-        _valueLabel.text = @"1/128";
+        _valueLabel.text = FlashLightDataManager.flashPower.length > 0 ? FlashLightDataManager.flashPower : @"1/128";
         [self addSubview:_valueLabel];
     }
     return _valueLabel;
@@ -212,10 +235,6 @@
         _flashLightSlider.backgroundColor = Scamera_Cell_Background;
         _flashLightSlider.maximumTrackTintColor = [UIColor whiteColor];
         _flashLightSlider.minimumTrackTintColor = [UIColor whiteColor];
-      NSArray *numbers = @[@"1/128",@"1/128+0.3",@"1/128+0.7",@"1/64",@"1/64+0.3",@"1/64+0.7", @"1/32",@"1/32+0.3",@"1/32+0.7", @"1/16",@"1/16+0.3",@"1/16+0.7", @"1/8",@"1/8+0.3",@"1/8+0.7",@"1/4",@"1/4+0.3",@"1/4+0.7",@"1/2",@"1/2+0.3",@"1/2+0/7", @"1"];
-        NSInteger numberOfSteps = ((float)[numbers count] - 1);
-        _flashLightSlider.maximumValue = numberOfSteps;
-        _flashLightSlider.minimumValue = 0;
         [self addSubview:_flashLightSlider];
     }
     return _flashLightSlider;

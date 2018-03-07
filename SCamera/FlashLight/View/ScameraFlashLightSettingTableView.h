@@ -36,6 +36,6 @@
 
 - (void)disableView;
 
-- (void)updateViewWithArray:(NSArray *)array;
+- (void)update;
 
 @end

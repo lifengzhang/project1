@@ -104,7 +104,7 @@
 - (UILabel *)channelLabel {
     if (!_channelLabel) {
         _channelLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _channelLabel.text = @"频道 1";
+        _channelLabel.text = FlashLightDataManager.channel.length > 0 ? FlashLightDataManager.channel : @"频道 1";
         _channelLabel.textColor = [UIColor whiteColor];
         _channelLabel.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         [self addSubview:_channelLabel];
@@ -117,7 +117,7 @@
         _modelLightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _modelLightLabel.textColor = [UIColor whiteColor];
         _modelLightLabel.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
-        _modelLightLabel.text = @"造型灯 开";
+        _modelLightLabel.text = FlashLightDataManager.isPoseOpen ? @"造型灯 开" : @"造型灯 关";
         [self addSubview:_modelLightLabel];
     }
     return _modelLightLabel;
@@ -128,7 +128,7 @@
         _voiceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _voiceLabel.textColor = [UIColor whiteColor];
         _voiceLabel.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
-        _voiceLabel.text = @"声音 开";
+        _voiceLabel.text = FlashLightDataManager.isSoundOpen ? @"声音 开" : @"声音 关";
         [self addSubview:_voiceLabel];
     }
     return _voiceLabel;
@@ -139,7 +139,7 @@
         _frequenceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _frequenceLabel.textColor = [UIColor whiteColor];
         _frequenceLabel.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
-        _frequenceLabel.text = @"频闪 33Hz/2次";
+        _frequenceLabel.text = [NSString stringWithFormat:@"频闪 %@Hz/%@次",FlashLightDataManager.frequence.length > 0 ? FlashLightDataManager.frequence : @"1",FlashLightDataManager.times.length > 0 ? FlashLightDataManager.times : @"1"];
         [self addSubview:_frequenceLabel];
     }
     return _frequenceLabel;

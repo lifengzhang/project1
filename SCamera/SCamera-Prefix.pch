@@ -12,12 +12,14 @@
 #define Width_Screen  [UIScreen mainScreen].bounds.size.width
 #define Height_Screen [UIScreen mainScreen].bounds.size.height
 
-#import "BlueToothMe.h"
+#import "Masonry.h"
 
+#import "BlueToothMe.h"
+#import "SCameraDevice.h"
 #import "UIFont+Additions.h"
 #import "SCamera-UI-Constant.h"
-#import "Masonry.h"
-#import "SCameraDevice.h"
+
 #import "SCameraFlashLightManager.h"
+#import "FlashLightDatePersistenceManager.h"
 
 #endif /* SCamera_Prefix_pch */

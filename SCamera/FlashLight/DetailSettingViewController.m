@@ -44,6 +44,21 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:leftBarButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(back)];
 }
 
+- (void)saveValue {
+    
+        if (self.channelStr.length > 0) {
+            [FlashLightDataManager saveChannel:self.channelStr];
+            
+        }
+        if (self.frequenceValue.length > 0) {
+            [FlashLightDataManager saveFrequence:self.frequenceValue];
+        }
+        if (self.times.length > 0) {
+            [FlashLightDataManager saveTimes:self.times];
+        }
+    
+}
+
 - (UIImage*)OriginImage:(UIImage*)image scaleToSize:(CGSize)size
 
 {
@@ -71,24 +86,10 @@
 }
 
 - (void)back {
-    if (self.channelStr.length == 0) {
-        self.channelStr = @"频道 1";
-    }
-    if (self.frequenceValue.length == 0) {
-        self.frequenceValue = @"1";
-    }
-    if (self.times.length == 0) {
-        self.times = @"1";
-    }
-    if (self.voiceStatus.length == 0) {
-        self.voiceStatus = @"声音 关";
-    }
-    if (self.modelLampStatus.length == 0) {
-        self.modelLampStatus = @"造型灯 关";
-    }
-    NSArray *fixedParameter = @[self.channelStr,self.frequenceValue,self.times,self.voiceStatus,self.modelLampStatus];
+    [self saveValue];
+//    NSArray *fixedParameter = @[self.channelStr,self.frequenceValue,self.times,self.voiceStatus,self.modelLampStatus];
     if (self.blockparameter) {
-        self.blockparameter(fixedParameter);
+        self.blockparameter();
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -183,9 +184,11 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         FlashLightManager.isSoundOpen = YES;
+        [FlashLightDataManager saveIsSoundOpen:YES];
         self.voiceStatus = @"声音 开";
     } else {
         FlashLightManager.isSoundOpen = NO;
+        [FlashLightDataManager saveIsSoundOpen:NO];
         self.voiceStatus = @"声音 关";
     }
 }
@@ -195,9 +198,11 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         FlashLightManager.isPoseOpen = YES;
+        [FlashLightDataManager saveIsPoseOpen:YES];
         self.modelLampStatus = @"造型灯 开";
     } else {
         FlashLightManager.isPoseOpen = NO;
+        [FlashLightDataManager saveIsPoseOpen:NO];
         self.modelLampStatus = @"造型灯 关";
     }
 }

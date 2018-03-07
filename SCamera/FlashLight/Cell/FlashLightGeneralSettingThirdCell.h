@@ -36,4 +36,6 @@
 
 - (void)updateSliderForTimes;
 
+- (void)updateHomePageSlider;
+
 @end

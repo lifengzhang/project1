@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^DetailSettingViewBlockFixedParameter)(NSArray *fixedParameter);
+typedef void (^DetailSettingViewBlockFixedParameter)(void);
 
 @interface DetailSettingViewController : UIViewController
 

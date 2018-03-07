@@ -40,6 +40,14 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (self.sliderValue.length > 0) {
+        [FlashLightDataManager saveFlashPower:self.sliderValue];
+
+    }
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -139,8 +147,8 @@
 - (void)ScameraFlashLightSettingClickDetilSettingCell {
     
     DetailSettingViewController *vc = [[DetailSettingViewController alloc] initWithNibName:nil bundle:nil];
-    vc.blockparameter = ^(NSArray *fixedParameter) {
-        [self.flashLightSettingView updateViewWithArray:fixedParameter];
+    vc.blockparameter = ^{
+        [self.flashLightSettingView update];
     };
     [self.navigationController pushViewController:vc animated:YES];
     

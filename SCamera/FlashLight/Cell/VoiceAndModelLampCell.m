@@ -108,7 +108,10 @@
 - (UIButton *)voiceBtn {
     if (!_voiceBtn) {
         _voiceBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice"] forState:UIControlStateNormal];
+//        [_voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice"] forState:UIControlStateNormal];
+        [_voiceBtn setTitle:@"打开" forState:UIControlStateSelected];
+        [_voiceBtn setTitle:@"关闭" forState:UIControlStateNormal];
+        _voiceBtn.selected = FlashLightDataManager.isSoundOpen;
         [self addSubview:_voiceBtn];
     }
     return _voiceBtn;
@@ -117,7 +120,10 @@
 - (UIButton *)modelLampBtn {
     if (!_modelLampBtn) {
         _modelLampBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_ModelLamp"] forState:UIControlStateNormal];
+//        [_modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_ModelLamp"] forState:UIControlStateNormal];
+        [_modelLampBtn setTitle:@"打开" forState:UIControlStateSelected];
+        [_modelLampBtn setTitle:@"关闭" forState:UIControlStateNormal];
+        _modelLampBtn.selected = FlashLightDataManager.isPoseOpen;
         [self addSubview:_modelLampBtn];
     }
     return _modelLampBtn;
