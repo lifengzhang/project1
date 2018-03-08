@@ -98,7 +98,7 @@
 }
 
 - (void)updateSliderForFrequence {
-    self.title.text = @"闪频频率";
+    self.title.text = @"频闪频率";
     self.bottomLine.hidden = NO;
     self.valueLabel.hidden = YES;
     NSInteger numberOfSteps = 199;

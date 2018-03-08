@@ -12,8 +12,6 @@
 
 @property (nonatomic, strong) UIImageView *arrow;
 
-@property (nonatomic, strong) UIView *bottomLine;
-
 @end
 
 @implementation DetailSettingCustomCell

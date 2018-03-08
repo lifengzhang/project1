@@ -191,4 +191,8 @@
     return _flashLightSettingView;
 }
 
+- (void)dealloc {
+    
+}
+
 @end

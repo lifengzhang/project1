@@ -10,6 +10,8 @@
 
 @interface DetailSettingCustomCell : UITableViewCell
 
+@property (nonatomic, strong) UIView *bottomLine;
+
 @property (nonatomic, strong) UILabel *title;
 
 @property (nonatomic, strong) UILabel *detail;

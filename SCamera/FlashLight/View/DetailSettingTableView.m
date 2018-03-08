@@ -93,6 +93,7 @@ static NSString *voiceAndeModelLampCellId = @"voice_ModelLamp_Cell_ID";
         DetailSettingCustomCell *cell = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellID forIndexPath:indexPath];
         cell.title.text = @"导出设置";
         cell.detail.hidden = YES;
+        cell.bottomLine.hidden = YES;
         return cell;
     }
     return 0;

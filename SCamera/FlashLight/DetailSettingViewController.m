@@ -218,4 +218,8 @@
     return _detailView;
 }
 
+- (void)dealloc {
+    
+}
+
 @end
