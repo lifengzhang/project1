@@ -38,4 +38,6 @@
 
 - (void)updateHomePageSlider;
 
+- (void)updateGroupSettingSlider;
+
 @end

@@ -12,12 +12,6 @@
 
 @property (nonatomic, strong) UIView *centerLine;
 
-@property (nonatomic, strong) UILabel *voiceLabel;
-
-@property (nonatomic, strong) UILabel *modelLabel;
-
-@property (nonatomic, strong) UIView *bottomLine;
-
 @end
 
 @implementation VoiceAndModelLampCell
@@ -74,6 +68,18 @@
     }];
 }
 
+- (void)updateVoiceCell {
+    
+    self.voiceLabel.text = @"声音";
+    self.modelLabel.text = @"造型灯";
+    [self.voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice_Close"] forState:UIControlStateNormal];
+    [self.voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice_Open"] forState:UIControlStateSelected];
+    [self.modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_ModelLamp_Close"] forState:UIControlStateNormal];
+    [self.modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_ModelLamp_Open"] forState:UIControlStateSelected];
+    self.voiceBtn.selected = FlashLightManager.isSoundOpen;
+    self.modelLampBtn.selected = FlashLightManager.isPoseOpen;
+}
+
 - (UIView *)centerLine {
     if (!_centerLine) {
         _centerLine = [[UIView alloc] initWithFrame:CGRectZero];
@@ -108,10 +114,6 @@
 - (UIButton *)voiceBtn {
     if (!_voiceBtn) {
         _voiceBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-//        [_voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice"] forState:UIControlStateNormal];
-        [_voiceBtn setTitle:@"打开" forState:UIControlStateSelected];
-        [_voiceBtn setTitle:@"关闭" forState:UIControlStateNormal];
-        _voiceBtn.selected = FlashLightManager.isSoundOpen;
         [self addSubview:_voiceBtn];
     }
     return _voiceBtn;
@@ -120,10 +122,6 @@
 - (UIButton *)modelLampBtn {
     if (!_modelLampBtn) {
         _modelLampBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-//        [_modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_ModelLamp"] forState:UIControlStateNormal];
-        [_modelLampBtn setTitle:@"打开" forState:UIControlStateSelected];
-        [_modelLampBtn setTitle:@"关闭" forState:UIControlStateNormal];
-        _modelLampBtn.selected = FlashLightManager.isPoseOpen;
         [self addSubview:_modelLampBtn];
     }
     return _modelLampBtn;

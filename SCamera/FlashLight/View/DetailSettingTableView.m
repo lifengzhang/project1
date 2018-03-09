@@ -82,6 +82,7 @@ static NSString *voiceAndeModelLampCellId = @"voice_ModelLamp_Cell_ID";
         self.voiceCell = [tableView dequeueReusableCellWithIdentifier:voiceAndeModelLampCellId forIndexPath:indexPath];
         [self.voiceCell.voiceBtn addTarget:self action:@selector(voiceStatus:) forControlEvents:UIControlEventTouchUpInside];
         [self.voiceCell.modelLampBtn addTarget:self action:@selector(modelLampStatus:) forControlEvents:UIControlEventTouchUpInside];
+        [self.voiceCell updateVoiceCell];
         return self.voiceCell;
         
     } else if (indexPath.row == 4) {

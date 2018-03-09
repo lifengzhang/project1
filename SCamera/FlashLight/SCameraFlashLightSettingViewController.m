@@ -10,6 +10,8 @@
 #import "ScameraFlashLightSettingTableView.h"
 #import "DetailSettingViewController.h"
 #import "SCameraViewController.h"
+#import "GroupSelectController.h"
+#import "GroupSettingController.h"
 
 @interface SCameraFlashLightSettingViewController () <ScameraFlashLightSettingTableViewDelegate>
 
@@ -178,7 +180,25 @@
 //增加分组设置
 - (void)ScameraFlashLightSettingClickAddGroup {
     
+    GroupSelectController *vc = [[GroupSelectController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+//点击分组设置Cell
+- (void)ScameraFlashLightSettingClickGroupSettingCellWithClass:(NSString *)str {
     
+    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)clickBcellWithClass:(NSString *)str {
+    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)clickCellWithClass:(NSString *)str {
+    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma - mark lazy load

@@ -34,6 +34,14 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 
 @property (nonatomic, strong) FlashLightGeneralSettingSecondCell *secondCell;
 
+@property (nonatomic, strong) FlashLightGroupSettingCell *aCell;
+
+@property (nonatomic, strong) FlashLightGroupSettingCell *bCell;
+
+@property (nonatomic, strong) FlashLightGroupSettingCell *cCell;
+
+@property (nonatomic, strong) FlashLightGroupSettingCell *dCell;
+
 @end
 
 @implementation ScameraFlashLightSettingTableView
@@ -62,21 +70,29 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 - (void)enableView {
     
     [self.generalCell enableView];
-    [self.groupCell enableView];
+//    [self.groupCell enableView];
     [self.addCell enableView];
     [self.thirdCell enableView];
     [self.secondCell enableView];
     self.secondCell.userInteractionEnabled = YES;
+    [self.aCell enableView];
+    [self.bCell enableView];
+    [self.cCell enableView];
+    [self.dCell enableView];
 }
 
 - (void)disableView {
     
     [self.generalCell disableView];
-    [self.groupCell disableView];
+//    [self.groupCell disableView];
     [self.addCell disableView];
     [self.thirdCell disableView];
     [self.secondCell disableView];
     self.secondCell.userInteractionEnabled = NO;
+    [self.aCell disableView];
+    [self.bCell disableView];
+    [self.cCell disableView];
+    [self.dCell disableView];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -89,7 +105,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     if (section == 0) {
         return 3;
     } else {
-        return 1;
+        return 4;
     }
 }
 
@@ -115,8 +131,29 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
         }
     } else {
         
-        self.groupCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-        return self.groupCell;
+        if (indexPath.row == 0) {
+            self.aCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
+            self.aCell.grouplType.text = @"A";
+            [self.aCell.aCell addTarget:self action:@selector(clickACell:) forControlEvents:UIControlEventTouchUpInside];
+            return self.aCell;
+        } else if (indexPath.row == 1) {
+            self.bCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
+            [self.self.bCell.aCell addTarget:self action:@selector(clickBCell:) forControlEvents:UIControlEventTouchUpInside];
+            self.self.bCell.grouplType.text = @"B";
+            return self.bCell;
+        } else if (indexPath.row == 2) {
+            self.cCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
+            [self.cCell.aCell addTarget:self action:@selector(clickCell:) forControlEvents:UIControlEventTouchUpInside];
+            self.cCell.aCell.tag = 1;
+            self.cCell.grouplType.text = @"C";
+            return self.cCell;
+        } else {
+            self.dCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
+            [self.dCell.aCell addTarget:self action:@selector(clickCell:) forControlEvents:UIControlEventTouchUpInside];
+            self.dCell.aCell.tag = 2;
+            self.dCell.grouplType.text = @"D";
+            return self.dCell;
+        }
     }
     return 0;
 }
@@ -232,6 +269,31 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(Slider:ClickReduceBtnWithValue:)]) {
         [self.flashLightSettingTableViewDelegate Slider:self.thirdCell.flashLightSlider ClickReduceBtnWithValue:self.thirdCell.valueLabel];
+    }
+}
+
+- (void)clickACell:(NSString *)str {
+    
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingClickGroupSettingCellWithClass:)]) {
+        [self.flashLightSettingTableViewDelegate ScameraFlashLightSettingClickGroupSettingCellWithClass:@"A"];
+    }
+}
+
+- (void)clickBCell:(NSString *)str {
+    
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickBcellWithClass:)]) {
+        [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"B"];
+    }
+}
+
+- (void)clickCell:(UIButton *)btn {
+    
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickCellWithClass:)]) {
+        if (btn.tag == 1) {
+            [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"C"];
+        } else {
+            [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"D"];
+        }
     }
 }
 

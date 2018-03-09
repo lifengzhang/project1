@@ -36,6 +36,13 @@
 		A363F635204997D20037C9ED /* FlashLightSetting.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A363F634204997D20037C9ED /* FlashLightSetting.xcassets */; };
 		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
 		A37FC23920312C83007892B6 /* SCameraISOPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37FC23820312C83007892B6 /* SCameraISOPickerView.m */; };
+		A3A063E02052200400CF1DA9 /* GroupSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063DF2052200400CF1DA9 /* GroupSelectCell.m */; };
+		A3A063E22052211700CF1DA9 /* GroupSelect.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3A063E12052211700CF1DA9 /* GroupSelect.xcassets */; };
+		A3A063E520522ED500CF1DA9 /* GroupSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063E420522ED500CF1DA9 /* GroupSelectController.m */; };
+		A3A063E820522F0400CF1DA9 /* GroupSelectTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063E720522F0400CF1DA9 /* GroupSelectTableView.m */; };
+		A3A063EB20526B8E00CF1DA9 /* GroupSettingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063EA20526B8E00CF1DA9 /* GroupSettingTableView.m */; };
+		A3A063EE205275CB00CF1DA9 /* GroupSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063ED205275CB00CF1DA9 /* GroupSettingController.m */; };
+		A3A063F120528ED100CF1DA9 /* StartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063F020528ED100CF1DA9 /* StartCell.m */; };
 		A3CE6D452049313500811DA8 /* SCameraFlashLightSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D442049313500811DA8 /* SCameraFlashLightSettingViewController.m */; };
 		A3CE6D482049318300811DA8 /* ScameraFlashLightSettingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D472049318300811DA8 /* ScameraFlashLightSettingTableView.m */; };
 		A3CE6D4B204935E700811DA8 /* FlashLightGeneralSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D4A204935E700811DA8 /* FlashLightGeneralSettingCell.m */; };
@@ -107,6 +114,19 @@
 		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
 		A37FC23720312C83007892B6 /* SCameraISOPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraISOPickerView.h; sourceTree = "<group>"; };
 		A37FC23820312C83007892B6 /* SCameraISOPickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraISOPickerView.m; sourceTree = "<group>"; };
+		A3A063DE2052200400CF1DA9 /* GroupSelectCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupSelectCell.h; sourceTree = "<group>"; };
+		A3A063DF2052200400CF1DA9 /* GroupSelectCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupSelectCell.m; sourceTree = "<group>"; };
+		A3A063E12052211700CF1DA9 /* GroupSelect.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = GroupSelect.xcassets; sourceTree = "<group>"; };
+		A3A063E320522ED500CF1DA9 /* GroupSelectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupSelectController.h; sourceTree = "<group>"; };
+		A3A063E420522ED500CF1DA9 /* GroupSelectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupSelectController.m; sourceTree = "<group>"; };
+		A3A063E620522F0400CF1DA9 /* GroupSelectTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupSelectTableView.h; sourceTree = "<group>"; };
+		A3A063E720522F0400CF1DA9 /* GroupSelectTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupSelectTableView.m; sourceTree = "<group>"; };
+		A3A063E920526B8E00CF1DA9 /* GroupSettingTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupSettingTableView.h; sourceTree = "<group>"; };
+		A3A063EA20526B8E00CF1DA9 /* GroupSettingTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupSettingTableView.m; sourceTree = "<group>"; };
+		A3A063EC205275CB00CF1DA9 /* GroupSettingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupSettingController.h; sourceTree = "<group>"; };
+		A3A063ED205275CB00CF1DA9 /* GroupSettingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupSettingController.m; sourceTree = "<group>"; };
+		A3A063EF20528ED100CF1DA9 /* StartCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StartCell.h; sourceTree = "<group>"; };
+		A3A063F020528ED100CF1DA9 /* StartCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StartCell.m; sourceTree = "<group>"; };
 		A3CE6D432049313500811DA8 /* SCameraFlashLightSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraFlashLightSettingViewController.h; sourceTree = "<group>"; };
 		A3CE6D442049313500811DA8 /* SCameraFlashLightSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraFlashLightSettingViewController.m; sourceTree = "<group>"; };
 		A3CE6D462049318300811DA8 /* ScameraFlashLightSettingTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScameraFlashLightSettingTableView.h; sourceTree = "<group>"; };
@@ -290,6 +310,7 @@
 				A3D9460D202D34E80001220E /* Camera.xcassets */,
 				A363F634204997D20037C9ED /* FlashLightSetting.xcassets */,
 				A350EF16204CDF9200821FB7 /* Navigation.xcassets */,
+				A3A063E12052211700CF1DA9 /* GroupSelect.xcassets */,
 			);
 			path = ImageRerources;
 			sourceTree = "<group>";
@@ -305,6 +326,10 @@
 				A3CE6D442049313500811DA8 /* SCameraFlashLightSettingViewController.m */,
 				A3122AFF204AC63A00D2254C /* DetailSettingViewController.h */,
 				A3122B00204AC63A00D2254C /* DetailSettingViewController.m */,
+				A3A063E320522ED500CF1DA9 /* GroupSelectController.h */,
+				A3A063E420522ED500CF1DA9 /* GroupSelectController.m */,
+				A3A063EC205275CB00CF1DA9 /* GroupSettingController.h */,
+				A3A063ED205275CB00CF1DA9 /* GroupSettingController.m */,
 			);
 			path = FlashLight;
 			sourceTree = "<group>";
@@ -316,6 +341,10 @@
 				A3CE6D472049318300811DA8 /* ScameraFlashLightSettingTableView.m */,
 				A3122B02204AC6AF00D2254C /* DetailSettingTableView.h */,
 				A3122B03204AC6AF00D2254C /* DetailSettingTableView.m */,
+				A3A063E620522F0400CF1DA9 /* GroupSelectTableView.h */,
+				A3A063E720522F0400CF1DA9 /* GroupSelectTableView.m */,
+				A3A063E920526B8E00CF1DA9 /* GroupSettingTableView.h */,
+				A3A063EA20526B8E00CF1DA9 /* GroupSettingTableView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -337,6 +366,10 @@
 				A3122B06204AC86200D2254C /* DetailSettingCustomCell.m */,
 				A3122B08204AD71800D2254C /* VoiceAndModelLampCell.h */,
 				A3122B09204AD71800D2254C /* VoiceAndModelLampCell.m */,
+				A3A063DE2052200400CF1DA9 /* GroupSelectCell.h */,
+				A3A063DF2052200400CF1DA9 /* GroupSelectCell.m */,
+				A3A063EF20528ED100CF1DA9 /* StartCell.h */,
+				A3A063F020528ED100CF1DA9 /* StartCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -418,6 +451,7 @@
 				0780C3571FE954410044C75D /* Assets.xcassets in Resources */,
 				0780C3551FE954410044C75D /* Main.storyboard in Resources */,
 				A350EF17204CDF9200821FB7 /* Navigation.xcassets in Resources */,
+				A3A063E22052211700CF1DA9 /* GroupSelect.xcassets in Resources */,
 				A363F635204997D20037C9ED /* FlashLightSetting.xcassets in Resources */,
 				A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */,
 			);
@@ -483,6 +517,7 @@
 			files = (
 				A3CE6D482049318300811DA8 /* ScameraFlashLightSettingTableView.m in Sources */,
 				0780C3521FE954410044C75D /* ViewController.m in Sources */,
+				A3A063E820522F0400CF1DA9 /* GroupSelectTableView.m in Sources */,
 				07523ADB202D791F00650E47 /* SCameraISOValueScrollView.m in Sources */,
 				A3CE6D51204939D800811DA8 /* FlashLightGeneralSettingSecondCell.m in Sources */,
 				A3CE6D5720493A3200811DA8 /* FlashLightGeneralSettingThirdCell.m in Sources */,
@@ -498,8 +533,11 @@
 				07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
 				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
+				A3A063E520522ED500CF1DA9 /* GroupSelectController.m in Sources */,
 				A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */,
+				A3A063EB20526B8E00CF1DA9 /* GroupSettingTableView.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
+				A3A063E02052200400CF1DA9 /* GroupSelectCell.m in Sources */,
 				A3122AFE204A5B2400D2254C /* FlashLightGroupAddCell.m in Sources */,
 				07783CC520400FBD00F1F277 /* SCameraFlashLightManager.m in Sources */,
 				A314475A2033180100874CAF /* SCameraPictureView.m in Sources */,
@@ -509,9 +547,11 @@
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
 				A3122B01204AC63A00D2254C /* DetailSettingViewController.m in Sources */,
 				07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */,
+				A3A063EE205275CB00CF1DA9 /* GroupSettingController.m in Sources */,
 				A3122B07204AC86200D2254C /* DetailSettingCustomCell.m in Sources */,
 				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
+				A3A063F120528ED100CF1DA9 /* StartCell.m in Sources */,
 				A3FF51D4203033A90031D1DF /* SCameraShutterPickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

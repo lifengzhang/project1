@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) UIView *bottomLine;
 
+@property (nonatomic, strong) UIButton *aCell; //点击cell的Button
+
 - (void)enableView;
 
 - (void)disableView;

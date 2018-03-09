@@ -24,6 +24,12 @@
 
 - (void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label;
 
+- (void)ScameraFlashLightSettingClickGroupSettingCellWithClass:(NSString *)str;
+
+- (void)clickBcellWithClass:(NSString *)str;
+
+- (void)clickCellWithClass:(NSString *)str;
+
 @end
 
 @interface ScameraFlashLightSettingTableView : UITableView

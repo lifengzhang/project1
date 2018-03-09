@@ -14,4 +14,14 @@
 
 @property (nonatomic, strong) UIButton *modelLampBtn;
 
+@property (nonatomic, strong) UILabel *voiceLabel;
+
+@property (nonatomic, strong) UILabel *modelLabel;
+
+@property (nonatomic, strong) UIView *bottomLine;
+
+- (void)updateVoiceCell;
+
+- (void)updateFlashFrequenceCell;
+
 @end

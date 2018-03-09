@@ -145,6 +145,19 @@
     }
 }
 
+- (void)updateGroupSettingSlider {
+    self.valueLabel.text = @"1/64";
+    self.bottomLine.hidden = NO;
+    self.title.hidden = YES;
+    self.minLabel.text = @"1/64";
+    self.maxLabel.text = @"1/1";
+    self.detail.hidden = YES;
+    NSArray *numbers = @[@"1/64",@"1/32",@"1/16",@"1/8",@"1/4",@"1/2",@"1"];
+    NSInteger numberOfSteps = ((float)[numbers count] - 1);
+    self.flashLightSlider.maximumValue = numberOfSteps;
+    self.flashLightSlider.minimumValue = 0;
+}
+
 - (UIButton *)addButton {
     if (!_addButton) {
         _addButton = [[UIButton alloc] initWithFrame:CGRectZero];

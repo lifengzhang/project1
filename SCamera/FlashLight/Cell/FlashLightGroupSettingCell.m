@@ -63,6 +63,11 @@
         make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
     }];
+    
+    [self.aCell mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.startBtn.mas_right).offset(15);
+        make.top.bottom.right.equalTo(self);
+    }];
 }
 
 - (void)enableView {
@@ -156,6 +161,14 @@
         [self addSubview:_value];
     }
     return _value;
+}
+
+- (UIButton *)aCell {
+    if (!_aCell) {
+        _aCell = [[UIButton alloc] initWithFrame:CGRectZero];
+        [self addSubview:_aCell];
+    }
+    return _aCell;
 }
 
 @end
