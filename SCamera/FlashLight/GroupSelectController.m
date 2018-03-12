@@ -73,7 +73,7 @@
         [FlashLightManager removeGroupString:@"A"];
         [FlashLightManager saveIsSelectedA:NO];
     }
-    [self.groupSelectView aButtonSelect:btn.selected];
+    [self.groupSelectView aButtonSelect:FlashLightManager.isSelectedA];
 }
 
 - (void)clickBGroup:(UIButton *)btn {
@@ -85,7 +85,7 @@
         [FlashLightManager removeGroupString:@"B"];
         [FlashLightManager saveIsSelectedB:NO];
     }
-    [self.groupSelectView bButtonSelect:btn.selected];
+    [self.groupSelectView bButtonSelect:FlashLightManager.isSelectedB];
 }
 
 - (void)clickCGroup:(UIButton *)btn {
@@ -97,7 +97,7 @@
         [FlashLightManager removeGroupString:@"C"];
         [FlashLightManager saveIsSelectedC:NO];
     }
-    [self.groupSelectView cButtonSelect:btn.selected];
+    [self.groupSelectView cButtonSelect:FlashLightManager.isSelectedC];
 }
 
 - (void)clickDGroup:(UIButton *)btn {
@@ -109,7 +109,7 @@
         [FlashLightManager removeGroupString:@"D"];
         [FlashLightManager saveIsSelectedD:NO];
     }
-    [self.groupSelectView dButtonSelect:btn.selected];
+    [self.groupSelectView dButtonSelect:FlashLightManager.isSelectedD];
 }
 
 - (GroupSelectTableView *)groupSelectView {

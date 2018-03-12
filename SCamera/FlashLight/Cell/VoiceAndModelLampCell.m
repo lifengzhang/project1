@@ -80,6 +80,16 @@
     self.modelLampBtn.selected = FlashLightManager.isPoseOpen;
 }
 
+- (void)updateGroupSettingCell {
+    self.voiceLabel.text = @"声音";
+    self.modelLabel.text = @"闪频";
+    self.bottomLine.hidden = YES;
+    [self.voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice_Close"] forState:UIControlStateNormal];
+    [self.voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice_Open"] forState:UIControlStateSelected];
+    [self.modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_Close"] forState:UIControlStateNormal];
+    [self.modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_Open"] forState:UIControlStateSelected];
+}
+
 - (UIView *)centerLine {
     if (!_centerLine) {
         _centerLine = [[UIView alloc] initWithFrame:CGRectZero];

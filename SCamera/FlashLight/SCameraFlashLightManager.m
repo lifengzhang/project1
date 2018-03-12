@@ -215,6 +215,10 @@ static SCameraFlashLightManager *sharedInstance = nil;
     return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedStartD];
 }
 
+- (BOOL)isMainStartSelected {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsMainStartSelected];
+}
+
 - (NSUInteger)flashNumber {
     return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightTimes];
 }
@@ -321,6 +325,11 @@ static SCameraFlashLightManager *sharedInstance = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)saveMainStartSelected:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsMainStartSelected];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)saveFrequence:(NSInteger)frequence {
     
     if (frequence > 0) {
@@ -360,8 +369,9 @@ static SCameraFlashLightManager *sharedInstance = nil;
 }
 
 - (void)saveGroupArray:(NSString *)str {
-    [_groupArray addObject:str];
-    [[NSUserDefaults standardUserDefaults] setObject:_groupArray forKey:GroupArray];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.groupArray];
+    [array addObject:str];
+    [[NSUserDefaults standardUserDefaults] setObject:array forKey:GroupArray];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -371,15 +381,15 @@ static SCameraFlashLightManager *sharedInstance = nil;
 }
 
 - (void)removeGroupString:(NSString *)str {
-    
-    if (_groupArray.count == 0) {
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.groupArray];
+    if (array.count == 0) {
         return;
     } else {
-        for (int i = 0; i < _groupArray.count; i++) {
-            if ([_groupArray[i] isEqualToString:str]) {
-                [_groupArray removeObject:_groupArray[i]];
+        for (int i = 0; i <array.count; i++) {
+            if ([array[i] isEqualToString:str]) {
+                [array removeObject:array[i]];
             }
-            [[NSUserDefaults standardUserDefaults] setObject:_groupArray forKey:GroupArray];
+            [[NSUserDefaults standardUserDefaults] setObject:array forKey:GroupArray];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }

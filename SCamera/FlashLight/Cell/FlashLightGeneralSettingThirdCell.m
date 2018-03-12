@@ -158,6 +158,22 @@
     self.flashLightSlider.minimumValue = 0;
 }
 
+- (void)updateGroupAcell {
+    
+}
+
+-(void)updateGroupBcell {
+    
+}
+
+-(void)updateGroupCcell {
+    
+}
+
+- (void)updateGroupDcell {
+    
+}
+
 - (UIButton *)addButton {
     if (!_addButton) {
         _addButton = [[UIButton alloc] initWithFrame:CGRectZero];

@@ -123,6 +123,18 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     [self.bCell disableView];
     [self.cCell disableView];
     [self.dCell disableView];
+    if (FlashLightManager.isSelectedStartA) {
+        [self.aCell disableView];
+    }
+    if (FlashLightManager.isSelectedStartB) {
+        [self.bCell disableView];
+    }
+    if (FlashLightManager.isSelectedStartC) {
+        [self.cCell disableView];
+    }
+    if (FlashLightManager.isSelectedStartD) {
+        [self.dCell disableView];
+    }
 }
 
 - (void)tableViewReloadGroupDate {
@@ -164,6 +176,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             self.generalCell = [tableView dequeueReusableCellWithIdentifier:flashLightGeneralSettingCellID forIndexPath:indexPath];
+            
             [self.generalCell.startButton addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchUpInside];
             [self.generalCell.testButton addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
             return self.generalCell;
@@ -177,6 +190,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
             [self.thirdCell.redeceButton addTarget:self action:@selector(reduceValue) forControlEvents:UIControlEventTouchUpInside];
             [self.thirdCell updateHomePageSlider];
             self.valueLabel = self.thirdCell.valueLabel;
+            [self loadView];
             return self.thirdCell;
         }
     } else {
@@ -188,12 +202,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
         if (indexPath.row == 0) {
             self.aCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
             self.aCell.grouplType.text = self.sortArray[0];
-            if (FlashLightManager.mainValue != nil && !self.aCell.startBtn.selected) {
-                self.aCell.value.text = FlashLightManager.mainValue;
-            }
-            if (self.aValue != nil && self.aValue.length > 0) {
-                self.aCell.value.text = self.aValue;
-            }
+            [self loadAcell];
             [self.aCell.aCell addTarget:self action:@selector(clickACell:) forControlEvents:UIControlEventTouchUpInside];
             [self.aCell.startBtn addTarget:self action:@selector(aStart:) forControlEvents:UIControlEventTouchUpInside];
             return self.aCell;
@@ -202,37 +211,20 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
             [self.self.bCell.aCell addTarget:self action:@selector(clickBCell:) forControlEvents:UIControlEventTouchUpInside];
             [self.bCell.startBtn addTarget:self action:@selector(bStart:) forControlEvents:UIControlEventTouchUpInside];
             self.self.bCell.grouplType.text = self.sortArray[1];
-            if (FlashLightManager.mainValue != nil && !self.bCell.startBtn.selected) {
-                self.bCell.value.text = FlashLightManager.mainValue;
-            }
-            if (self.bValue != nil && self.bValue.length > 0) {
-                self.bCell.value.text = self.bValue;
-            }
+            [self loadBcell];
             return self.bCell;
         } else if (indexPath.row == 2) {
             self.cCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
             [self.cCell.aCell addTarget:self action:@selector(clickCCell:) forControlEvents:UIControlEventTouchUpInside];
             [self.cCell.startBtn addTarget:self action:@selector(cStart:) forControlEvents:UIControlEventTouchUpInside];
-            self.cCell.aCell.tag = 1;
-            if (FlashLightManager.mainValue != nil && !self.cCell.startBtn.selected) {
-                self.cCell.value.text = FlashLightManager.mainValue;
-            }
-            if (self.cValue != nil && self.cValue.length > 0) {
-                self.cCell.value.text = self.cValue;
-            }
+            [self loadCcell];
             self.cCell.grouplType.text = self.sortArray[2];
             return self.cCell;
         } else {
             self.dCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
             [self.dCell.aCell addTarget:self action:@selector(clickDCell:) forControlEvents:UIControlEventTouchUpInside];
             [self.dCell.startBtn addTarget:self action:@selector(dStart:) forControlEvents:UIControlEventTouchUpInside];
-            self.dCell.aCell.tag = 2;
-            if (FlashLightManager.mainValue != nil && !self.dCell.startBtn.selected) {
-                self.dCell.value.text = FlashLightManager.mainValue;
-            }
-            if (self.dValue != nil && self.dValue.length > 0) {
-                self.dCell.value.text = self.dValue;
-            }
+            [self loadDcell];
             self.dCell.grouplType.text = self.sortArray[3];
             return self.dCell;
         }
@@ -296,6 +288,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     if (section == 1) {
         self.addCell = [[FlashLightGroupAddCell alloc] init];
         [self.addCell.addButton addTarget:self action:@selector(addGroupSetting) forControlEvents:UIControlEventTouchUpInside];
+        [self loadView];
         return self.addCell;
     } else {
         return 0;
@@ -330,6 +323,62 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 - (void)updateDCellValue:(NSString *)str {
     self.dValue = str;
     [self reloadData];
+}
+
+- (void)loadAcell {
+    self.aCell.startBtn.selected = FlashLightManager.isSelectedStartA;
+    [self clickStartA];
+    [self loadView];
+    if (FlashLightManager.mainValue != nil && !self.aCell.startBtn.selected) {
+        self.aCell.value.text = FlashLightManager.mainValue;
+    }
+    if (self.aValue != nil && self.aValue.length > 0) {
+        self.aCell.value.text = self.aValue;
+    }
+}
+
+- (void)loadBcell {
+    self.bCell.startBtn.selected = FlashLightManager.isSelectedStartB;
+    [self clickStartB];
+    [self loadView];
+    if (FlashLightManager.mainValue != nil && !self.bCell.startBtn.selected) {
+        self.bCell.value.text = FlashLightManager.mainValue;
+    }
+    if (self.bValue != nil && self.bValue.length > 0) {
+        self.bCell.value.text = self.bValue;
+    }
+}
+
+- (void)loadCcell {
+    self.cCell.startBtn.selected = FlashLightManager.isSelectedStartC;
+    [self clickStartC];
+    [self loadView];
+    if (FlashLightManager.mainValue != nil && !self.cCell.startBtn.selected) {
+        self.cCell.value.text = FlashLightManager.mainValue;
+    }
+    if (self.cValue != nil && self.cValue.length > 0) {
+        self.cCell.value.text = self.cValue;
+    }
+}
+
+- (void)loadDcell {
+    self.dCell.startBtn.selected = FlashLightManager.isSelectedStartD;
+    [self clickStartD];
+    [self loadView];
+    if (FlashLightManager.mainValue != nil && !self.dCell.startBtn.selected) {
+        self.dCell.value.text = FlashLightManager.mainValue;
+    }
+    if (self.dValue != nil && self.dValue.length > 0) {
+        self.dCell.value.text = self.dValue;
+    }
+}
+
+- (void)loadView {
+    if (FlashLightManager.isMainStartSelected) {
+        [self disableView];
+    } else {
+        [self enableView];
+    }
 }
 
 - (void)clickStartA {

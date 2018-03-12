@@ -40,4 +40,12 @@
 
 - (void)updateGroupSettingSlider;
 
+- (void)updateGroupAcell;
+
+- (void)updateGroupBcell;
+
+- (void)updateGroupCcell;
+
+- (void)updateGroupDcell;
+
 @end

@@ -103,13 +103,9 @@ static NSString *startCellID = @"start_Cell_ID";
     } else if (indexPath.section == 2) {
         
         self.voiceCell = [tableView dequeueReusableCellWithIdentifier:voiceAndModelLampCellId forIndexPath:indexPath];
-        self.voiceCell.voiceLabel.text = @"声音";
-        self.voiceCell.modelLabel.text = @"闪频";
-        self.voiceCell.bottomLine.hidden = YES;
-        [self.voiceCell.voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice_Close"] forState:UIControlStateNormal];
-        [self.voiceCell.voiceBtn setImage:[UIImage imageNamed:@"FlashLight_Voice_Open"] forState:UIControlStateSelected];
-        [self.voiceCell.modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_Close"] forState:UIControlStateNormal];
-        [self.voiceCell.modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_Open"] forState:UIControlStateSelected];
+        [self.voiceCell updateGroupSettingCell];
+        [self.voiceCell.voiceBtn addTarget:self action:@selector(isVoiceOpen:) forControlEvents:UIControlEventTouchUpInside];
+        [self.voiceCell.modelLampBtn addTarget:self action:@selector(isModelLampOpen:) forControlEvents:UIControlEventTouchUpInside];
         return self.voiceCell;
     } else {
         self.startCell = [tableView dequeueReusableCellWithIdentifier:startCellID forIndexPath:indexPath];
@@ -175,6 +171,25 @@ static NSString *startCellID = @"start_Cell_ID";
     
     if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(Slider:ClickReduceBtnWithValue:)]) {
         [self.groupSettingTableViewDelegate Slider:self.flashCell.flashLightSlider ClickReduceBtnWithValue:self.flashCell.valueLabel];
+    }
+}
+
+- (void)isVoiceOpen:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.voiceCell.voiceBtn.selected = YES;
+    } else {
+        self.voiceCell.voiceBtn.selected = NO;
+    }
+}
+
+- (void)isModelLampOpen:(UIButton *)btn {
+    
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.voiceCell.modelLampBtn.selected = YES;
+    } else {
+        self.voiceCell.modelLampBtn.selected = NO;
     }
 }
 

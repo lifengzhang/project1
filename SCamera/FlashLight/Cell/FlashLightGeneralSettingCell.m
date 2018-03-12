@@ -83,7 +83,11 @@
 - (UIImageView *)startImage {
     if (!_startImage) {
         _startImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _startImage.image = [UIImage imageNamed:@"FlashLight_Stop"];
+        if (FlashLightManager.isMainStartSelected) {
+            _startImage.image = [UIImage imageNamed:@"FlashLight_Start"];
+        } else {
+            _startImage.image = [UIImage imageNamed:@"FlashLight_Stop"];
+        }
         [self addSubview:_startImage];
     }
     return _startImage;
@@ -106,6 +110,7 @@
 - (UIButton *)startButton {
     if (!_startButton) {
         _startButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        _startButton.selected = FlashLightManager.isMainStartSelected;
         [self addSubview:_startButton];
     }
     return _startButton;

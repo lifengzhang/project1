@@ -172,8 +172,10 @@
 - (void)ScameraFlashLightSettingClickStartBtn:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (btn.selected) {
+        [FlashLightManager saveMainStartSelected:YES];
         [self.flashLightSettingView disableView];
     } else {
+        [FlashLightManager saveMainStartSelected:NO];
         [self.flashLightSettingView enableView];
     }
 }

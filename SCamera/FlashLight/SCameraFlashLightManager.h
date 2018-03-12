@@ -28,6 +28,7 @@
 #define IsSelectedStartC                                   @"isSelected_start_C"
 #define IsSelectedStartD                                   @"isSelected_start_D"
 
+#define IsMainStartSelected                                @"isMain_start_selected"
 
 #define GroupArray                                         @"group_array"
 #define MainValue                                          @"main_value"
@@ -139,6 +140,7 @@ typedef enum : Byte {
 @property (nonatomic, assign) BOOL isSelectedStartC;               //C组启动按钮
 @property (nonatomic, assign) BOOL isSelectedStartD;               //D组启动按钮
 
+@property (nonatomic, assign) BOOL isMainStartSelected;            //主启动按钮
 
 @property (nonatomic, strong) NSMutableArray *groupArray;               //存储分组
 
@@ -183,5 +185,6 @@ typedef enum : Byte {
 
 - (void)saveStartDIsSelected:(BOOL)selected;
 
+- (void)saveMainStartSelected:(BOOL)selected;
 
 @end
