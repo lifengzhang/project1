@@ -78,6 +78,7 @@
     self.frequenceType.textColor = [UIColor whiteColor];
     self.value.textColor = [UIColor whiteColor];
     self.startBtn.enabled = YES;
+    self.aCell.enabled = YES;
 }
 
 - (void)disableView {
@@ -88,12 +89,14 @@
     self.frequenceType.textColor = [UIColor grayColor];
     self.value.textColor = [UIColor grayColor];
     self.startBtn.enabled = NO;
+    self.aCell.enabled = NO;
 }
 
 - (UIButton *)startBtn {
     if (!_startBtn) {
         _startBtn = [[UIButton alloc] initWithFrame:CGRectZero];
         [_startBtn setImage:[UIImage imageNamed:@"FlashLight_Stop"] forState:UIControlStateNormal];
+        [_startBtn setImage:[UIImage imageNamed:@"FlashLight_Start"] forState:UIControlStateSelected];
         [self addSubview:_startBtn];
     }
     return _startBtn;

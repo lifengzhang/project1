@@ -18,6 +18,20 @@
 #define FlashLightFlashPower                               @"flashLight_flashPower"
 #define FlashLightApower                                   @"flashLight_aPower"
 
+#define IsSelectedA                                        @"isSelected_A"
+#define IsSelectedB                                        @"isSelected_B"
+#define IsSelectedC                                        @"isSelected_C"
+#define IsSelectedD                                        @"isSelected_D"
+
+#define IsSelectedStartA                                   @"isSelected_start_A"
+#define IsSelectedStartB                                   @"isSelected_start_B"
+#define IsSelectedStartC                                   @"isSelected_start_C"
+#define IsSelectedStartD                                   @"isSelected_start_D"
+
+
+#define GroupArray                                         @"group_array"
+#define MainValue                                          @"main_value"
+
 typedef enum : Byte {
     
     FlashLightModelStandby = 0x00,
@@ -113,15 +127,39 @@ typedef enum : Byte {
 
 @property (nonatomic, strong) NSString *flashPower;
 
+@property (nonatomic, strong) NSString *mainValue;               //Slider主要的值
+
+@property (nonatomic, assign) BOOL isSelectedA;                  //选择分组A
+@property (nonatomic, assign) BOOL isSelectedB;
+@property (nonatomic, assign) BOOL isSelectedC;
+@property (nonatomic, assign) BOOL isSelectedD;
+
+@property (nonatomic, assign) BOOL isSelectedStartA;               //A组启动按钮
+@property (nonatomic, assign) BOOL isSelectedStartB;               //B组启动按钮
+@property (nonatomic, assign) BOOL isSelectedStartC;               //C组启动按钮
+@property (nonatomic, assign) BOOL isSelectedStartD;               //D组启动按钮
+
+
+@property (nonatomic, strong) NSMutableArray *groupArray;               //存储分组
+
+
 + (instancetype)sharedInstance;
 
 - (NSData *)getSettingBytes;
 
 - (void)saveChannel:(NSInteger)channel;
 
-- (void)saveIsPoseOpen:(BOOL )isPoseOpen;
+- (void)saveIsPoseOpen:(BOOL)isPoseOpen;
 
-- (void)saveIsSoundOpen:(BOOL )isSoundOpen;
+- (void)saveIsSoundOpen:(BOOL)isSoundOpen;
+
+- (void)saveIsSelectedA:(BOOL)isSelectedA;
+
+- (void)saveIsSelectedB:(BOOL)isSelectedB;
+
+- (void)saveIsSelectedC:(BOOL)isSelectedC;
+
+- (void)saveIsSelectedD:(BOOL)isSelectedD;
 
 - (void)saveFrequence:(NSInteger)frequence;
 
@@ -130,5 +168,20 @@ typedef enum : Byte {
 - (void)saveFlashPower:(NSString *)flashPower;
 
 - (void)saveAPower:(FlashLightPower)aPower;
+
+- (void)saveGroupArray:(NSString *)str;
+
+- (void)removeGroupString:(NSString *)str;
+
+- (void)saveMainValue:(NSString *)str;
+
+- (void)saveStartAIsSelected:(BOOL)selected;
+
+- (void)saveStartBIsSelected:(BOOL)selected;
+
+- (void)saveStartCIsSelected:(BOOL)selected;
+
+- (void)saveStartDIsSelected:(BOOL)selected;
+
 
 @end

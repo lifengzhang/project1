@@ -28,7 +28,17 @@
 
 - (void)clickBcellWithClass:(NSString *)str;
 
-- (void)clickCellWithClass:(NSString *)str;
+- (void)clickCcellWithClass:(NSString *)str;
+
+- (void)clickDcellWithClass:(NSString *)str;
+
+- (void)clickStartA:(UIButton *)btn;
+
+- (void)clickStartB:(UIButton *)btn;
+
+- (void)clickStartC:(UIButton *)btn;
+
+- (void)clickStartD:(UIButton *)btn;
 
 @end
 
@@ -43,5 +53,24 @@
 - (void)disableView;
 
 - (void)update;
+
+- (void)clickStartA;
+
+- (void)clickStartB;
+
+- (void)clickStartC;
+
+- (void)clickStartD;
+
+- (void)tableViewReloadGroupDate;
+
+- (void)updateACellValue:(NSString *)str;
+
+- (void)updateBCellValue:(NSString *)str;
+
+- (void)updateCCellValue:(NSString *)str;
+
+- (void)updateDCellValue:(NSString *)str;
+
 
 @end

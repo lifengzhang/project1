@@ -66,21 +66,49 @@
 #pragma - mark GroupSelectTableViewDelegate
 - (void)clickAGroup:(UIButton *)btn {
     btn.selected = !btn.selected;
+    if (btn.selected) {
+        [FlashLightManager saveGroupArray:@"A"];
+        [FlashLightManager saveIsSelectedA:YES];
+    } else {
+        [FlashLightManager removeGroupString:@"A"];
+        [FlashLightManager saveIsSelectedA:NO];
+    }
     [self.groupSelectView aButtonSelect:btn.selected];
 }
 
 - (void)clickBGroup:(UIButton *)btn {
     btn.selected = !btn.selected;
+    if (btn.selected) {
+        [FlashLightManager saveGroupArray:@"B"];
+        [FlashLightManager saveIsSelectedB:YES];
+    } else {
+        [FlashLightManager removeGroupString:@"B"];
+        [FlashLightManager saveIsSelectedB:NO];
+    }
     [self.groupSelectView bButtonSelect:btn.selected];
 }
 
 - (void)clickCGroup:(UIButton *)btn {
     btn.selected = !btn.selected;
+    if (btn.selected) {
+        [FlashLightManager saveGroupArray:@"C"];
+        [FlashLightManager saveIsSelectedC:YES];
+    } else {
+        [FlashLightManager removeGroupString:@"C"];
+        [FlashLightManager saveIsSelectedC:NO];
+    }
     [self.groupSelectView cButtonSelect:btn.selected];
 }
 
 - (void)clickDGroup:(UIButton *)btn {
     btn.selected = !btn.selected;
+    if (btn.selected) {
+        [FlashLightManager saveGroupArray:@"D"];
+        [FlashLightManager saveIsSelectedD:YES];
+    } else {
+        [FlashLightManager removeGroupString:@"D"];
+        [FlashLightManager saveIsSelectedD:NO];
+    }
     [self.groupSelectView dButtonSelect:btn.selected];
 }
 

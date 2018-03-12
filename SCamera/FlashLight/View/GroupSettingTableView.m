@@ -74,6 +74,9 @@ static NSString *startCellID = @"start_Cell_ID";
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             self.flashCell = [tableView dequeueReusableCellWithIdentifier:fashLightGeneralSettingThirdCellId forIndexPath:indexPath];
+            [self.flashCell.flashLightSlider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+            [self.flashCell.addButton addTarget:self action:@selector(increaseValue) forControlEvents:UIControlEventTouchUpInside];
+            [self.flashCell.redeceButton addTarget:self action:@selector(reduceValue) forControlEvents:UIControlEventTouchUpInside];
             [self.flashCell updateGroupSettingSlider];
             return self.flashCell;
         } else {
@@ -154,6 +157,25 @@ static NSString *startCellID = @"start_Cell_ID";
     
     return 0.0001;
   
+}
+
+- (void)valueChanged:(UISlider *)slider {
+    if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingSliderValueChange:andValueLabel:)]) {
+        [self.groupSettingTableViewDelegate ScameraFlashLightSettingSliderValueChange:slider andValueLabel:self.flashCell.valueLabel];
+    }
+}
+
+- (void)increaseValue {
+    if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(Slider:ClickIncreaseBtnWithValue:)]) {
+        [self.groupSettingTableViewDelegate Slider:self.flashCell.flashLightSlider ClickIncreaseBtnWithValue:self.flashCell.valueLabel];
+    }
+}
+
+- (void)reduceValue {
+    
+    if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(Slider:ClickReduceBtnWithValue:)]) {
+        [self.groupSettingTableViewDelegate Slider:self.flashCell.flashLightSlider ClickReduceBtnWithValue:self.flashCell.valueLabel];
+    }
 }
 
 @end

@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^GroupSettingBlock)(NSString *str);
+
 @interface GroupSettingController : UIViewController
 
 - (instancetype)initWithClass:(NSString *)str;
+
+@property (nonatomic, copy) GroupSettingBlock groupSettingBlock;
 
 @end

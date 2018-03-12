@@ -10,9 +10,13 @@
 #import "GroupSettingTableView.h"
 #import "SCameraViewController.h"
 
-@interface GroupSettingController ()
+@interface GroupSettingController () <GroupSettingTableViewDelegate>
 
 @property (nonatomic, strong) GroupSettingTableView *groupView;
+
+@property (nonatomic, strong) NSString *sliderValue;   //滚轮的值
+
+@property (nonnull, strong) NSArray *values;
 
 @end
 
@@ -23,6 +27,7 @@
         self.title = [NSString stringWithFormat:@"组别%@",str];
         [self updateNavigation];
         [self setUpConstains];
+        self.values = @[@"1/64",@"1/32",@"1/16",@"1/8",@"1/4",@"1/2",@"1"];
     }
     return self;
 }
@@ -62,7 +67,9 @@
 }
 
 - (void)back {
-    
+    if (self.groupSettingBlock) {
+        self.groupSettingBlock(self.sliderValue);
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -79,9 +86,42 @@
     }];
 }
 
+#pragma -mark GroupSettingTableViewDelegate
+- (void)ScameraFlashLightSettingSliderValueChange:(UISlider *)slider andValueLabel:(UILabel *)label {
+    NSUInteger index = (NSUInteger)(slider.value + 0.5);
+    [slider setValue:index animated:NO];
+    self.sliderValue = self.values[index];
+    label.text = self.values[index];
+}
+
+//增加按钮
+- (void)Slider:(UISlider *)slider ClickIncreaseBtnWithValue:(UILabel *)label {
+    if ([self.sliderValue isEqualToString:@"1"]) {
+        return;
+    }
+    NSUInteger index = (NSUInteger)(slider.value + 1);
+    [slider setValue:index animated:NO];
+    self.sliderValue = self.values[index];
+    label.text = self.values[index];
+    
+}
+
+//减少按钮
+-(void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label {
+    
+    if ([self.sliderValue isEqualToString:@"1/64"]) {
+        return;
+    }
+    NSUInteger index = (NSUInteger)(slider.value - 1);
+    [slider setValue:index animated:NO];
+    self.sliderValue = self.values[index];
+    label.text = self.values[index];
+}
+
 - (GroupSettingTableView *)groupView {
     if (!_groupView) {
         _groupView = [[GroupSettingTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _groupView.groupSettingTableViewDelegate = self;
         [self.view addSubview:_groupView];
     }
     return _groupView;

@@ -42,6 +42,11 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.flashLightSettingView reloadData];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if (self.sliderValue.length > 0) {
@@ -109,15 +114,17 @@
     NSDictionary *value = self.values[index];
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;
+    [FlashLightManager saveMainValue:label.text];
     NSNumber *power = value.allValues.firstObject;
 //    FlashLightManager.aPower = power.integerValue;
     [FlashLightManager saveAPower:power.integerValue];
+    [self.flashLightSettingView tableViewReloadGroupDate];
 }
 
 //增加安妞
 - (void)Slider:(UISlider *)slider ClickIncreaseBtnWithValue:(UILabel *)label {
     
-    if ([self.sliderValue isEqualToString:@"1"]) {
+    if ([self.sliderValue isEqualToString:@"1/1"]) {
         return;
     }
     NSUInteger index = (NSUInteger)(slider.value + 1);
@@ -125,10 +132,11 @@
     NSDictionary *value = self.values[index];
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;
+    [FlashLightManager saveMainValue:label.text];
     NSNumber *power = value.allValues.firstObject;
 //    FlashLightManager.aPower = power.integerValue;
     [FlashLightManager saveAPower:power.integerValue];
-
+    [self.flashLightSettingView tableViewReloadGroupDate];
 }
 
 //减少按钮
@@ -142,9 +150,11 @@
     NSDictionary *value = self.values[index];
     self.sliderValue = value.allKeys.firstObject;
     label.text = value.allKeys.firstObject;
+    [FlashLightManager saveMainValue:label.text];
     NSNumber *power = value.allValues.firstObject;
 //    FlashLightManager.aPower = power.integerValue;
     [FlashLightManager saveAPower:power.integerValue];
+    [self.flashLightSettingView tableViewReloadGroupDate];
 }
 
 //通用->详细设置
@@ -188,17 +198,66 @@
 - (void)ScameraFlashLightSettingClickGroupSettingCellWithClass:(NSString *)str {
     
     GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+    vc.groupSettingBlock = ^(NSString *str) {
+        [self.flashLightSettingView updateACellValue:str];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+//点击B Cell
 - (void)clickBcellWithClass:(NSString *)str {
     GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+
+    vc.groupSettingBlock = ^(NSString *str) {
+        [self.flashLightSettingView updateBCellValue:str];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)clickCellWithClass:(NSString *)str {
+//点击C Cell
+- (void)clickCcellWithClass:(NSString *)str {
     GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+    vc.groupSettingBlock = ^(NSString *str) {
+        [self.flashLightSettingView updateCCellValue:str];
+    };
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+//点击D Cell
+- (void)clickDcellWithClass:(NSString *)str {
+    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+    vc.groupSettingBlock = ^(NSString *str) {
+        [self.flashLightSettingView updateDCellValue:str];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+//点击A Cell 启动按钮
+- (void)clickStartA:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    [FlashLightManager saveStartAIsSelected:btn.selected];
+    [self.flashLightSettingView clickStartA];
+}
+
+//点击B Cell 启动按钮
+- (void)clickStartB:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    [FlashLightManager saveStartBIsSelected:btn.selected];
+    [self.flashLightSettingView clickStartB];
+}
+
+//点击C Cell 启动按钮
+- (void)clickStartC:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    [FlashLightManager saveStartCIsSelected:btn.selected];
+    [self.flashLightSettingView clickStartC];
+}
+
+//点击D Cell 启动按钮
+- (void)clickStartD:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    [FlashLightManager saveStartDIsSelected:btn.selected];
+    [self.flashLightSettingView clickStartD];
 }
 
 #pragma - mark lazy load

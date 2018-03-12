@@ -42,6 +42,16 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 
 @property (nonatomic, strong) FlashLightGroupSettingCell *dCell;
 
+@property (nonatomic, strong) NSString *aValue;
+
+@property (nonatomic, strong) NSString *bValue;
+
+@property (nonatomic, strong) NSString *cValue;
+
+@property (nonatomic, strong) NSString *dValue;
+
+@property (nonatomic, strong) NSArray *sortArray;
+
 @end
 
 @implementation ScameraFlashLightSettingTableView
@@ -68,17 +78,37 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 }
 
 - (void)enableView {
-    
+
     [self.generalCell enableView];
 //    [self.groupCell enableView];
     [self.addCell enableView];
     [self.thirdCell enableView];
     [self.secondCell enableView];
     self.secondCell.userInteractionEnabled = YES;
-    [self.aCell enableView];
-    [self.bCell enableView];
-    [self.cCell enableView];
-    [self.dCell enableView];
+    if (FlashLightManager.isSelectedStartA) {
+        [self.aCell disableView];
+        self.aCell.startBtn.enabled = YES;
+    } else {
+        [self.aCell enableView];
+    }
+    if (FlashLightManager.isSelectedStartB) {
+        [self.bCell disableView];
+        self.bCell.startBtn.enabled = YES;
+    } else {
+        [self.bCell enableView];
+    }
+    if (FlashLightManager.isSelectedStartC) {
+        [self.cCell disableView];
+        self.cCell.startBtn.enabled = YES;
+    } else {
+        [self.cCell enableView];
+    }
+    if (FlashLightManager.isSelectedStartD) {
+        [self.dCell disableView];
+        self.dCell.startBtn.enabled = YES;
+    } else {
+        [self.dCell enableView];
+    }
 }
 
 - (void)disableView {
@@ -95,6 +125,25 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     [self.dCell disableView];
 }
 
+- (void)tableViewReloadGroupDate {
+    if (FlashLightManager.mainValue != nil && !self.aCell.startBtn.selected) {
+        self.aCell.value.text = FlashLightManager.mainValue;
+        self.aValue = nil;
+    }
+    if (FlashLightManager.mainValue != nil && !self.bCell.startBtn.selected) {
+        self.bCell.value.text = FlashLightManager.mainValue;
+        self.bValue = nil;
+    }
+    if (FlashLightManager.mainValue != nil && !self.cCell.startBtn.selected) {
+        self.cCell.value.text = FlashLightManager.mainValue;
+        self.cValue = nil;
+    }
+    if (FlashLightManager.mainValue != nil && !self.dCell.startBtn.selected) {
+        self.dCell.value.text = FlashLightManager.mainValue;
+        self.dValue = nil;
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 2;
@@ -105,7 +154,8 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     if (section == 0) {
         return 3;
     } else {
-        return 4;
+            NSLog(@"%lu",(unsigned long)FlashLightManager.groupArray.count);
+            return FlashLightManager.groupArray.count;
     }
 }
 
@@ -130,28 +180,60 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
             return self.thirdCell;
         }
     } else {
-        
+        if (FlashLightManager.groupArray.count == 0) {
+            return 0;
+        }
+        NSSortDescriptor *sortDes1 = [[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
+        self.sortArray = [FlashLightManager.groupArray sortedArrayUsingDescriptors:@[sortDes1]];
         if (indexPath.row == 0) {
             self.aCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-            self.aCell.grouplType.text = @"A";
+            self.aCell.grouplType.text = self.sortArray[0];
+            if (FlashLightManager.mainValue != nil && !self.aCell.startBtn.selected) {
+                self.aCell.value.text = FlashLightManager.mainValue;
+            }
+            if (self.aValue != nil && self.aValue.length > 0) {
+                self.aCell.value.text = self.aValue;
+            }
             [self.aCell.aCell addTarget:self action:@selector(clickACell:) forControlEvents:UIControlEventTouchUpInside];
+            [self.aCell.startBtn addTarget:self action:@selector(aStart:) forControlEvents:UIControlEventTouchUpInside];
             return self.aCell;
         } else if (indexPath.row == 1) {
             self.bCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
             [self.self.bCell.aCell addTarget:self action:@selector(clickBCell:) forControlEvents:UIControlEventTouchUpInside];
-            self.self.bCell.grouplType.text = @"B";
+            [self.bCell.startBtn addTarget:self action:@selector(bStart:) forControlEvents:UIControlEventTouchUpInside];
+            self.self.bCell.grouplType.text = self.sortArray[1];
+            if (FlashLightManager.mainValue != nil && !self.bCell.startBtn.selected) {
+                self.bCell.value.text = FlashLightManager.mainValue;
+            }
+            if (self.bValue != nil && self.bValue.length > 0) {
+                self.bCell.value.text = self.bValue;
+            }
             return self.bCell;
         } else if (indexPath.row == 2) {
             self.cCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-            [self.cCell.aCell addTarget:self action:@selector(clickCell:) forControlEvents:UIControlEventTouchUpInside];
+            [self.cCell.aCell addTarget:self action:@selector(clickCCell:) forControlEvents:UIControlEventTouchUpInside];
+            [self.cCell.startBtn addTarget:self action:@selector(cStart:) forControlEvents:UIControlEventTouchUpInside];
             self.cCell.aCell.tag = 1;
-            self.cCell.grouplType.text = @"C";
+            if (FlashLightManager.mainValue != nil && !self.cCell.startBtn.selected) {
+                self.cCell.value.text = FlashLightManager.mainValue;
+            }
+            if (self.cValue != nil && self.cValue.length > 0) {
+                self.cCell.value.text = self.cValue;
+            }
+            self.cCell.grouplType.text = self.sortArray[2];
             return self.cCell;
         } else {
             self.dCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-            [self.dCell.aCell addTarget:self action:@selector(clickCell:) forControlEvents:UIControlEventTouchUpInside];
+            [self.dCell.aCell addTarget:self action:@selector(clickDCell:) forControlEvents:UIControlEventTouchUpInside];
+            [self.dCell.startBtn addTarget:self action:@selector(dStart:) forControlEvents:UIControlEventTouchUpInside];
             self.dCell.aCell.tag = 2;
-            self.dCell.grouplType.text = @"D";
+            if (FlashLightManager.mainValue != nil && !self.dCell.startBtn.selected) {
+                self.dCell.value.text = FlashLightManager.mainValue;
+            }
+            if (self.dValue != nil && self.dValue.length > 0) {
+                self.dCell.value.text = self.dValue;
+            }
+            self.dCell.grouplType.text = self.sortArray[3];
             return self.dCell;
         }
     }
@@ -230,6 +312,70 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
     [self reloadData];
 }
 
+- (void)updateACellValue:(NSString *)str {
+    self.aValue = str;
+    [self reloadData];
+}
+
+- (void)updateBCellValue:(NSString *)str {
+    self.bValue = str;
+    [self reloadData];
+}
+
+- (void)updateCCellValue:(NSString *)str {
+    self.cValue = str;
+    [self reloadData];
+}
+
+- (void)updateDCellValue:(NSString *)str {
+    self.dValue = str;
+    [self reloadData];
+}
+
+- (void)clickStartA {
+    if (FlashLightManager.isSelectedStartA) {
+        [self.aCell disableView];
+        self.aCell.startBtn.enabled = YES;
+        [self.aCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Start"] forState:UIControlStateNormal];
+    } else {
+        [self.aCell enableView];
+        [self.aCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Stop"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)clickStartB {
+    if (FlashLightManager.isSelectedStartB) {
+        [self.bCell disableView];
+        self.bCell.startBtn.enabled = YES;
+        [self.bCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Start"] forState:UIControlStateNormal];
+    } else {
+        [self.bCell enableView];
+        [self.bCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Stop"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)clickStartC {
+    if (FlashLightManager.isSelectedStartC) {
+        [self.cCell disableView];
+        self.cCell.startBtn.enabled = YES;
+        [self.cCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Start"] forState:UIControlStateNormal];
+    } else {
+        [self.cCell enableView];
+        [self.cCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Stop"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)clickStartD {
+    if (FlashLightManager.isSelectedStartD) {
+        [self.dCell disableView];
+        self.dCell.startBtn.enabled = YES;
+        [self.dCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Start"] forState:UIControlStateNormal];
+    } else {
+        [self.dCell enableView];
+        [self.dCell.startBtn setImage:[UIImage imageNamed:@"FlashLight_Stop"] forState:UIControlStateNormal];
+    }
+}
+
 - (void)addGroupSetting {
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingClickAddGroup)]) {
@@ -275,25 +421,51 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 - (void)clickACell:(NSString *)str {
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingClickGroupSettingCellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate ScameraFlashLightSettingClickGroupSettingCellWithClass:@"A"];
+        [self.flashLightSettingTableViewDelegate ScameraFlashLightSettingClickGroupSettingCellWithClass:self.sortArray[0]];
     }
 }
 
 - (void)clickBCell:(NSString *)str {
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickBcellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"B"];
+        [self.flashLightSettingTableViewDelegate clickBcellWithClass:self.sortArray[1]];
     }
 }
 
-- (void)clickCell:(UIButton *)btn {
+- (void)clickCCell:(NSString *)str {
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickCcellWithClass:)]) {
+        [self.flashLightSettingTableViewDelegate clickCcellWithClass:self.sortArray[2]];
+    }
+}
+
+- (void)clickDCell:(NSString *)str {
     
-    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickCellWithClass:)]) {
-        if (btn.tag == 1) {
-            [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"C"];
-        } else {
-            [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"D"];
-        }
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickDcellWithClass:)]) {
+        [self.flashLightSettingTableViewDelegate clickDcellWithClass:self.sortArray[3]];
+    }
+}
+
+- (void)aStart:(UIButton *)btn {
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickStartA:)]) {
+        [self.flashLightSettingTableViewDelegate clickStartA:btn];
+    }
+}
+
+- (void)bStart:(UIButton *)btn {
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickStartB:)]) {
+        [self.flashLightSettingTableViewDelegate clickStartB:btn];
+    }
+}
+
+- (void)cStart:(UIButton *)btn {
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickStartC:)]) {
+        [self.flashLightSettingTableViewDelegate clickStartC:btn];
+    }
+}
+
+- (void)dStart:(UIButton *)btn {
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickStartD:)]) {
+        [self.flashLightSettingTableViewDelegate clickStartD:btn];
     }
 }
 

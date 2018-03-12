@@ -161,7 +161,11 @@
 - (UIImageView *)aImage {
     if (!_aImage) {
         _aImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _aImage.image = [UIImage imageNamed:@"button_select_no"];
+        if (FlashLightManager.isSelectedA) {
+            _aImage.image = [UIImage imageNamed:@"button_select_yes"];
+        } else {
+            _aImage.image = [UIImage imageNamed:@"button_select_no"];
+        }
         [self addSubview:_aImage];
     }
     return _aImage;
@@ -170,7 +174,11 @@
 - (UIImageView *)bImage {
     if (!_bImage) {
         _bImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _bImage.image = [UIImage imageNamed:@"button_select_no"];
+        if (FlashLightManager.isSelectedB) {
+            _bImage.image = [UIImage imageNamed:@"button_select_yes"];
+        } else {
+            _bImage.image = [UIImage imageNamed:@"button_select_no"];
+        }
         [self addSubview:_bImage];
     }
     return _bImage;
@@ -179,7 +187,11 @@
 - (UIImageView *)cImage {
     if (!_cImage) {
         _cImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _cImage.image = [UIImage imageNamed:@"button_select_no"];
+        if (FlashLightManager.isSelectedC) {
+            _cImage.image = [UIImage imageNamed:@"button_select_yes"];
+        } else {
+            _cImage.image = [UIImage imageNamed:@"button_select_no"];
+        }
         [self addSubview:_cImage];
     }
     return _cImage;
@@ -188,7 +200,11 @@
 - (UIImageView *)dImage {
     if (!_dImage) {
         _dImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _dImage.image = [UIImage imageNamed:@"button_select_no"];
+        if (FlashLightManager.isSelectedD) {
+            _dImage.image = [UIImage imageNamed:@"button_select_yes"];
+        } else {
+            _dImage.image = [UIImage imageNamed:@"button_select_no"];
+        }
         [self addSubview:_dImage];
     }
     return _dImage;
@@ -241,6 +257,7 @@
 - (UIButton *)aButton {
     if (!_aButton) {
         _aButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        _aButton.selected = FlashLightManager.isSelectedA;
         [self addSubview:_aButton];
     }
     return _aButton;
@@ -249,6 +266,7 @@
 - (UIButton *)bButton {
     if (!_bButton) {
         _bButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        _bButton.selected = FlashLightManager.isSelectedB;
         [self addSubview:_bButton];
     }
     return _bButton;
@@ -257,6 +275,7 @@
 - (UIButton *)cButton {
     if (!_cButton) {
         _cButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        _cButton.selected = FlashLightManager.isSelectedC;
         [self addSubview:_cButton];
     }
     return _cButton;
@@ -265,6 +284,7 @@
 - (UIButton *)dButton {
     if (!_dButton) {
         _dButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        _dButton.selected = FlashLightManager.isSelectedD;
         [self addSubview:_dButton];
     }
     return _dButton;

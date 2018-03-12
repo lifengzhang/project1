@@ -42,6 +42,7 @@ static SCameraFlashLightManager *sharedInstance = nil;
         self.dPower = FlashLightPowerStandby;
         self.flashNumber = 1;
         self.flashFrequency = 60;
+        self.groupArray = [NSMutableArray array];
     }
     
     return self;
@@ -175,38 +176,68 @@ static SCameraFlashLightManager *sharedInstance = nil;
 
 #pragma - mark Property get method
 - (BOOL)isPoseOpen {
-    
     return [[NSUserDefaults standardUserDefaults] boolForKey:FlashLightIsPoseOpen];
-
 }
 
 - (BOOL)isSoundOpen {
-    
     return [[NSUserDefaults standardUserDefaults] boolForKey:FlashLightIsSoundOpen];
-    
+}
+
+- (BOOL)isSelectedA {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedA];
+}
+
+- (BOOL)isSelectedB {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedB];
+}
+
+- (BOOL)isSelectedC {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedC];
+}
+
+- (BOOL)isSelectedD {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedD];
+}
+
+- (BOOL)isSelectedStartA {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedStartA];
+}
+
+- (BOOL)isSelectedStartB {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedStartB];
+}
+
+- (BOOL)isSelectedStartC {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedStartC];
+}
+
+- (BOOL)isSelectedStartD {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsSelectedStartD];
 }
 
 - (NSUInteger)flashNumber {
-    
     return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightTimes];
-
 }
 
 - (NSUInteger)flashFrequency {
-    
     return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightFrequence];
-
 }
 
 - (NSString *)flashPower {
-    
     return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightFlashPower];
-    
 }
 
 - (FlashLightPower)aPower {
-    
     return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightApower];
+}
+
+- (NSMutableArray *)groupArray {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:GroupArray];
+
+}
+
+- (NSString *)mainValue {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:MainValue];
 }
 
 #pragma - mark 属性持久化
@@ -250,6 +281,46 @@ static SCameraFlashLightManager *sharedInstance = nil;
     
 }
 
+- (void)saveIsSelectedA:(BOOL)isSelectedA {
+    [[NSUserDefaults standardUserDefaults] setBool:isSelectedA forKey:IsSelectedA];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsSelectedB:(BOOL)isSelectedB {
+    [[NSUserDefaults standardUserDefaults] setBool:isSelectedB forKey:IsSelectedB];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsSelectedC:(BOOL)isSelectedC {
+    [[NSUserDefaults standardUserDefaults] setBool:isSelectedC forKey:IsSelectedC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsSelectedD:(BOOL)isSelectedD {
+    [[NSUserDefaults standardUserDefaults] setBool:isSelectedD forKey:IsSelectedD];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveStartAIsSelected:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsSelectedStartA];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveStartBIsSelected:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsSelectedStartB];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveStartCIsSelected:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsSelectedStartC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveStartDIsSelected:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsSelectedStartD];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)saveFrequence:(NSInteger)frequence {
     
     if (frequence > 0) {
@@ -288,5 +359,30 @@ static SCameraFlashLightManager *sharedInstance = nil;
     }
 }
 
+- (void)saveGroupArray:(NSString *)str {
+    [_groupArray addObject:str];
+    [[NSUserDefaults standardUserDefaults] setObject:_groupArray forKey:GroupArray];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveMainValue:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:MainValue];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)removeGroupString:(NSString *)str {
+    
+    if (_groupArray.count == 0) {
+        return;
+    } else {
+        for (int i = 0; i < _groupArray.count; i++) {
+            if ([_groupArray[i] isEqualToString:str]) {
+                [_groupArray removeObject:_groupArray[i]];
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:_groupArray forKey:GroupArray];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }
+}
 
 @end
