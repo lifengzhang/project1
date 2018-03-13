@@ -483,27 +483,27 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 - (void)clickACell:(NSString *)str {
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingClickGroupSettingCellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate ScameraFlashLightSettingClickGroupSettingCellWithClass:self.sortArray[0]];
+        [self.flashLightSettingTableViewDelegate ScameraFlashLightSettingClickGroupSettingCellWithClass:@"A"];
     }
 }
 
 - (void)clickBCell:(NSString *)str {
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickBcellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate clickBcellWithClass:self.sortArray[1]];
+        [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"B"];
     }
 }
 
 - (void)clickCCell:(NSString *)str {
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickCcellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate clickCcellWithClass:self.sortArray[2]];
+        [self.flashLightSettingTableViewDelegate clickCcellWithClass:@"C"];
     }
 }
 
 - (void)clickDCell:(NSString *)str {
     
     if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickDcellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate clickDcellWithClass:self.sortArray[3]];
+        [self.flashLightSettingTableViewDelegate clickDcellWithClass:@"D"];
     }
 }
 
