@@ -200,33 +200,13 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
         NSSortDescriptor *sortDes1 = [[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
         self.sortArray = [FlashLightManager.groupArray sortedArrayUsingDescriptors:@[sortDes1]];
         if (indexPath.row == 0) {
-            self.aCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-            self.aCell.grouplType.text = self.sortArray[0];
-            [self loadAcell];
-            [self.aCell.aCell addTarget:self action:@selector(clickACell:) forControlEvents:UIControlEventTouchUpInside];
-            [self.aCell.startBtn addTarget:self action:@selector(aStart:) forControlEvents:UIControlEventTouchUpInside];
-            return self.aCell;
+            return [self updateGroupSettingViewWithstring:self.sortArray[0]];
         } else if (indexPath.row == 1) {
-            self.bCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-            [self.self.bCell.aCell addTarget:self action:@selector(clickBCell:) forControlEvents:UIControlEventTouchUpInside];
-            [self.bCell.startBtn addTarget:self action:@selector(bStart:) forControlEvents:UIControlEventTouchUpInside];
-            self.self.bCell.grouplType.text = self.sortArray[1];
-            [self loadBcell];
-            return self.bCell;
+            return [self updateGroupSettingViewWithstring:self.sortArray[1]];
         } else if (indexPath.row == 2) {
-            self.cCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-            [self.cCell.aCell addTarget:self action:@selector(clickCCell:) forControlEvents:UIControlEventTouchUpInside];
-            [self.cCell.startBtn addTarget:self action:@selector(cStart:) forControlEvents:UIControlEventTouchUpInside];
-            [self loadCcell];
-            self.cCell.grouplType.text = self.sortArray[2];
-            return self.cCell;
+            return [self updateGroupSettingViewWithstring:self.sortArray[2]];
         } else {
-            self.dCell = [tableView dequeueReusableCellWithIdentifier:flashLightGroupSettingCellID forIndexPath:indexPath];
-            [self.dCell.aCell addTarget:self action:@selector(clickDCell:) forControlEvents:UIControlEventTouchUpInside];
-            [self.dCell.startBtn addTarget:self action:@selector(dStart:) forControlEvents:UIControlEventTouchUpInside];
-            [self loadDcell];
-            self.dCell.grouplType.text = self.sortArray[3];
-            return self.dCell;
+            return [self updateGroupSettingViewWithstring:self.sortArray[3]];
         }
     }
     return 0;
@@ -294,6 +274,39 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
         return 0;
     }
     
+}
+
+//分组选择Button改变  数组改变  cell要跟着self.sortArray顺序重新排序
+- (UITableViewCell *)updateGroupSettingViewWithstring:(NSString *)str {
+    if ([str isEqualToString:@"A"]) {
+        self.aCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+        self.aCell.grouplType.text = str;
+        [self loadAcell];
+        [self.aCell.aCell addTarget:self action:@selector(clickACell:) forControlEvents:UIControlEventTouchUpInside];
+        [self.aCell.startBtn addTarget:self action:@selector(aStart:) forControlEvents:UIControlEventTouchUpInside];
+        return self.aCell;
+    } else if ([str isEqualToString:@"B"]) {
+         self.bCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+        [self.self.bCell.aCell addTarget:self action:@selector(clickBCell:) forControlEvents:UIControlEventTouchUpInside];
+        [self.bCell.startBtn addTarget:self action:@selector(bStart:) forControlEvents:UIControlEventTouchUpInside];
+        self.self.bCell.grouplType.text = str;
+        [self loadBcell];
+        return self.bCell;
+    } else if ([str isEqualToString:@"C"]) {
+        self.cCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+        [self.cCell.aCell addTarget:self action:@selector(clickCCell:) forControlEvents:UIControlEventTouchUpInside];
+        [self.cCell.startBtn addTarget:self action:@selector(cStart:) forControlEvents:UIControlEventTouchUpInside];
+        [self loadCcell];
+        self.cCell.grouplType.text = str;
+        return self.cCell;
+    } else {
+        self.dCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+        [self.dCell.aCell addTarget:self action:@selector(clickDCell:) forControlEvents:UIControlEventTouchUpInside];
+        [self.dCell.startBtn addTarget:self action:@selector(dStart:) forControlEvents:UIControlEventTouchUpInside];
+        [self loadDcell];
+        self.dCell.grouplType.text = str;
+        return self.dCell;
+    }
 }
 
 - (void)update{
