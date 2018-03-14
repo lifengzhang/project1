@@ -10,7 +10,7 @@
 
 @interface DetailSettingCustomCell ()
 
-@property (nonatomic, strong) UIImageView *arrow;
+@property (nonatomic, strong) UIButton *arrow;
 
 @end
 
@@ -53,9 +53,22 @@
     }];
 }
 
-- (UIImageView *)arrow {
+- (void)enableCell {
+    self.title.textColor = [UIColor whiteColor];
+    self.detail.textColor = [UIColor whiteColor];
+    self.arrow.enabled = YES;
+}
+
+- (void)disableCell {
+    self.title.textColor = [UIColor grayColor];
+    self.detail.textColor = [UIColor grayColor];
+    self.arrow.enabled = NO;
+}
+
+- (UIButton *)arrow {
     if (!_arrow) {
-        _arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FlashLight_Arrow"]];
+        _arrow = [[UIButton alloc] initWithFrame:CGRectZero];
+        [_arrow setImage:[UIImage imageNamed:@"FlashLight_Arrow"] forState:UIControlStateNormal];
         [self addSubview:_arrow];
     }
     return _arrow;

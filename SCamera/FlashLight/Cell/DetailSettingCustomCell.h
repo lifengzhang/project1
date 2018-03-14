@@ -16,4 +16,8 @@
 
 @property (nonatomic, strong) UILabel *detail;
 
+- (void)enableCell;
+
+- (void)disableCell;
+
 @end

@@ -10,4 +10,8 @@
 
 @interface StartCell : UITableViewCell
 
+@property (nonatomic, strong) UIButton *startImage;
+
+- (void)updateStartCellWithClass:(NSString *)str;
+
 @end

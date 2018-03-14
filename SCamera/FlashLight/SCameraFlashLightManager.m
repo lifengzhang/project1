@@ -227,12 +227,36 @@ static SCameraFlashLightManager *sharedInstance = nil;
     return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightFrequence];
 }
 
-- (NSString *)flashPower {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightFlashPower];
-}
-
 - (FlashLightPower)aPower {
     return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightApower];
+}
+
+- (FlashLightPower)bPower {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightBpower];
+}
+
+- (FlashLightPower)cPower {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightCpower];
+}
+
+- (FlashLightPower)dPower {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightDpower];
+}
+
+- (NSString *)aPowerStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightApowerString];
+}
+
+- (NSString *)bPowerStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightBpowerString];
+}
+
+- (NSString *)cPowerStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightCpowerString];
+}
+
+- (NSString *)dPowerStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightDpowerString];
 }
 
 - (NSMutableArray *)groupArray {
@@ -242,6 +266,109 @@ static SCameraFlashLightManager *sharedInstance = nil;
 
 - (NSString *)mainValue {
     return [[NSUserDefaults standardUserDefaults] objectForKey:MainValue];
+}
+
+#pragma -mark 组别Controller数据
+- (BOOL)isVoiceOpenA {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsVoiceOpenA];
+}
+
+- (BOOL)isVoiceOpenB {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsVoiceOpenB];
+}
+
+- (BOOL)isVoiceOpenC {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsVoiceOpenC];
+}
+
+- (BOOL)isVoiceOpenD {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsVoiceOpenD];
+}
+
+- (BOOL)isFlashFrequenceOpenA {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsFlashFrequenceOpneA];
+}
+
+- (BOOL)isFlashFrequenceOpenB {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsFlashFrequenceOpneB];
+}
+
+- (BOOL)isFlashFrequenceOpenC {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsFlashFrequenceOpneC];
+}
+
+- (BOOL)isFlashFrequenceOpenD {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsFlashFrequenceOpneD];
+}
+
+- (BOOL)isLaunchA {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchA];
+}
+
+- (BOOL)isLaunchB {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchB];
+}
+
+- (BOOL)isLaunchC {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchC];
+}
+
+- (BOOL)isLaunchD {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchD];
+}
+
+- (void)saveIsVoiceOpenA:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsVoiceOpenA];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsVoiceOpenB:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsVoiceOpenB];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsVoiceOpenC:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsVoiceOpenC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsVoiceOpenD:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsVoiceOpenD];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsFlashFrequenceOpneA:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsFlashFrequenceOpneA];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveIsFlashFrequenceOpneB:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsFlashFrequenceOpneB];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+- (void)saveIsFlashFrequenceOpneC:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsFlashFrequenceOpneC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+- (void)saveIsFlashFrequenceOpneD:(BOOL)selected {
+    [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsFlashFrequenceOpneD];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveLaunchA:(BOOL)isLaunch {
+    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchA];
+}
+
+- (void)saveLaunchB:(BOOL)isLaunch {
+    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchB];
+}
+
+- (void)saveLaunchC:(BOOL)isLaunch {
+    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchC];
+}
+
+- (void)saveLaunchD:(BOOL)isLaunch {
+    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchD];
 }
 
 #pragma - mark 属性持久化
@@ -256,6 +383,41 @@ static SCameraFlashLightManager *sharedInstance = nil;
         [[NSUserDefaults standardUserDefaults] setInteger:FlashLightPower1_128 forKey:FlashLightApower];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+
+- (void)saveBPower:(FlashLightPower)bPower {
+    [[NSUserDefaults standardUserDefaults] setInteger:bPower forKey:FlashLightBpower];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveCPower:(FlashLightPower)cPower {
+    [[NSUserDefaults standardUserDefaults] setInteger:cPower forKey:FlashLightCpower];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveDPower:(FlashLightPower)dPower {
+    [[NSUserDefaults standardUserDefaults] setInteger:dPower forKey:FlashLightDpower];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveAPowerString:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightApowerString];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveBPowerString:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightBpowerString];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveCPowerString:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightCpowerString];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveDPowerString:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightDpowerString];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveChannel:(NSInteger)channel {
@@ -351,19 +513,6 @@ static SCameraFlashLightManager *sharedInstance = nil;
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:FlashLightTimes];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)saveFlashPower:(NSString *)flashPower {
-    
-    if (flashPower && flashPower.length > 0) {
-        
-        [[NSUserDefaults standardUserDefaults] setObject:flashPower forKey:FlashLightFlashPower];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    } else {
-        [[NSUserDefaults standardUserDefaults] setObject:@"1/128" forKey:FlashLightFlashPower];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

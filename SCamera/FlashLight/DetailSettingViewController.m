@@ -19,10 +19,6 @@
 
 @property (nonatomic, strong) NSString *times; //次数
 
-@property (nonatomic, strong) NSString *voiceStatus; //声音状态
-
-@property (nonatomic, strong) NSString *modelLampStatus; //造型灯状态
-
 @end
 
 @implementation DetailSettingViewController
@@ -87,7 +83,6 @@
 
 - (void)back {
     [self saveValue];
-//    NSArray *fixedParameter = @[self.channelStr,self.frequenceValue,self.times,self.voiceStatus,self.modelLampStatus];
     if (self.blockparameter) {
         self.blockparameter();
     }
@@ -126,7 +121,7 @@
 //点击频闪频率减少按钮
 - (void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label {
     
-    if ([self.frequenceValue isEqualToString:@"1"]) {
+    if (slider.value == 1) {
         return;
     }
     NSUInteger index = (NSUInteger)(slider.value - 1);
@@ -139,7 +134,7 @@
 //点击频闪频率增加按钮
 - (void)Slider:(UISlider *)slider ClickIncreaseBtnWithValue:(UILabel *)label {
     
-    if ([self.frequenceValue isEqualToString:@"199"]) {
+    if (slider.value == 199) {
         return;
     }
     NSUInteger index = (NSUInteger)(slider.value + 1);
@@ -161,18 +156,21 @@
 
 //点击次数Cell减少按钮
 - (void)Slider:(UISlider *)slider TimesCellClickReduceBtnWithValue:(UILabel *)label {
-    
+    if (slider.value == 0) {
+        return;
+    }
     NSUInteger index = (NSUInteger)(slider.value - 1);
     [slider setValue:index animated:NO];
     self.times = [NSString stringWithFormat:@"%.f",slider.value];
     label.text = self.times;
-//    FlashLightManager.flashNumber = [self.times integerValue];
     [FlashLightManager saveTimes:[self.times integerValue]];
 }
 
 //点击次数Cell增加按钮
 - (void)Slider:(UISlider *)slider TimesCellClickIncreaseBtnWithValue:(UILabel *)label {
-    
+    if (slider.value == 0) {
+        return;
+    }
     NSUInteger index = (NSUInteger)(slider.value + 1);
     [slider setValue:index animated:NO];
     self.times = [NSString stringWithFormat:@"%.f",slider.value];
@@ -184,13 +182,9 @@
 - (void)ClickVoiceButton:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (btn.selected) {
-        FlashLightManager.isSoundOpen = YES;
         [FlashLightManager saveIsSoundOpen:YES];
-        self.voiceStatus = @"声音 开";
     } else {
-        FlashLightManager.isSoundOpen = NO;
         [FlashLightManager saveIsSoundOpen:NO];
-        self.voiceStatus = @"声音 关";
     }
 }
 
@@ -198,13 +192,9 @@
 - (void)ClickModelLampButton:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (btn.selected) {
-        FlashLightManager.isPoseOpen = YES;
         [FlashLightManager saveIsPoseOpen:YES];
-        self.modelLampStatus = @"造型灯 开";
     } else {
-        FlashLightManager.isPoseOpen = NO;
         [FlashLightManager saveIsPoseOpen:NO];
-        self.modelLampStatus = @"造型灯 关";
     }
 }
 

@@ -90,6 +90,37 @@
     [self.modelLampBtn setImage:[UIImage imageNamed:@"FlashLight_Open"] forState:UIControlStateSelected];
 }
 
+- (void)updateClass:(NSString *)str {
+    if ([str isEqualToString:@"A"]) {
+        self.voiceBtn.selected = FlashLightManager.isVoiceOpenA;
+        self.modelLampBtn.selected = FlashLightManager.isFlashFrequenceOpenA;
+    } else if ([str isEqualToString:@"B"]) {
+        self.voiceBtn.selected = FlashLightManager.isVoiceOpenB;
+        self.modelLampBtn.selected = FlashLightManager.isFlashFrequenceOpenB;
+    } else if ([str isEqualToString:@"C"]) {
+        self.voiceBtn.selected = FlashLightManager.isVoiceOpenC;
+        self.modelLampBtn.selected = FlashLightManager.isFlashFrequenceOpenC;
+    } else {
+        self.voiceBtn.selected = FlashLightManager.isVoiceOpenD;
+        self.modelLampBtn.selected = FlashLightManager.isFlashFrequenceOpenD;
+    }
+    
+}
+
+- (void)enableCell {
+    self.voiceLabel.textColor = [UIColor whiteColor];
+    self.modelLabel.textColor = [UIColor whiteColor];
+    self.voiceBtn.enabled = YES;
+    self.modelLampBtn.enabled = YES;
+}
+
+- (void)disableCell {
+    self.voiceLabel.textColor = [UIColor grayColor];
+    self.modelLabel.textColor = [UIColor grayColor];
+    self.voiceBtn.enabled = NO;
+    self.modelLampBtn.enabled = NO;
+}
+
 - (UIView *)centerLine {
     if (!_centerLine) {
         _centerLine = [[UIView alloc] initWithFrame:CGRectZero];

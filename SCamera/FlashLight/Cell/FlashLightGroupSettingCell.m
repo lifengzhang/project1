@@ -92,6 +92,29 @@
     self.aCell.enabled = NO;
 }
 
+- (void)updateDateWithClass:(NSString *)str {
+    self.grouplType.text = str;
+
+    if ([str isEqualToString:@"A"]) {
+        self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenA ? @"声音 开": @"声音 关"];
+        self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenA ? @"频闪 开" : @"频闪 关"];
+        self.grouplType.text = str;
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.aPowerStr.length > 0) ? FlashLightManager.aPowerStr : @"1/128"];
+    } else if ([str isEqualToString:@"B"]) {
+        self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenB ? @"声音 开": @"声音 关"];
+        self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenB ? @"频闪 开" : @"频闪 关"];
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.bPowerStr.length > 0) ? FlashLightManager.bPowerStr : @"1/128"];
+    } else if ([str isEqualToString:@"C"]) {
+        self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenC ? @"声音 开": @"声音 关"];
+        self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenC ? @"频闪 开" : @"频闪 关"];
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.cPowerStr.length > 0) ? FlashLightManager.cPowerStr : @"1/128"];
+    } else {
+        self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenD ? @"声音 开": @"声音 关"];
+        self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenD ? @"频闪 开" : @"频闪 关"];
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.dPowerStr.length > 0) ? FlashLightManager.dPowerStr : @"1/128"];
+    }
+}
+
 - (UIButton *)startBtn {
     if (!_startBtn) {
         _startBtn = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -137,7 +160,7 @@
     if (!_voiceType) {
         _voiceType = [[UILabel alloc] initWithFrame:CGRectZero];
         _voiceType.textColor = [UIColor whiteColor];
-        _voiceType.text = @"声音 开";
+        _voiceType.text = @"声音 关";
         _voiceType.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         [self addSubview:_voiceType];
     }
@@ -148,7 +171,7 @@
     if (!_frequenceType) {
         _frequenceType = [[UILabel alloc] initWithFrame:CGRectZero];
         _frequenceType.textColor = [UIColor whiteColor];
-        _frequenceType.text = @"频闪 开";
+        _frequenceType.text = @"频闪 关";
         _frequenceType.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         [self addSubview:_frequenceType];
     }

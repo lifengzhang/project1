@@ -62,14 +62,6 @@
 
 - (void)clickStartD;
 
-- (void)tableViewReloadGroupDate;
-
-- (void)updateACellValue:(NSString *)str;
-
-- (void)updateBCellValue:(NSString *)str;
-
-- (void)updateCCellValue:(NSString *)str;
-
-- (void)updateDCellValue:(NSString *)str;
+- (void)tableViewReloadGroupDate:(NSInteger)integer;
 
 @end

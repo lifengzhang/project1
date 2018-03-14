@@ -10,8 +10,6 @@
 
 @interface StartCell ()
 
-@property (nonatomic, strong) UIButton *startImage;
-
 @end
 
 @implementation StartCell
@@ -33,11 +31,24 @@
     }];
 }
 
+- (void)updateStartCellWithClass:(NSString *)str {
+    if ([str isEqualToString:@"A"]) {
+        self.startImage.selected = FlashLightManager.isLaunchA;
+    } else if ([str isEqualToString:@"B"]) {
+        self.startImage.selected = FlashLightManager.isLaunchB;
+    } else if ([str isEqualToString:@"C"]) {
+        self.startImage.selected = FlashLightManager.isLaunchC;
+    } else {
+        self.startImage.selected = FlashLightManager.isLaunchD;
+    }
+}
+
 - (UIButton *)startImage {
     if (!_startImage) {
         _startImage = [[UIButton alloc] initWithFrame:CGRectZero];
         [_startImage setImage:[UIImage imageNamed:@"FlashLight_Start"] forState:UIControlStateSelected];
         [_startImage setImage:[UIImage imageNamed:@"FlashLight_Stop"] forState:UIControlStateNormal];
+        _startImage.userInteractionEnabled = NO;
         [self addSubview:_startImage];
     }
     return _startImage;

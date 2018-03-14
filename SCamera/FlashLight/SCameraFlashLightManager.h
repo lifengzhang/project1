@@ -15,8 +15,14 @@
 #define FlashLightIsSoundOpen                              @"flashLight_isSoundOpen"
 #define FlashLightFrequence                                @"flashLight_frequence"
 #define FlashLightTimes                                    @"flashLight_times"
-#define FlashLightFlashPower                               @"flashLight_flashPower"
 #define FlashLightApower                                   @"flashLight_aPower"
+#define FlashLightBpower                                   @"flashLight_bPower"
+#define FlashLightCpower                                   @"flashLight_cPower"
+#define FlashLightDpower                                   @"flashLight_dPower"
+#define FlashLightApowerString                             @"flashLight_aPower_string"
+#define FlashLightBpowerString                             @"flashLight_bPower_string"
+#define FlashLightCpowerString                             @"flashLight_cPower_string"
+#define FlashLightDpowerString                             @"flashLight_dPower_string"
 
 #define IsSelectedA                                        @"isSelected_A"
 #define IsSelectedB                                        @"isSelected_B"
@@ -32,6 +38,20 @@
 
 #define GroupArray                                         @"group_array"
 #define MainValue                                          @"main_value"
+
+//组别
+#define IsVoiceOpenA                                       @"isVoiceOpne_A"
+#define IsVoiceOpenB                                       @"isVoiceOpne_B"
+#define IsVoiceOpenC                                       @"isVoiceOpne_C"
+#define IsVoiceOpenD                                       @"isVoiceOpne_D"
+#define IsFlashFrequenceOpneA                              @"isFlashFrequenceOpne_A"
+#define IsFlashFrequenceOpneB                              @"isFlashFrequenceOpne_B"
+#define IsFlashFrequenceOpneC                              @"isFlashFrequenceOpne_C"
+#define IsFlashFrequenceOpneD                              @"isFlashFrequenceOpne_D"
+#define IsLaunchA                                          @"is_launch_A"
+#define IsLaunchB                                          @"is_launch_B"
+#define IsLaunchC                                          @"is_launch_C"
+#define IsLaunchD                                          @"is_launch_D"
 
 typedef enum : Byte {
     
@@ -126,24 +146,40 @@ typedef enum : Byte {
 //第十一组
 @property (nonatomic, assign) NSUInteger flashFrequency;
 
-@property (nonatomic, strong) NSString *flashPower;
-
 @property (nonatomic, strong) NSString *mainValue;               //Slider主要的值
 
-@property (nonatomic, assign) BOOL isSelectedA;                  //选择分组A
+@property (nonatomic, assign) BOOL isSelectedA;                  //选中并显示 分组A
 @property (nonatomic, assign) BOOL isSelectedB;
 @property (nonatomic, assign) BOOL isSelectedC;
 @property (nonatomic, assign) BOOL isSelectedD;
 
-@property (nonatomic, assign) BOOL isSelectedStartA;               //A组启动按钮
-@property (nonatomic, assign) BOOL isSelectedStartB;               //B组启动按钮
-@property (nonatomic, assign) BOOL isSelectedStartC;               //C组启动按钮
-@property (nonatomic, assign) BOOL isSelectedStartD;               //D组启动按钮
+@property (nonatomic, assign) BOOL isSelectedStartA;               //闪光灯页面A组启动按钮
+@property (nonatomic, assign) BOOL isSelectedStartB;               //闪光灯页面B组启动按钮
+@property (nonatomic, assign) BOOL isSelectedStartC;               //闪光灯页面C组启动按钮
+@property (nonatomic, assign) BOOL isSelectedStartD;               //闪光灯页面D组启动按钮
+@property (nonatomic, strong) NSString *aPowerStr;
+@property (nonatomic, strong) NSString *bPowerStr;
+@property (nonatomic, strong) NSString *cPowerStr;
+@property (nonatomic, strong) NSString *dPowerStr;
 
-@property (nonatomic, assign) BOOL isMainStartSelected;            //主启动按钮
+@property (nonatomic, assign) BOOL isMainStartSelected;             //主启动按钮
 
-@property (nonatomic, strong) NSMutableArray *groupArray;               //存储分组
+@property (nonatomic, strong) NSMutableArray *groupArray;            //存储显示分组个数
 
+@property (nonatomic, assign) BOOL isVoiceOpenA;                    //组别A声音
+@property (nonatomic, assign) BOOL isVoiceOpenB;                    //组别B声音
+@property (nonatomic, assign) BOOL isVoiceOpenC;                    //组别C声音
+@property (nonatomic, assign) BOOL isVoiceOpenD;                    //组别D声音
+
+@property (nonatomic, assign) BOOL isFlashFrequenceOpenA;           //组别A闪频
+@property (nonatomic, assign) BOOL isFlashFrequenceOpenB;           //组别B闪频
+@property (nonatomic, assign) BOOL isFlashFrequenceOpenC;           //组别C闪频
+@property (nonatomic, assign) BOOL isFlashFrequenceOpenD;           //组别D闪频
+
+@property (nonatomic, assign) BOOL isLaunchA;                        //组别A页面启动
+@property (nonatomic, assign) BOOL isLaunchB;                        //组别B页面启动
+@property (nonatomic, assign) BOOL isLaunchC;                        //组别C页面启动
+@property (nonatomic, assign) BOOL isLaunchD;                        //组别D页面启动
 
 + (instancetype)sharedInstance;
 
@@ -167,9 +203,21 @@ typedef enum : Byte {
 
 - (void)saveTimes:(NSInteger)times;
 
-- (void)saveFlashPower:(NSString *)flashPower;
-
 - (void)saveAPower:(FlashLightPower)aPower;
+
+- (void)saveBPower:(FlashLightPower)bPower;
+
+- (void)saveCPower:(FlashLightPower)cPower;
+
+- (void)saveDPower:(FlashLightPower)dPower;
+
+- (void)saveAPowerString:(NSString *)str;
+
+- (void)saveBPowerString:(NSString *)str;
+
+- (void)saveCPowerString:(NSString *)str;
+
+- (void)saveDPowerString:(NSString *)str;
 
 - (void)saveGroupArray:(NSString *)str;
 
@@ -186,5 +234,29 @@ typedef enum : Byte {
 - (void)saveStartDIsSelected:(BOOL)selected;
 
 - (void)saveMainStartSelected:(BOOL)selected;
+
+- (void)saveIsVoiceOpenA:(BOOL)selected;
+
+- (void)saveIsVoiceOpenB:(BOOL)selected;
+
+- (void)saveIsVoiceOpenC:(BOOL)selected;
+
+- (void)saveIsVoiceOpenD:(BOOL)selected;
+
+- (void)saveIsFlashFrequenceOpneA:(BOOL)selected;
+
+- (void)saveIsFlashFrequenceOpneB:(BOOL)selected;
+
+- (void)saveIsFlashFrequenceOpneC:(BOOL)selected;
+
+- (void)saveIsFlashFrequenceOpneD:(BOOL)selected;
+
+- (void)saveLaunchA:(BOOL)isLaunch;
+
+- (void)saveLaunchB:(BOOL)isLaunch;
+
+- (void)saveLaunchC:(BOOL)isLaunch;
+
+- (void)saveLaunchD:(BOOL)isLaunch;
 
 @end

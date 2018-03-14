@@ -14,9 +14,9 @@
 
 @property (nonatomic, strong) GroupSettingTableView *groupView;
 
-@property (nonatomic, strong) NSString *sliderValue;   //滚轮的值
-
 @property (nonnull, strong) NSArray *values;
+
+@property (nonatomic, strong) NSString *groupClass;
 
 @end
 
@@ -25,9 +25,17 @@
 - (instancetype)initWithClass:(NSString *)str {
     if (self = [super init]) {
         self.title = [NSString stringWithFormat:@"组别%@",str];
+        self.groupClass = str;
         [self updateNavigation];
         [self setUpConstains];
-        self.values = @[@"1/64",@"1/32",@"1/16",@"1/8",@"1/4",@"1/2",@"1"];
+        self.values = @[@{@"1/128":@(FlashLightPower1_128)},@{@"1/128+0.3":@(FlashLightPower1_128_1)},@{@"1/128+0.7":@(FlashLightPower1_128_2)},
+                        @{@"1/64":@(FlashLightPower1_64)},@{@"1/64+0.3":@(FlashLightPower1_64_1)},@{@"1/64+0.7":@(FlashLightPower1_64_2)},
+                        @{@"1/32":@(FlashLightPower1_32)},@{@"1/32+0.3":@(FlashLightPower1_32_1)},@{@"1/32+0.7":@(FlashLightPower1_32_2)},
+                        @{@"1/16":@(FlashLightPower1_16)},@{@"1/16+0.3":@(FlashLightPower1_16_1)},@{@"1/16+0.7":@(FlashLightPower1_16_2)},
+                        @{@"1/8":@(FlashLightPower1_8)},@{@"1/8+0.3":@(FlashLightPower1_8_1)},@{@"1/8+0.7":@(FlashLightPower1_8_2)},
+                        @{@"1/4":@(FlashLightPower1_4)},@{@"1/4+0.3":@(FlashLightPower1_4_1)},@{@"1/4+0.7":@(FlashLightPower1_4_2)},
+                        @{@"1/2":@(FlashLightPower1_2)},@{@"1/2+0.3":@(FlashLightPower1_2_1)},@{@"1/2+0.7":@(FlashLightPower1_2_2)},
+                        @{@"1":@(FlashLightPower1)}];
     }
     return self;
 }
@@ -68,7 +76,7 @@
 
 - (void)back {
     if (self.groupSettingBlock) {
-        self.groupSettingBlock(self.sliderValue);
+        self.groupSettingBlock(nil);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -88,39 +96,104 @@
 
 #pragma -mark GroupSettingTableViewDelegate
 - (void)ScameraFlashLightSettingSliderValueChange:(UISlider *)slider andValueLabel:(UILabel *)label {
+
     NSUInteger index = (NSUInteger)(slider.value + 0.5);
     [slider setValue:index animated:NO];
-    self.sliderValue = self.values[index];
-    label.text = self.values[index];
+    NSDictionary *value = self.values[index];
+    label.text = value.allKeys.firstObject;
+    NSNumber *power = value.allValues.firstObject;
+    [self.groupView tableViewReloadCellDateWithPower:power.integerValue andPowerString:label.text];
 }
 
 //增加按钮
 - (void)Slider:(UISlider *)slider ClickIncreaseBtnWithValue:(UILabel *)label {
-    if ([self.sliderValue isEqualToString:@"1"]) {
+    
+    if (slider.value == self.values.count - 1) {
         return;
     }
     NSUInteger index = (NSUInteger)(slider.value + 1);
     [slider setValue:index animated:NO];
-    self.sliderValue = self.values[index];
-    label.text = self.values[index];
-    
+    NSDictionary *value = self.values[index];
+    label.text = value.allKeys.firstObject;
+    NSNumber *power = value.allValues.firstObject;
+    [self.groupView tableViewReloadCellDateWithPower:power.integerValue andPowerString:label.text];
 }
 
 //减少按钮
 -(void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label {
     
-    if ([self.sliderValue isEqualToString:@"1/64"]) {
+    if ((NSUInteger)(slider.value) == 0) {
         return;
     }
     NSUInteger index = (NSUInteger)(slider.value - 1);
     [slider setValue:index animated:NO];
-    self.sliderValue = self.values[index];
-    label.text = self.values[index];
+    NSDictionary *value = self.values[index];
+    label.text = value.allKeys.firstObject;
+    NSNumber *power = value.allValues.firstObject;
+    [self.groupView tableViewReloadCellDateWithPower:power.integerValue andPowerString:label.text];
+}
+
+//最小功率Cell
+- (void)clickMinPowerCell {
+    
+}
+
+//模式cell
+- (void)clickModelCell {
+    
+}
+
+//造型灯Cell
+- (void)clickLampCell {
+    
+}
+
+//开始Cell
+- (void)clickStartCell:(StartCell *)cell {
+    cell.startImage.selected = !cell.startImage.selected;
+    if ([self.groupClass isEqualToString:@"A"]) {
+        [FlashLightManager saveLaunchA:cell.startImage.selected];
+    } else if ([self.groupClass isEqualToString:@"B"]) {
+        [FlashLightManager saveLaunchB:cell.startImage.selected];
+    } else if ([self.groupClass isEqualToString:@"C"]) {
+        [FlashLightManager saveLaunchC:cell.startImage.selected];
+    } else {
+        [FlashLightManager saveLaunchD:cell.startImage.selected];
+    }
+    [self.groupView judgeLaunchButtonStatus];
+}
+
+//声音按钮
+- (void)clickVoiceButton:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    if ([self.groupClass isEqualToString:@"A"]) {
+        [FlashLightManager saveIsVoiceOpenA:btn.selected];
+    } else if ([self.groupClass isEqualToString:@"B"]) {
+        [FlashLightManager saveIsVoiceOpenB:btn.selected];
+    } else if ([self.groupClass isEqualToString:@"C"]) {
+        [FlashLightManager saveIsVoiceOpenC:btn.selected];
+    } else {
+        [FlashLightManager saveIsVoiceOpenD:btn.selected];
+    }
+}
+
+//闪频按钮
+- (void)clickFlashFrequenceButton:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    if ([self.groupClass isEqualToString:@"A"]) {
+        [FlashLightManager saveIsFlashFrequenceOpneA:btn.selected];
+    } else if ([self.groupClass isEqualToString:@"B"]) {
+        [FlashLightManager saveIsFlashFrequenceOpneB:btn.selected];
+    } else if ([self.groupClass isEqualToString:@"C"]) {
+        [FlashLightManager saveIsFlashFrequenceOpneC:btn.selected];
+    } else {
+        [FlashLightManager saveIsFlashFrequenceOpneD:btn.selected];
+    }
 }
 
 - (GroupSettingTableView *)groupView {
     if (!_groupView) {
-        _groupView = [[GroupSettingTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _groupView = [[GroupSettingTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped WithGroupClass:self.groupClass];
         _groupView.groupSettingTableViewDelegate = self;
         [self.view addSubview:_groupView];
     }

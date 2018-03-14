@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StartCell.h"
 
 @protocol GroupSettingTableViewDelegate <NSObject>
 
@@ -16,10 +17,32 @@
 
 - (void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label;
 
+- (void)clickVoiceButton:(UIButton *)btn;
+
+- (void)clickFlashFrequenceButton:(UIButton *)btn;
+
+- (void)clickMinPowerCell;
+
+- (void)clickModelCell;
+
+- (void)clickLampCell;
+
+- (void)clickStartCell:(StartCell *)cell;
+
 @end
 
 @interface GroupSettingTableView : UITableView
 
 @property (nonatomic, weak) id<GroupSettingTableViewDelegate> groupSettingTableViewDelegate;
+
+- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style WithGroupClass:(NSString *)str;
+
+- (void)tableViewReloadCellDateWithPower:(NSInteger)integer andPowerString:(NSString *)str;
+
+- (void)enableView;
+
+- (void)disableView;
+
+- (void)judgeLaunchButtonStatus;
 
 @end

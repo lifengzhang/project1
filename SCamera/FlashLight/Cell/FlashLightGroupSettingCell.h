@@ -30,4 +30,6 @@
 
 - (void)disableView;
 
+- (void)updateDateWithClass:(NSString *)str;
+
 @end

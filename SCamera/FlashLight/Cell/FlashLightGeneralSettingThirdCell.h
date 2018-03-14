@@ -38,14 +38,6 @@
 
 - (void)updateHomePageSlider;
 
-- (void)updateGroupSettingSlider;
-
-- (void)updateGroupAcell;
-
-- (void)updateGroupBcell;
-
-- (void)updateGroupCcell;
-
-- (void)updateGroupDcell;
+- (void)updateGroupSettingSliderWithGroupClass:(NSString *)str;
 
 @end

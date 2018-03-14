@@ -11,7 +11,6 @@
 #import "DetailSettingCustomCell.h"
 #import "VoiceAndModelLampCell.h"
 #import "BlueManagerTableViewSection.h"
-#import "StartCell.h"
 
 static NSString *fashLightGeneralSettingThirdCellId = @"flashLight_general_cell_ID";
 static NSString *detailSettingCustomCellId = @"detailSetting_custom_cell_ID";
@@ -26,18 +25,25 @@ static NSString *startCellID = @"start_Cell_ID";
 
 @property (nonatomic, strong) DetailSettingCustomCell *detailCell;
 
+@property (nonatomic, strong) DetailSettingCustomCell *detailCell1;
+
+@property (nonatomic, strong) DetailSettingCustomCell *detailCell2;
+
 @property (nonatomic ,strong) VoiceAndModelLampCell *voiceCell;
 
 @property (nonatomic, strong) StartCell *startCell;
+
+@property (nonatomic, strong) NSString *groupClass;
 
 @end
 
 @implementation GroupSettingTableView
 
-- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
+- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style WithGroupClass:(NSString *)str{
     if (self = [super initWithFrame:frame style:style]) {
         self.delegate = self;
         self.dataSource = self;
+        self.groupClass = str;
         [self registCell];
         self.backgroundColor = [UIColor blackColor];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -52,6 +58,73 @@ static NSString *startCellID = @"start_Cell_ID";
     [self registerClass:[VoiceAndModelLampCell class] forCellReuseIdentifier:voiceAndModelLampCellId];
     [self registerClass:[BlueManagerTableViewSection class] forHeaderFooterViewReuseIdentifier:blueManagerTableViewSectionID];
     [self registerClass:[StartCell class] forCellReuseIdentifier:startCellID];
+}
+
+- (void)tableViewReloadCellDateWithPower:(NSInteger)integer andPowerString:(NSString *)str {
+    
+    if ([self.groupClass isEqualToString:@"A"]) {
+        [FlashLightManager saveAPower:integer];
+        [FlashLightManager saveAPowerString:str];
+    } else if ([self.groupClass isEqualToString:@"B"]) {
+        [FlashLightManager saveBPower:integer];
+        [FlashLightManager saveBPowerString:str];
+    } else if ([self.groupClass isEqualToString:@"C"]) {
+        [FlashLightManager saveCPower:integer];
+        [FlashLightManager saveCPowerString:str];
+    } else {
+        [FlashLightManager saveDPower:integer];
+        [FlashLightManager saveDPowerString:str];
+    }
+}
+
+- (void)enableView {
+    [self.flashCell enableView];
+    [self.detailCell enableCell];
+    [self.detailCell1 enableCell];
+    [self.detailCell2 enableCell];
+    [self.voiceCell enableCell];
+    self.detailCell.userInteractionEnabled = YES;
+    self.detailCell1.userInteractionEnabled = YES;
+    self.detailCell2.userInteractionEnabled = YES;
+}
+
+- (void)disableView {
+    [self.flashCell disableView];
+    [self.detailCell disableCell];
+    [self.detailCell1 disableCell];
+    [self.detailCell2 disableCell];
+    [self.voiceCell disableCell];
+    self.detailCell.userInteractionEnabled = NO;
+    self.detailCell1.userInteractionEnabled = NO;
+    self.detailCell2.userInteractionEnabled = NO;
+}
+
+- (void)judgeLaunchButtonStatus {
+    if ([self.groupClass isEqualToString:@"A"]) {
+        if (FlashLightManager.isLaunchA) {
+            [self disableView];
+        } else {
+            [self enableView];
+        }
+    } else if ([self.groupClass isEqualToString:@"B"]) {
+        if (FlashLightManager.isLaunchB) {
+            [self disableView];
+        } else {
+            [self enableView];
+        }
+    } else if ([self.groupClass isEqualToString:@"C"]) {
+        if (FlashLightManager.isLaunchC) {
+            [self disableView];
+        } else {
+            [self enableView];
+        }
+    } else {
+        if (FlashLightManager.isLaunchD) {
+            [self disableView];
+        } else {
+            [self enableView];
+        }
+    }
 }
 
 #pragma  -mark UITableViewDelegate
@@ -77,7 +150,7 @@ static NSString *startCellID = @"start_Cell_ID";
             [self.flashCell.flashLightSlider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
             [self.flashCell.addButton addTarget:self action:@selector(increaseValue) forControlEvents:UIControlEventTouchUpInside];
             [self.flashCell.redeceButton addTarget:self action:@selector(reduceValue) forControlEvents:UIControlEventTouchUpInside];
-            [self.flashCell updateGroupSettingSlider];
+            [self.flashCell updateGroupSettingSliderWithGroupClass:self.groupClass];
             return self.flashCell;
         } else {
             self.detailCell = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
@@ -88,28 +161,54 @@ static NSString *startCellID = @"start_Cell_ID";
         }
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            self.detailCell = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
-            self.detailCell.title.text = @"模式";
-            self.detailCell.detail.text = @"自动";
-            return self.detailCell;
+            self.detailCell1 = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
+            self.detailCell1.title.text = @"模式";
+            self.detailCell1.detail.text = @"自动";
+            return self.detailCell1;
         } else {
-            self.detailCell = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
-            self.detailCell.title.text = @"造型灯";
-            self.detailCell.detail.text = @"PROP";
-            self.detailCell.bottomLine.hidden = YES;
-            return self.detailCell;
+            self.detailCell2 = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
+            self.detailCell2.title.text = @"造型灯";
+            self.detailCell2.detail.text = @"PROP";
+            self.detailCell2.bottomLine.hidden = YES;
+            return self.detailCell2;
         }
-        
     } else if (indexPath.section == 2) {
-        
         self.voiceCell = [tableView dequeueReusableCellWithIdentifier:voiceAndModelLampCellId forIndexPath:indexPath];
         [self.voiceCell updateGroupSettingCell];
         [self.voiceCell.voiceBtn addTarget:self action:@selector(isVoiceOpen:) forControlEvents:UIControlEventTouchUpInside];
         [self.voiceCell.modelLampBtn addTarget:self action:@selector(isModelLampOpen:) forControlEvents:UIControlEventTouchUpInside];
+        [self.voiceCell updateClass:self.groupClass];
         return self.voiceCell;
     } else {
         self.startCell = [tableView dequeueReusableCellWithIdentifier:startCellID forIndexPath:indexPath];
+        [self.startCell updateStartCellWithClass:self.groupClass];
+        [self judgeLaunchButtonStatus];
         return self.startCell;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        if (indexPath.row == 1) {
+            if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(clickMinPowerCell)]) {
+                [self.groupSettingTableViewDelegate clickMinPowerCell];
+            }
+        }
+    } else if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(clickModelCell)]) {
+                [self.groupSettingTableViewDelegate clickModelCell];
+            }
+        } else {
+            if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(clickLampCell)]) {
+                [self.groupSettingTableViewDelegate clickLampCell];
+            }
+        }
+    } else if (indexPath.section == 3) {
+        if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(clickStartCell:)]) {
+            [self.groupSettingTableViewDelegate clickStartCell:self.startCell];
+        }
     }
 }
 
@@ -175,21 +274,16 @@ static NSString *startCellID = @"start_Cell_ID";
 }
 
 - (void)isVoiceOpen:(UIButton *)btn {
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        self.voiceCell.voiceBtn.selected = YES;
-    } else {
-        self.voiceCell.voiceBtn.selected = NO;
+
+    if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(clickVoiceButton:)]) {
+        [self.groupSettingTableViewDelegate clickVoiceButton:btn];
     }
 }
 
 - (void)isModelLampOpen:(UIButton *)btn {
     
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        self.voiceCell.modelLampBtn.selected = YES;
-    } else {
-        self.voiceCell.modelLampBtn.selected = NO;
+    if (self.groupSettingTableViewDelegate && [self.groupSettingTableViewDelegate respondsToSelector:@selector(clickFlashFrequenceButton:)]) {
+        [self.groupSettingTableViewDelegate clickFlashFrequenceButton:btn];
     }
 }
 

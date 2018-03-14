@@ -22,8 +22,12 @@
 
 - (void)updateVoiceCell;
 
-- (void)updateFlashFrequenceCell;
-
 - (void)updateGroupSettingCell;
+
+- (void)updateClass:(NSString *)str;
+
+- (void)enableCell;
+
+- (void)disableCell;
 
 @end

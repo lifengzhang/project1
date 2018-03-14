@@ -107,6 +107,7 @@
     self.minLabel.text = @"1";
     self.maxLabel.text = @"199";
     self.detail.text = @"1";
+    [self.flashLightSlider setValue:1 animated:NO];
     if (FlashLightManager.flashFrequency && FlashLightManager.flashFrequency > 0) {
         [self.flashLightSlider setValue:FlashLightManager.flashFrequency animated:NO];
         self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashFrequency];
@@ -124,6 +125,7 @@
     self.minLabel.text = @"1";
     self.maxLabel.text = @"40";
     self.detail.text = @"1";
+    [self.flashLightSlider setValue:1 animated:NO];
     if (FlashLightManager.flashNumber && FlashLightManager.flashNumber > 0) {
         [self.flashLightSlider setValue:FlashLightManager.flashNumber animated:NO];
         self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashNumber];
@@ -135,43 +137,62 @@
     NSInteger numberOfSteps = ((float)[numbers count] - 1);
     self.flashLightSlider.maximumValue = numberOfSteps;
     self.flashLightSlider.minimumValue = 0;
-    if (FlashLightManager.flashPower && FlashLightManager.flashPower.length > 0) {
+    [self.flashLightSlider setValue:0 animated:NO];
+    if (FlashLightManager.mainValue && FlashLightManager.mainValue.length > 0) {
         for (int i = 0; i < numberOfSteps + 1; i++) {
-            if ([numbers[i] isEqualToString:FlashLightManager.flashPower]) {
+            if ([numbers[i] isEqualToString:FlashLightManager.mainValue]) {
                 [self.flashLightSlider setValue:i animated:NO];
-                self.valueLabel.text = FlashLightManager.flashPower;
+                self.valueLabel.text = FlashLightManager.mainValue;
             }
         }
     }
 }
 
-- (void)updateGroupSettingSlider {
-    self.valueLabel.text = @"1/64";
-    self.bottomLine.hidden = NO;
-    self.title.hidden = YES;
-    self.minLabel.text = @"1/64";
-    self.maxLabel.text = @"1/1";
-    self.detail.hidden = YES;
-    NSArray *numbers = @[@"1/64",@"1/32",@"1/16",@"1/8",@"1/4",@"1/2",@"1"];
+- (void)updateGroupSettingSliderWithGroupClass:(NSString *)str {
+    NSArray *numbers = @[@"1/128",@"1/128+0.3",@"1/128+0.7",@"1/64",@"1/64+0.3",@"1/64+0.7", @"1/32",@"1/32+0.3",@"1/32+0.7", @"1/16",@"1/16+0.3",@"1/16+0.7", @"1/8",@"1/8+0.3",@"1/8+0.7",@"1/4",@"1/4+0.3",@"1/4+0.7",@"1/2",@"1/2+0.3",@"1/2+0/7", @"1"];
     NSInteger numberOfSteps = ((float)[numbers count] - 1);
     self.flashLightSlider.maximumValue = numberOfSteps;
     self.flashLightSlider.minimumValue = 0;
-}
-
-- (void)updateGroupAcell {
-    
-}
-
--(void)updateGroupBcell {
-    
-}
-
--(void)updateGroupCcell {
-    
-}
-
-- (void)updateGroupDcell {
-    
+    [self.flashLightSlider setValue:0 animated:NO];
+    self.valueLabel.text = @"1/128";
+    self.bottomLine.hidden = NO;
+    if ([str isEqualToString:@"A"]) {
+        if (FlashLightManager.aPowerStr && FlashLightManager.aPowerStr.length > 0) {
+            for (int i = 0; i < numberOfSteps + 1; i++) {
+                if ([numbers[i] isEqualToString:FlashLightManager.aPowerStr]) {
+                    [self.flashLightSlider setValue:i animated:NO];
+                    self.valueLabel.text = FlashLightManager.aPowerStr;
+                }
+            }
+        }
+    } else if ([str isEqualToString:@"B"]) {
+        if (FlashLightManager.bPowerStr && FlashLightManager.bPowerStr.length > 0) {
+            for (int i = 0; i < numberOfSteps + 1; i++) {
+                if ([numbers[i] isEqualToString:FlashLightManager.bPowerStr]) {
+                    [self.flashLightSlider setValue:i animated:NO];
+                    self.valueLabel.text = FlashLightManager.bPowerStr;
+                }
+            }
+        }
+    } else if ([str isEqualToString:@"C"]) {
+        if (FlashLightManager.cPowerStr && FlashLightManager.cPowerStr.length > 0) {
+            for (int i = 0; i < numberOfSteps + 1; i++) {
+                if ([numbers[i] isEqualToString:FlashLightManager.cPowerStr]) {
+                    [self.flashLightSlider setValue:i animated:NO];
+                    self.valueLabel.text = FlashLightManager.cPowerStr;
+                }
+            }
+        }
+    } else {
+        if (FlashLightManager.dPowerStr && FlashLightManager.dPowerStr.length > 0) {
+            for (int i = 0; i < numberOfSteps + 1; i++) {
+                if ([numbers[i] isEqualToString:FlashLightManager.dPowerStr]) {
+                    [self.flashLightSlider setValue:i animated:NO];
+                    self.valueLabel.text = FlashLightManager.dPowerStr;
+                }
+            }
+        }
+    }
 }
 
 - (UIButton *)addButton {
@@ -197,7 +218,7 @@
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.textColor = [UIColor whiteColor];
         _valueLabel.font = [UIFont ChinaDefaultFontNameOfSize:19.f];
-        _valueLabel.text = FlashLightManager.flashPower.length > 0 ? FlashLightManager.flashPower : @"1/128";
+        _valueLabel.text = FlashLightManager.mainValue.length > 0 ? FlashLightManager.mainValue : @"1/128";
         [self addSubview:_valueLabel];
     }
     return _valueLabel;

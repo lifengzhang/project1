@@ -47,14 +47,6 @@
     [self.flashLightSettingView reloadData];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    if (self.sliderValue.length > 0) {
-        [FlashLightManager saveFlashPower:self.sliderValue];
-
-    }
-}
-
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -116,15 +108,13 @@
     label.text = value.allKeys.firstObject;
     [FlashLightManager saveMainValue:label.text];
     NSNumber *power = value.allValues.firstObject;
-//    FlashLightManager.aPower = power.integerValue;
-    [FlashLightManager saveAPower:power.integerValue];
-    [self.flashLightSettingView tableViewReloadGroupDate];
+    [self.flashLightSettingView tableViewReloadGroupDate:power.integerValue];
 }
 
 //增加安妞
 - (void)Slider:(UISlider *)slider ClickIncreaseBtnWithValue:(UILabel *)label {
     
-    if ([self.sliderValue isEqualToString:@"1/1"]) {
+    if (slider.value == 21) {
         return;
     }
     NSUInteger index = (NSUInteger)(slider.value + 1);
@@ -134,15 +124,13 @@
     label.text = value.allKeys.firstObject;
     [FlashLightManager saveMainValue:label.text];
     NSNumber *power = value.allValues.firstObject;
-//    FlashLightManager.aPower = power.integerValue;
-    [FlashLightManager saveAPower:power.integerValue];
-    [self.flashLightSettingView tableViewReloadGroupDate];
+    [self.flashLightSettingView tableViewReloadGroupDate:power.integerValue];
 }
 
 //减少按钮
 - (void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label {
     
-    if ([self.sliderValue isEqualToString:@"1/128"]) {
+    if ((NSUInteger)(slider.value) == 0) {
         return;
     }
     NSUInteger index = (NSUInteger)(slider.value - 1);
@@ -152,9 +140,7 @@
     label.text = value.allKeys.firstObject;
     [FlashLightManager saveMainValue:label.text];
     NSNumber *power = value.allValues.firstObject;
-//    FlashLightManager.aPower = power.integerValue;
-    [FlashLightManager saveAPower:power.integerValue];
-    [self.flashLightSettingView tableViewReloadGroupDate];
+    [self.flashLightSettingView tableViewReloadGroupDate:power.integerValue];
 }
 
 //通用->详细设置
@@ -201,7 +187,7 @@
     
     GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
     vc.groupSettingBlock = ^(NSString *str) {
-        [self.flashLightSettingView updateACellValue:str];
+        [self.flashLightSettingView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -211,7 +197,7 @@
     GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
 
     vc.groupSettingBlock = ^(NSString *str) {
-        [self.flashLightSettingView updateBCellValue:str];
+        [self.flashLightSettingView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -220,7 +206,7 @@
 - (void)clickCcellWithClass:(NSString *)str {
     GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
     vc.groupSettingBlock = ^(NSString *str) {
-        [self.flashLightSettingView updateCCellValue:str];
+        [self.flashLightSettingView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -229,7 +215,7 @@
 - (void)clickDcellWithClass:(NSString *)str {
     GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
     vc.groupSettingBlock = ^(NSString *str) {
-        [self.flashLightSettingView updateDCellValue:str];
+        [self.flashLightSettingView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
