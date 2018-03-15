@@ -44,10 +44,16 @@ static NSString *channelCellID = @"channel_Cell_ID";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ChannelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:channelCellID forIndexPath:indexPath];
     [cell updateCellTitle:[NSString stringWithFormat:@"%lu",indexPath.row + 1]];
-    if (indexPath == self.indexpath || indexPath.row == FlashLightManager.channelStr.integerValue - 1) {
-        cell.title.backgroundColor = [UIColor orangeColor];
+    if (FlashLightManager.channelStr.length == 0) {
+        if (indexPath.row == 0) {
+            cell.title.backgroundColor = [UIColor orangeColor];
+        }
     } else {
-        cell.title.backgroundColor = [UIColor whiteColor];
+        if (indexPath == self.indexpath || indexPath.row == FlashLightManager.channelStr.integerValue - 1) {
+            cell.title.backgroundColor = [UIColor orangeColor];
+        } else {
+            cell.title.backgroundColor = [UIColor whiteColor];
+        }
     }
     return cell;
 }
