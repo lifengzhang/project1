@@ -104,8 +104,7 @@
 - (UILabel *)channelLabel {
     if (!_channelLabel) {
         _channelLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//        _channelLabel.text = FlashLightManager.channel.length > 0 ? FlashLightManager.channel : @"频道 1";
-        _channelLabel.text = @"频道 1";
+        _channelLabel.text = [NSString stringWithFormat:@"频道 %@",FlashLightManager.channelStr.length > 0 ? FlashLightManager.channelStr : @"频道 1"];
         _channelLabel.textColor = [UIColor whiteColor];
         _channelLabel.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         [self addSubview:_channelLabel];

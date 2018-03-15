@@ -52,6 +52,22 @@
 #define IsLaunchB                                          @"is_launch_B"
 #define IsLaunchC                                          @"is_launch_C"
 #define IsLaunchD                                          @"is_launch_D"
+#define ModelA                                             @"model_A"
+#define ModelB                                             @"model_B"
+#define ModelC                                             @"model_C"
+#define ModelD                                             @"model_D"
+#define ALightDegree                                       @"A_lightDegree"
+#define BLightDegree                                       @"B_lightDegree"
+#define CLightDegree                                       @"C_lightDegree"
+#define DLightDegree                                       @"D_lightDegree"
+#define ModelAStr                                          @"model_A_Str"
+#define ModelBStr                                          @"model_B_Str"
+#define ModelCStr                                          @"model_C_Str"
+#define ModelDStr                                          @"model_D_Str"
+#define ALightDegreeStr                                    @"A_LightDegree_str"
+#define BLightDegreeStr                                    @"B_LightDegree_str"
+#define CLightDegreeStr                                    @"C_LightDegree_str"
+#define DLightDegreeStr                                    @"D_LightDegree_str"
 
 typedef enum : Byte {
     
@@ -164,6 +180,8 @@ typedef enum : Byte {
 
 @property (nonatomic, assign) BOOL isMainStartSelected;             //主启动按钮
 
+@property (nonatomic, assign) NSString *channelStr;
+
 @property (nonatomic, strong) NSMutableArray *groupArray;            //存储显示分组个数
 
 @property (nonatomic, assign) BOOL isVoiceOpenA;                    //组别A声音
@@ -181,22 +199,29 @@ typedef enum : Byte {
 @property (nonatomic, assign) BOOL isLaunchC;                        //组别C页面启动
 @property (nonatomic, assign) BOOL isLaunchD;                        //组别D页面启动
 
+@property (nonatomic, strong) NSString *aModelStr;                   //a组模式
+@property (nonatomic, strong) NSString *bModelStr;
+@property (nonatomic, strong) NSString *cModelStr;
+@property (nonatomic, strong) NSString *dModelStr;
+
+@property (nonatomic, strong) NSString *aLightDegreeStr;            //a组造型灯模式
+@property (nonatomic, strong) NSString *bLightDegreeStr;
+@property (nonatomic, strong) NSString *cLightDegreeStr;
+@property (nonatomic, strong) NSString *dLightDegreeStr;
+
 + (instancetype)sharedInstance;
 
 - (NSData *)getSettingBytes;
 
-- (void)saveChannel:(NSInteger)channel;
+- (void)saveChannel:(NSString *)channel;
 
 - (void)saveIsPoseOpen:(BOOL)isPoseOpen;
 
 - (void)saveIsSoundOpen:(BOOL)isSoundOpen;
 
 - (void)saveIsSelectedA:(BOOL)isSelectedA;
-
 - (void)saveIsSelectedB:(BOOL)isSelectedB;
-
 - (void)saveIsSelectedC:(BOOL)isSelectedC;
-
 - (void)saveIsSelectedD:(BOOL)isSelectedD;
 
 - (void)saveFrequence:(NSInteger)frequence;
@@ -204,19 +229,13 @@ typedef enum : Byte {
 - (void)saveTimes:(NSInteger)times;
 
 - (void)saveAPower:(FlashLightPower)aPower;
-
 - (void)saveBPower:(FlashLightPower)bPower;
-
 - (void)saveCPower:(FlashLightPower)cPower;
-
 - (void)saveDPower:(FlashLightPower)dPower;
 
 - (void)saveAPowerString:(NSString *)str;
-
 - (void)saveBPowerString:(NSString *)str;
-
 - (void)saveCPowerString:(NSString *)str;
-
 - (void)saveDPowerString:(NSString *)str;
 
 - (void)saveGroupArray:(NSString *)str;
@@ -226,37 +245,45 @@ typedef enum : Byte {
 - (void)saveMainValue:(NSString *)str;
 
 - (void)saveStartAIsSelected:(BOOL)selected;
-
 - (void)saveStartBIsSelected:(BOOL)selected;
-
 - (void)saveStartCIsSelected:(BOOL)selected;
-
 - (void)saveStartDIsSelected:(BOOL)selected;
 
 - (void)saveMainStartSelected:(BOOL)selected;
 
 - (void)saveIsVoiceOpenA:(BOOL)selected;
-
 - (void)saveIsVoiceOpenB:(BOOL)selected;
-
 - (void)saveIsVoiceOpenC:(BOOL)selected;
-
 - (void)saveIsVoiceOpenD:(BOOL)selected;
 
 - (void)saveIsFlashFrequenceOpneA:(BOOL)selected;
-
 - (void)saveIsFlashFrequenceOpneB:(BOOL)selected;
-
 - (void)saveIsFlashFrequenceOpneC:(BOOL)selected;
-
 - (void)saveIsFlashFrequenceOpneD:(BOOL)selected;
 
 - (void)saveLaunchA:(BOOL)isLaunch;
-
 - (void)saveLaunchB:(BOOL)isLaunch;
-
 - (void)saveLaunchC:(BOOL)isLaunch;
-
 - (void)saveLaunchD:(BOOL)isLaunch;
+
+- (void)saveAModel:(FlashLightModel)aModel;
+- (void)saveBModel:(FlashLightModel)bModel;
+- (void)saveCModel:(FlashLightModel)cModel;
+- (void)saveDModel:(FlashLightModel)dModel;
+
+- (void)saveALightDegree:(FlashLightDegree)aLight;
+- (void)saveBLightDegree:(FlashLightDegree)bLight;
+- (void)saveCLightDegree:(FlashLightDegree)cLight;
+- (void)saveDLightDegree:(FlashLightDegree)dLight;
+
+- (void)saveAModelStr:(NSString *)str;
+- (void)saveBModelStr:(NSString *)str;
+- (void)saveCModelStr:(NSString *)str;
+- (void)saveDModelStr:(NSString *)str;
+
+- (void)saveALightDegreeSre:(NSString *)str;
+- (void)saveBLightDegreeSre:(NSString *)str;
+- (void)saveCLightDegreeSre:(NSString *)str;
+- (void)saveDLightDegreeSre:(NSString *)str;
 
 @end

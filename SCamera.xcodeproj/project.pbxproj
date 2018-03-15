@@ -32,6 +32,9 @@
 		A3122B0A204AD71800D2254C /* VoiceAndModelLampCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3122B09204AD71800D2254C /* VoiceAndModelLampCell.m */; };
 		A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3144756203317AB00874CAF /* SCameraPictureViewController.m */; };
 		A314475A2033180100874CAF /* SCameraPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = A31447592033180100874CAF /* SCameraPictureView.m */; };
+		A338EBE1205A3F25005A4F2A /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE0205A3F25005A4F2A /* ChannelViewController.m */; };
+		A338EBE4205A3F58005A4F2A /* ChannelCellectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE3205A3F58005A4F2A /* ChannelCellectionView.m */; };
+		A338EBE7205A4A7B005A4F2A /* ChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE6205A4A7B005A4F2A /* ChannelCell.m */; };
 		A350EF17204CDF9200821FB7 /* Navigation.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A350EF16204CDF9200821FB7 /* Navigation.xcassets */; };
 		A363F635204997D20037C9ED /* FlashLightSetting.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A363F634204997D20037C9ED /* FlashLightSetting.xcassets */; };
 		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
@@ -109,6 +112,12 @@
 		A3144756203317AB00874CAF /* SCameraPictureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPictureViewController.m; sourceTree = "<group>"; };
 		A31447582033180100874CAF /* SCameraPictureView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPictureView.h; sourceTree = "<group>"; };
 		A31447592033180100874CAF /* SCameraPictureView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPictureView.m; sourceTree = "<group>"; };
+		A338EBDF205A3F25005A4F2A /* ChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
+		A338EBE0205A3F25005A4F2A /* ChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
+		A338EBE2205A3F58005A4F2A /* ChannelCellectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelCellectionView.h; sourceTree = "<group>"; };
+		A338EBE3205A3F58005A4F2A /* ChannelCellectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelCellectionView.m; sourceTree = "<group>"; };
+		A338EBE5205A4A7B005A4F2A /* ChannelCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelCell.h; sourceTree = "<group>"; };
+		A338EBE6205A4A7B005A4F2A /* ChannelCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelCell.m; sourceTree = "<group>"; };
 		A350EF16204CDF9200821FB7 /* Navigation.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Navigation.xcassets; sourceTree = "<group>"; };
 		A363F634204997D20037C9ED /* FlashLightSetting.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FlashLightSetting.xcassets; sourceTree = "<group>"; };
 		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
@@ -330,6 +339,8 @@
 				A3A063E420522ED500CF1DA9 /* GroupSelectController.m */,
 				A3A063EC205275CB00CF1DA9 /* GroupSettingController.h */,
 				A3A063ED205275CB00CF1DA9 /* GroupSettingController.m */,
+				A338EBDF205A3F25005A4F2A /* ChannelViewController.h */,
+				A338EBE0205A3F25005A4F2A /* ChannelViewController.m */,
 			);
 			path = FlashLight;
 			sourceTree = "<group>";
@@ -345,6 +356,8 @@
 				A3A063E720522F0400CF1DA9 /* GroupSelectTableView.m */,
 				A3A063E920526B8E00CF1DA9 /* GroupSettingTableView.h */,
 				A3A063EA20526B8E00CF1DA9 /* GroupSettingTableView.m */,
+				A338EBE2205A3F58005A4F2A /* ChannelCellectionView.h */,
+				A338EBE3205A3F58005A4F2A /* ChannelCellectionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -370,6 +383,8 @@
 				A3A063DF2052200400CF1DA9 /* GroupSelectCell.m */,
 				A3A063EF20528ED100CF1DA9 /* StartCell.h */,
 				A3A063F020528ED100CF1DA9 /* StartCell.m */,
+				A338EBE5205A4A7B005A4F2A /* ChannelCell.h */,
+				A338EBE6205A4A7B005A4F2A /* ChannelCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -533,12 +548,14 @@
 				07523AD7202ADE5900650E47 /* BlueManagerTableViewSection.m in Sources */,
 				0780C35D1FE954410044C75D /* main.m in Sources */,
 				07523AD0202AD52800650E47 /* BlueNoDeviceCell.m in Sources */,
+				A338EBE7205A4A7B005A4F2A /* ChannelCell.m in Sources */,
 				A3A063E520522ED500CF1DA9 /* GroupSelectController.m in Sources */,
 				A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */,
 				A3A063EB20526B8E00CF1DA9 /* GroupSettingTableView.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				A3A063E02052200400CF1DA9 /* GroupSelectCell.m in Sources */,
 				A3122AFE204A5B2400D2254C /* FlashLightGroupAddCell.m in Sources */,
+				A338EBE4205A3F58005A4F2A /* ChannelCellectionView.m in Sources */,
 				07783CC520400FBD00F1F277 /* SCameraFlashLightManager.m in Sources */,
 				A314475A2033180100874CAF /* SCameraPictureView.m in Sources */,
 				A3122B0A204AD71800D2254C /* VoiceAndModelLampCell.m in Sources */,
@@ -551,6 +568,7 @@
 				A3122B07204AC86200D2254C /* DetailSettingCustomCell.m in Sources */,
 				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
+				A338EBE1205A3F25005A4F2A /* ChannelViewController.m in Sources */,
 				A3A063F120528ED100CF1DA9 /* StartCell.m in Sources */,
 				A3FF51D4203033A90031D1DF /* SCameraShutterPickerView.m in Sources */,
 			);

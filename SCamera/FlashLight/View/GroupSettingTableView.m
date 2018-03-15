@@ -18,7 +18,6 @@ static NSString *voiceAndModelLampCellId = @"voice_modelLamp_cell_ID";
 static NSString *blueManagerTableViewSectionID = @"blueManager_TableView_Section_ID";
 static NSString *startCellID = @"start_Cell_ID";
 
-
 @interface GroupSettingTableView () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) FlashLightGeneralSettingThirdCell *flashCell;
@@ -99,6 +98,14 @@ static NSString *startCellID = @"start_Cell_ID";
     self.detailCell2.userInteractionEnabled = NO;
 }
 
+- (void)updateModelCellDetail:(NSString *)str {
+    self.detailCell1.detail.text = str;
+}
+
+- (void)updateLampCellDetail:(NSString *)str {
+    self.detailCell2.detail.text = str;
+}
+
 - (void)judgeLaunchButtonStatus {
     if ([self.groupClass isEqualToString:@"A"]) {
         if (FlashLightManager.isLaunchA) {
@@ -162,13 +169,11 @@ static NSString *startCellID = @"start_Cell_ID";
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             self.detailCell1 = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
-            self.detailCell1.title.text = @"模式";
-            self.detailCell1.detail.text = @"自动";
+            [self.detailCell1 updateModeCellWithClass:self.groupClass];
             return self.detailCell1;
         } else {
             self.detailCell2 = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
-            self.detailCell2.title.text = @"造型灯";
-            self.detailCell2.detail.text = @"PROP";
+            [self.detailCell2 updateLampCellWithClass:self.groupClass];
             self.detailCell2.bottomLine.hidden = YES;
             return self.detailCell2;
         }

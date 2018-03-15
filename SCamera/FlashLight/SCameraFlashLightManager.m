@@ -175,6 +175,11 @@ static SCameraFlashLightManager *sharedInstance = nil;
 }
 
 #pragma - mark Property get method
+
+- (NSString *)channelStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightChannel];
+}
+
 - (BOOL)isPoseOpen {
     return [[NSUserDefaults standardUserDefaults] boolForKey:FlashLightIsPoseOpen];
 }
@@ -317,6 +322,150 @@ static SCameraFlashLightManager *sharedInstance = nil;
     return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchD];
 }
 
+- (FlashLightModel)aModel {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelA];
+}
+
+- (FlashLightModel)bModel {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelB];
+}
+
+- (FlashLightModel)cModel {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelC];
+}
+
+- (FlashLightModel)dModel {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelD];
+}
+
+- (FlashLightDegree)aLightDegree {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:ALightDegree];
+}
+
+- (FlashLightDegree)bLightDegree {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:BLightDegree];
+}
+
+- (FlashLightDegree)cLightDegree {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:CLightDegree];
+}
+
+- (FlashLightDegree)dLightDegree {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:DLightDegree];
+}
+
+- (NSString *)aModelStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelAStr];
+}
+
+- (NSString *)bModelStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelBStr];
+}
+
+- (NSString *)cModelStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelCStr];
+}
+
+- (NSString *)dModelStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelDStr];
+}
+
+- (NSString *)aLightDegreeStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:ALightDegreeStr];
+}
+
+- (NSString *)bLightDegreeStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:BLightDegreeStr];
+}
+
+- (NSString *)cLightDegreeStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:CLightDegreeStr];
+}
+
+- (NSString *)dLightDegreeStr {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:DLightDegreeStr];
+}
+
+- (void)saveAModel:(FlashLightModel)aModel {
+    [[NSUserDefaults standardUserDefaults] setInteger:aModel forKey:ModelA];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
+- (void)saveBModel:(FlashLightModel)bModel {
+    [[NSUserDefaults standardUserDefaults] setInteger:bModel forKey:ModelB];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
+- (void)saveCModel:(FlashLightModel)cModel {
+    [[NSUserDefaults standardUserDefaults] setInteger:cModel forKey:ModelC];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
+- (void)saveDModel:(FlashLightModel)dModel {
+    [[NSUserDefaults standardUserDefaults] setInteger:dModel forKey:ModelD];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
+- (void)saveAModelStr:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelAStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveBModelStr:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelBStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveCModelStr:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelCStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveDModelStr:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelDStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveALightDegree:(FlashLightDegree)aLight {
+    [[NSUserDefaults standardUserDefaults] setInteger:aLight forKey:ALightDegree];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveBLightDegree:(FlashLightDegree)bLight {
+    [[NSUserDefaults standardUserDefaults] setInteger:bLight forKey:BLightDegree];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveCLightDegree:(FlashLightDegree)cLight {
+    [[NSUserDefaults standardUserDefaults] setInteger:cLight forKey:CLightDegree];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveDLightDegree:(FlashLightDegree)dLight {
+    [[NSUserDefaults standardUserDefaults] setInteger:dLight forKey:DLightDegree];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveALightDegreeSre:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ALightDegreeStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveBLightDegreeSre:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:BLightDegreeStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveCLightDegreeSre:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:CLightDegreeStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveDLightDegreeSre:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:DLightDegreeStr];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)saveIsVoiceOpenA:(BOOL)selected {
     [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsVoiceOpenA];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -420,17 +569,10 @@ static SCameraFlashLightManager *sharedInstance = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)saveChannel:(NSInteger)channel {
-    
-    if (channel > 0) {
+- (void)saveChannel:(NSString *)channel {
         
-        [[NSUserDefaults standardUserDefaults] setInteger:channel forKey:FlashLightChannel];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    } else {
-        [[NSUserDefaults standardUserDefaults] setInteger: 1 forKey:FlashLightChannel];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    [[NSUserDefaults standardUserDefaults] setObject:channel forKey:FlashLightChannel];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveIsPoseOpen:(BOOL)isPoseOpen {

@@ -20,4 +20,10 @@
 
 - (void)disableCell;
 
+- (void)updateModeCellWithClass:(NSString *)str;
+
+- (void)updateLampCellWithClass:(NSString *)str;
+
+- (void)updateChannelCell;
+
 @end

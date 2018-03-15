@@ -65,6 +65,36 @@
     self.arrow.enabled = NO;
 }
 
+- (void)updateChannelCell {
+    self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.channelStr.length > 0 ? FlashLightManager.channelStr : @"1"];
+}
+
+- (void)updateModeCellWithClass:(NSString *)str {
+    self.title.text = @"模式";
+    if ([str isEqualToString:@"A"]) {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.aModelStr.length > 0 ? FlashLightManager.aModelStr : @"自动"];
+    } else if ([str isEqualToString:@"B"]) {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.bModelStr.length > 0 ? FlashLightManager.bModelStr : @"自动"];
+    } else if ([str isEqualToString:@"C"]) {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.cModelStr.length > 0 ? FlashLightManager.cModelStr : @"自动"];
+    } else {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.dModelStr.length > 0 ? FlashLightManager.dModelStr : @"自动"];
+    }
+}
+
+- (void)updateLampCellWithClass:(NSString *)str {
+    self.title.text = @"造型灯";
+    if ([str isEqualToString:@"A"]) {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.aLightDegreeStr.length > 0 ? FlashLightManager.aLightDegreeStr : @"PROP"];
+    } else if ([str isEqualToString:@"B"]) {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.bLightDegreeStr.length > 0 ? FlashLightManager.bLightDegreeStr : @"PROP"];
+    } else if ([str isEqualToString:@"C"]) {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.cLightDegreeStr.length > 0 ? FlashLightManager.cLightDegreeStr : @"PROP"];
+    } else {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.dLightDegreeStr.length > 0 ? FlashLightManager.dLightDegreeStr : @"PROP"];
+    }
+}
+
 - (UIButton *)arrow {
     if (!_arrow) {
         _arrow = [[UIButton alloc] initWithFrame:CGRectZero];

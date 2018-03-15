@@ -292,10 +292,10 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 
 - (void)update{
     
-//    self.secondCell.channelLabel.text = FlashLightDataManager.channel.length > 0 ? FlashLightDataManager.channel : @"频道 1";
     self.secondCell.frequenceLabel.text = [NSString stringWithFormat:@"频闪 %luHz/%lu次",(unsigned long)(FlashLightManager.flashFrequency > 0 ? FlashLightManager.flashFrequency : 1),(unsigned long)(FlashLightManager.flashNumber > 0 ? FlashLightManager.flashNumber : 1)];
     self.secondCell.voiceLabel.text = FlashLightManager.isSoundOpen ? @"声音 开" : @"声音 关";
     self.secondCell.modelLightLabel.text = FlashLightManager.isPoseOpen ? @"造型灯 开" : @"造型灯 关";
+    self.secondCell.channelLabel.text = [NSString stringWithFormat:@"频道 %@",FlashLightManager.channelStr.length > 0 ? FlashLightManager.channelStr : @"频道 1"];
     [self reloadData];
 }
 

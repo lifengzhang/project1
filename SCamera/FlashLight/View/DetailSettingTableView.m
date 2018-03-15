@@ -63,6 +63,7 @@ static NSString *voiceAndeModelLampCellId = @"voice_ModelLamp_Cell_ID";
     
     if (indexPath.row == 0) {
         self.detailCell = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellID forIndexPath:indexPath];
+        [self.detailCell updateChannelCell];
         return self.detailCell;
     } else if (indexPath.row == 1) {
         self.frenquenceCell = [tableView dequeueReusableCellWithIdentifier:flashLightGeneralSettingThirdCellID forIndexPath:indexPath];

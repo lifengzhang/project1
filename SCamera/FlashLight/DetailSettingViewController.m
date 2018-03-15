@@ -8,6 +8,7 @@
 
 #import "DetailSettingViewController.h"
 #import "DetailSettingTableView.h"
+#import "ChannelViewController.h"
 
 @interface DetailSettingViewController () <DetailSettingTableViewDelegate>
 
@@ -93,7 +94,11 @@
 //点击频道Cell
 - (void)DetailSettingTableViewDidSelectedChannelCellWithDetailText:(UILabel *)detail {
     
-
+    ChannelViewController *vc = [[ChannelViewController alloc] initWithClass:nil];
+    vc.blockparameter = ^{
+        [self.detailView reloadData];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 //点击导入设置Cell

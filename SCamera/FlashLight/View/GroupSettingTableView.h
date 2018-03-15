@@ -45,4 +45,8 @@
 
 - (void)judgeLaunchButtonStatus;
 
+- (void)updateModelCellDetail:(NSString *)str;
+
+- (void)updateLampCellDetail:(NSString *)str;
+
 @end

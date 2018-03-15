@@ -141,11 +141,160 @@
 //模式cell
 - (void)clickModelCell {
     
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"自动" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.groupView updateModelCellDetail:@"自动"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveAModelStr:@"自动"];
+            [FlashLightManager saveAModel:FlashLightModelAuto];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBModelStr:@"自动"];
+            [FlashLightManager saveBModel:FlashLightModelAuto];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCModelStr:@"自动"];
+            [FlashLightManager saveCModel:FlashLightModelAuto];
+        } else {
+            [FlashLightManager saveDModelStr:@"自动"];
+            [FlashLightManager saveDModel:FlashLightModelAuto];
+        }
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"手动" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.groupView updateModelCellDetail:@"手动"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveAModelStr:@"手动"];
+            [FlashLightManager saveAModel:FlashLightModelManual];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBModelStr:@"手动"];
+            [FlashLightManager saveBModel:FlashLightModelManual];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCModelStr:@"手动"];
+            [FlashLightManager saveCModel:FlashLightModelManual];
+        } else {
+            [FlashLightManager saveDModelStr:@"手动"];
+            [FlashLightManager saveDModel:FlashLightModelManual];
+        }
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"闪光灯" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.groupView updateModelCellDetail:@"闪光灯"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveAModelStr:@"闪光灯"];
+            [FlashLightManager saveAModel:FlashLightModelFlash];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBModelStr:@"闪光灯"];
+            [FlashLightManager saveBModel:FlashLightModelFlash];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCModelStr:@"闪光灯"];
+            [FlashLightManager saveCModel:FlashLightModelFlash];
+        } else {
+            [FlashLightManager saveDModelStr:@"闪光灯"];
+            [FlashLightManager saveDModel:FlashLightModelFlash];
+        }
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"LED" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.groupView updateModelCellDetail:@"LED"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveAModelStr:@"LED"];
+            [FlashLightManager saveAModel:FlashLightModelLED];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBModelStr:@"LED"];
+            [FlashLightManager saveBModel:FlashLightModelLED];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCModelStr:@"LED"];
+            [FlashLightManager saveCModel:FlashLightModelLED];
+        } else {
+            [FlashLightManager saveDModelStr:@"LED"];
+            [FlashLightManager saveDModel:FlashLightModelLED];
+        }
+    }]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController: alertController animated: YES completion: nil];
+    });
 }
 
 //造型灯Cell
 - (void)clickLampCell {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"PROP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.groupView updateLampCellDetail:@"PROP"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveALightDegreeSre:@"PROP"];
+            [FlashLightManager saveALightDegree:FlashLightDegreePROP];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBLightDegreeSre:@"PROP"];
+            [FlashLightManager saveBLightDegree:FlashLightDegreePROP];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCLightDegreeSre:@"PROP"];
+            [FlashLightManager saveCLightDegree:FlashLightDegreePROP];
+        } else {
+            [FlashLightManager saveDLightDegreeSre:@"PROP"];
+            [FlashLightManager saveDLightDegree:FlashLightDegreePROP];
+        }
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OFF" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [self.groupView updateLampCellDetail:@"OFF"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveALightDegreeSre:@"OFF"];
+            [FlashLightManager saveALightDegree:FlashLightDegreeOFF];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBLightDegreeSre:@"OFF"];
+            [FlashLightManager saveBLightDegree:FlashLightDegreeOFF];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCLightDegreeSre:@"OFF"];
+            [FlashLightManager saveCLightDegree:FlashLightDegreeOFF];
+        } else {
+            [FlashLightManager saveDLightDegreeSre:@"OFF"];
+            [FlashLightManager saveDLightDegree:FlashLightDegreeOFF];
+        }
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"20%" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.groupView updateLampCellDetail:@"20%"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveALightDegreeSre:@"20%"];
+            [FlashLightManager saveALightDegree:FlashLightDegree20];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBLightDegreeSre:@"20%"];
+            [FlashLightManager saveBLightDegree:FlashLightDegree20];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCLightDegreeSre:@"20%"];
+            [FlashLightManager saveCLightDegree:FlashLightDegree20];
+        } else {
+            [FlashLightManager saveDLightDegreeSre:@"20%"];
+            [FlashLightManager saveDLightDegree:FlashLightDegree20];
+        }
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"100%" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.groupView updateLampCellDetail:@"100%"];
+        if ([self.groupClass isEqualToString:@"A"]) {
+            [FlashLightManager saveALightDegreeSre:@"100%"];
+            [FlashLightManager saveALightDegree:FlashLightDegree100];
+        } else if ([self.groupClass isEqualToString:@"B"]) {
+            [FlashLightManager saveBLightDegreeSre:@"100%"];
+            [FlashLightManager saveBLightDegree:FlashLightDegree100];
+        } else if ([self.groupClass isEqualToString:@"C"]) {
+            [FlashLightManager saveCLightDegreeSre:@"100%"];
+            [FlashLightManager saveCLightDegree:FlashLightDegree100];
+        } else {
+            [FlashLightManager saveDLightDegreeSre:@"100%"];
+            [FlashLightManager saveDLightDegree:FlashLightDegree100];
+        }
+    }]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController: alertController animated: YES completion: nil];
+    });
 }
 
 //开始Cell
