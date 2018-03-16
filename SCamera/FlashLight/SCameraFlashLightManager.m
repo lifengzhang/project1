@@ -386,6 +386,22 @@ static SCameraFlashLightManager *sharedInstance = nil;
     return [[NSUserDefaults standardUserDefaults] objectForKey:DLightDegreeStr];
 }
 
+- (NSString *)aMinPower {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:AMinPower];
+}
+
+- (NSString *)bMinPower {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:BMinPower];
+}
+
+- (NSString *)cMinPower {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:CMinPower];
+}
+
+- (NSString *)dMinPower {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:DMinPower];
+}
+
 - (void)saveAModel:(FlashLightModel)aModel {
     [[NSUserDefaults standardUserDefaults] setInteger:aModel forKey:ModelA];
     [[NSUserDefaults standardUserDefaults]synchronize];
@@ -506,18 +522,42 @@ static SCameraFlashLightManager *sharedInstance = nil;
 
 - (void)saveLaunchA:(BOOL)isLaunch {
     [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchA];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveLaunchB:(BOOL)isLaunch {
     [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchB];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveLaunchC:(BOOL)isLaunch {
     [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveLaunchD:(BOOL)isLaunch {
     [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchD];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveAMinPower:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:AMinPower];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveBMinPower:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:BMinPower];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveCMinPower:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:CMinPower];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveDMinPower:(NSString *)str {
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:DMinPower];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma - mark 属性持久化

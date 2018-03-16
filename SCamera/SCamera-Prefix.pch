@@ -17,6 +17,7 @@
 #import "BlueToothMe.h"
 #import "SCameraDevice.h"
 #import "UIFont+Additions.h"
+#import "UIViewController+Additions.h"
 #import "SCamera-UI-Constant.h"
 
 #import "SCameraFlashLightManager.h"

@@ -69,6 +69,20 @@
     self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.channelStr.length > 0 ? FlashLightManager.channelStr : @"1"];
 }
 
+- (void)updateMinPowerWithClass:(NSString *)str {
+    self.title.text = @"最小功率";
+    self.bottomLine.hidden = YES;
+    if ([str isEqualToString:@"A"]) {
+        self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.aMinPower.length > 0 ? FlashLightManager.aMinPower : @"1/512"];
+    } else if ([str isEqualToString:@"B"]) {
+         self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.bMinPower.length > 0 ? FlashLightManager.bMinPower : @"1/512"];
+    } else if ([str isEqualToString:@"C"]) {
+         self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.cMinPower.length > 0 ? FlashLightManager.cMinPower : @"1/512"];
+    } else {
+         self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.dMinPower.length > 0 ? FlashLightManager.dMinPower : @"1/512"];
+    }
+}
+
 - (void)updateModeCellWithClass:(NSString *)str {
     self.title.text = @"模式";
     if ([str isEqualToString:@"A"]) {

@@ -98,6 +98,10 @@ static NSString *startCellID = @"start_Cell_ID";
     self.detailCell2.userInteractionEnabled = NO;
 }
 
+- (void)updateMinPowerDetial:(NSString *)str {
+    self.detailCell.detail.text = str;
+}
+
 - (void)updateModelCellDetail:(NSString *)str {
     self.detailCell1.detail.text = str;
 }
@@ -161,9 +165,7 @@ static NSString *startCellID = @"start_Cell_ID";
             return self.flashCell;
         } else {
             self.detailCell = [tableView dequeueReusableCellWithIdentifier:detailSettingCustomCellId forIndexPath:indexPath];
-            self.detailCell.title.text = @"最小功率";
-            self.detailCell.detail.text = @"1/64";
-            self.detailCell.bottomLine.hidden = YES;
+            [self.detailCell updateMinPowerWithClass:self.groupClass];
             return self.detailCell;
         }
     } else if (indexPath.section == 1) {

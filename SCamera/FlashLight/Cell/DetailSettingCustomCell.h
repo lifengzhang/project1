@@ -24,6 +24,8 @@
 
 - (void)updateLampCellWithClass:(NSString *)str;
 
+- (void)updateMinPowerWithClass:(NSString *)str;
+
 - (void)updateChannelCell;
 
 @end

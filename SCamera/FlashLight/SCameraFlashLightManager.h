@@ -68,6 +68,10 @@
 #define BLightDegreeStr                                    @"B_LightDegree_str"
 #define CLightDegreeStr                                    @"C_LightDegree_str"
 #define DLightDegreeStr                                    @"D_LightDegree_str"
+#define AMinPower                                          @"A_Min_Power"
+#define BMinPower                                          @"B_Min_Power"
+#define CMinPower                                          @"C_Min_Power"
+#define DMinPower                                          @"D_Min_Power"
 
 typedef enum : Byte {
     
@@ -204,6 +208,11 @@ typedef enum : Byte {
 @property (nonatomic, strong) NSString *cModelStr;
 @property (nonatomic, strong) NSString *dModelStr;
 
+@property (nonatomic, strong) NSString *aMinPower;                  //a组最小功率
+@property (nonatomic, strong) NSString *bMinPower;
+@property (nonatomic, strong) NSString *cMinPower;
+@property (nonatomic, strong) NSString *dMinPower;
+
 @property (nonatomic, strong) NSString *aLightDegreeStr;            //a组造型灯模式
 @property (nonatomic, strong) NSString *bLightDegreeStr;
 @property (nonatomic, strong) NSString *cLightDegreeStr;
@@ -285,5 +294,10 @@ typedef enum : Byte {
 - (void)saveBLightDegreeSre:(NSString *)str;
 - (void)saveCLightDegreeSre:(NSString *)str;
 - (void)saveDLightDegreeSre:(NSString *)str;
+
+- (void)saveAMinPower:(NSString *)str;
+- (void)saveBMinPower:(NSString *)str;
+- (void)saveCMinPower:(NSString *)str;
+- (void)saveDMinPower:(NSString *)str;
 
 @end

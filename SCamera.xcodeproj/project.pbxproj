@@ -35,6 +35,7 @@
 		A338EBE1205A3F25005A4F2A /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE0205A3F25005A4F2A /* ChannelViewController.m */; };
 		A338EBE4205A3F58005A4F2A /* ChannelCellectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE3205A3F58005A4F2A /* ChannelCellectionView.m */; };
 		A338EBE7205A4A7B005A4F2A /* ChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE6205A4A7B005A4F2A /* ChannelCell.m */; };
+		A33F9C10205B637000779166 /* UIViewController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A33F9C0F205B637000779166 /* UIViewController+Additions.m */; };
 		A350EF17204CDF9200821FB7 /* Navigation.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A350EF16204CDF9200821FB7 /* Navigation.xcassets */; };
 		A363F635204997D20037C9ED /* FlashLightSetting.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A363F634204997D20037C9ED /* FlashLightSetting.xcassets */; };
 		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
@@ -118,6 +119,8 @@
 		A338EBE3205A3F58005A4F2A /* ChannelCellectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelCellectionView.m; sourceTree = "<group>"; };
 		A338EBE5205A4A7B005A4F2A /* ChannelCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelCell.h; sourceTree = "<group>"; };
 		A338EBE6205A4A7B005A4F2A /* ChannelCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelCell.m; sourceTree = "<group>"; };
+		A33F9C0E205B637000779166 /* UIViewController+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Additions.h"; sourceTree = "<group>"; };
+		A33F9C0F205B637000779166 /* UIViewController+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Additions.m"; sourceTree = "<group>"; };
 		A350EF16204CDF9200821FB7 /* Navigation.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Navigation.xcassets; sourceTree = "<group>"; };
 		A363F634204997D20037C9ED /* FlashLightSetting.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FlashLightSetting.xcassets; sourceTree = "<group>"; };
 		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 			children = (
 				07523AD2202AD64800650E47 /* UIFont+Additions.h */,
 				07523AD3202AD64800650E47 /* UIFont+Additions.m */,
+				A33F9C0E205B637000779166 /* UIViewController+Additions.h */,
+				A33F9C0F205B637000779166 /* UIViewController+Additions.m */,
 				A3D94613202D82B20001220E /* SCameraDevice.h */,
 				A3D94614202D82B20001220E /* SCameraDevice.m */,
 				A3CE6D5820493F0E00811DA8 /* SCamera-UI-Constant.h */,
@@ -554,6 +559,7 @@
 				A3A063EB20526B8E00CF1DA9 /* GroupSettingTableView.m in Sources */,
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				A3A063E02052200400CF1DA9 /* GroupSelectCell.m in Sources */,
+				A33F9C10205B637000779166 /* UIViewController+Additions.m in Sources */,
 				A3122AFE204A5B2400D2254C /* FlashLightGroupAddCell.m in Sources */,
 				A338EBE4205A3F58005A4F2A /* ChannelCellectionView.m in Sources */,
 				07783CC520400FBD00F1F277 /* SCameraFlashLightManager.m in Sources */,

@@ -49,4 +49,6 @@
 
 - (void)updateLampCellDetail:(NSString *)str;
 
+- (void)updateMinPowerDetial:(NSString *)str;
+
 @end
