@@ -24,6 +24,7 @@ static NSString *channelCellID = @"channel_Cell_ID";
         self.delegate = self;
         self.dataSource = self;
         self.backgroundColor = [UIColor blackColor];
+        self.alwaysBounceVertical = YES;
         [self registCell];
     }
     return self;

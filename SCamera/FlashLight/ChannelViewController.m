@@ -75,7 +75,8 @@
 - (ChannelCellectionView *)channelView {
     if (!_channelView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [flowLayout setItemSize:CGSizeMake((Width_Screen - 4)/4, 83 )];
+        [flowLayout setItemSize:CGSizeMake((Width_Screen - 35)/4, 83 )];
+        flowLayout.sectionInset = UIEdgeInsetsMake(16, 16, 20, 16);
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         _channelView = [[ChannelCellectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
         [self.view addSubview:_channelView];
