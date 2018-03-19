@@ -46,7 +46,7 @@
         _title.textAlignment = NSTextAlignmentCenter;
         _title.layer.cornerRadius = 25.f;
         _title.layer.masksToBounds = 25.f;
-        _title.font = [UIFont boldSystemFontOfSize:20.f];
+        _title.font = [UIFont ChinaMediumFontNameOfSize:24.f];
         [self addSubview:_title];
     }
     return _title;

@@ -47,13 +47,13 @@ static NSString *channelCellID = @"channel_Cell_ID";
     [cell updateCellTitle:[NSString stringWithFormat:@"%lu",indexPath.row + 1]];
     if (FlashLightManager.channelStr.length == 0) {
         if (indexPath.row == 0) {
-            cell.title.backgroundColor = [UIColor orangeColor];
+            cell.title.backgroundColor = Scamera_CollectionCell_Selected;
         }
     } else {
         if (indexPath == self.indexpath || indexPath.row == FlashLightManager.channelStr.integerValue - 1) {
-            cell.title.backgroundColor = [UIColor orangeColor];
+            cell.title.backgroundColor = Scamera_CollectionCell_Selected;
         } else {
-            cell.title.backgroundColor = [UIColor whiteColor];
+            cell.title.backgroundColor = Scamera_CollectionCell_Normal;
         }
     }
     return cell;
