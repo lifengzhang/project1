@@ -21,11 +21,11 @@
 [UIColor colorWithRed:48 / 255.0 green:48 / 255.0 blue:48 / 255.0 alpha:1.0]
 
 // 统一CollectionCell默认颜色
-#define Scamera_CollectionCell_Normal                                           \
+#define Scamera_CollectionCell_Normal                                      \
 [UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:255 / 255.0 alpha:0.86]
 
 // 统一CollectionCell选中颜色
-#define Scamera_CollectionCell_Selected                                           \
+#define Scamera_CollectionCell_Selected                                    \
 [UIColor colorWithRed:243 / 255.0 green:194 / 255.0 blue:0 / 255.0 alpha:1.0]
 
 #endif /* SCamera_UI_Constant_h */

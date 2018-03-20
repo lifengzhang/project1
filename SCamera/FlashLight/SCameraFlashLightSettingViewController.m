@@ -8,10 +8,10 @@
 
 #import "SCameraFlashLightSettingViewController.h"
 #import "ScameraFlashLightSettingTableView.h"
-#import "DetailSettingViewController.h"
+#import "SCameraDetailSettingViewController.h"
 #import "SCameraViewController.h"
-#import "GroupSelectController.h"
-#import "GroupSettingController.h"
+#import "SCameraGroupSelectController.h"
+#import "SCameraGroupSettingController.h"
 
 @interface SCameraFlashLightSettingViewController () <ScameraFlashLightSettingTableViewDelegate>
 
@@ -146,7 +146,7 @@
 //通用->详细设置
 - (void)ScameraFlashLightSettingClickDetilSettingCell {
     
-    DetailSettingViewController *vc = [[DetailSettingViewController alloc] initWithNibName:nil bundle:nil];
+    SCameraDetailSettingViewController *vc = [[SCameraDetailSettingViewController alloc] initWithNibName:nil bundle:nil];
     vc.blockparameter = ^{
         [self.flashLightSettingView update];
     };
@@ -178,14 +178,14 @@
 //增加分组设置
 - (void)ScameraFlashLightSettingClickAddGroup {
     
-    GroupSelectController *vc = [[GroupSelectController alloc] initWithNibName:nil bundle:nil];
+    SCameraGroupSelectController *vc = [[SCameraGroupSelectController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 //点击分组设置Cell
-- (void)ScameraFlashLightSettingClickGroupSettingCellWithClass:(NSString *)str {
+- (void)ScameraFlashLightSettingClickGroupSettingCellWithGroupName:(NSString *)str {
     
-    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+    SCameraGroupSettingController *vc = [[SCameraGroupSettingController alloc] initWithGroupName:str];
     vc.groupSettingBlock = ^(NSString *str) {
         [self.flashLightSettingView reloadData];
     };
@@ -193,8 +193,8 @@
 }
 
 //点击B Cell
-- (void)clickBcellWithClass:(NSString *)str {
-    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+- (void)clickBcellWithGroupName:(NSString *)str {
+    SCameraGroupSettingController *vc = [[SCameraGroupSettingController alloc] initWithGroupName:str];
 
     vc.groupSettingBlock = ^(NSString *str) {
         [self.flashLightSettingView reloadData];
@@ -203,8 +203,8 @@
 }
 
 //点击C Cell
-- (void)clickCcellWithClass:(NSString *)str {
-    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+- (void)clickCcellWithGroupName:(NSString *)str {
+    SCameraGroupSettingController *vc = [[SCameraGroupSettingController alloc] initWithGroupName:str];
     vc.groupSettingBlock = ^(NSString *str) {
         [self.flashLightSettingView reloadData];
     };
@@ -212,8 +212,8 @@
 }
 
 //点击D Cell
-- (void)clickDcellWithClass:(NSString *)str {
-    GroupSettingController *vc = [[GroupSettingController alloc] initWithClass:str];
+- (void)clickDcellWithGroupName:(NSString *)str {
+    SCameraGroupSettingController *vc = [[SCameraGroupSettingController alloc] initWithGroupName:str];
     vc.groupSettingBlock = ^(NSString *str) {
         [self.flashLightSettingView reloadData];
     };

@@ -24,13 +24,13 @@
 
 - (void)Slider:(UISlider *)slider ClickReduceBtnWithValue:(UILabel *)label;
 
-- (void)ScameraFlashLightSettingClickGroupSettingCellWithClass:(NSString *)str;
+- (void)ScameraFlashLightSettingClickGroupSettingCellWithGroupName:(NSString *)str;
 
-- (void)clickBcellWithClass:(NSString *)str;
+- (void)clickBcellWithGroupName:(NSString *)str;
 
-- (void)clickCcellWithClass:(NSString *)str;
+- (void)clickCcellWithGroupName:(NSString *)str;
 
-- (void)clickDcellWithClass:(NSString *)str;
+- (void)clickDcellWithGroupName:(NSString *)str;
 
 - (void)clickStartA:(UIButton *)btn;
 

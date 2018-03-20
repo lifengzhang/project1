@@ -7,12 +7,12 @@
 //
 
 #import "ScameraFlashLightSettingTableView.h"
-#import "FlashLightGeneralSettingCell.h"
+#import "SCameraFlashLightGeneralSettingCell.h"
 #import "BlueManagerTableViewSection.h"
-#import "FlashLightGeneralSettingSecondCell.h"
-#import "FlashLightGeneralSettingThirdCell.h"
-#import "FlashLightGroupAddCell.h"
-#import "FlashLightGroupSettingCell.h"
+#import "SCameraFlashLightGeneralSettingSecondCell.h"
+#import "SCameraFlashLightGeneralSettingThirdCell.h"
+#import "SCameraFlashLightGroupAddCell.h"
+#import "SCameraFlashLightGroupSettingCell.h"
 
 static NSString *blueManagerTableViewSectionID = @"blue_Manager_Table_View_Section_Cell_ID";
 static NSString *flashLightGeneralSettingCellID = @"flashLight_generalSetting_View_Cell_ID";
@@ -24,23 +24,23 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 
 @property (nonatomic, strong) UILabel *valueLabel;  //显示变化的值
 
-@property (nonatomic, strong) FlashLightGeneralSettingCell *generalCell;
+@property (nonatomic, strong) SCameraFlashLightGeneralSettingCell *generalCell;
 
-@property (nonatomic, strong) FlashLightGroupSettingCell *groupCell;
+@property (nonatomic, strong) SCameraFlashLightGroupSettingCell *groupCell;
 
-@property (nonatomic, strong) FlashLightGroupAddCell  *addCell;
+@property (nonatomic, strong) SCameraFlashLightGroupAddCell  *addCell;
 
-@property (nonatomic, strong) FlashLightGeneralSettingThirdCell *thirdCell;
+@property (nonatomic, strong) SCameraFlashLightGeneralSettingThirdCell *thirdCell;
 
-@property (nonatomic, strong) FlashLightGeneralSettingSecondCell *secondCell;
+@property (nonatomic, strong) SCameraFlashLightGeneralSettingSecondCell *secondCell;
 
-@property (nonatomic, strong) FlashLightGroupSettingCell *aCell;
+@property (nonatomic, strong) SCameraFlashLightGroupSettingCell *aCell;
 
-@property (nonatomic, strong) FlashLightGroupSettingCell *bCell;
+@property (nonatomic, strong) SCameraFlashLightGroupSettingCell *bCell;
 
-@property (nonatomic, strong) FlashLightGroupSettingCell *cCell;
+@property (nonatomic, strong) SCameraFlashLightGroupSettingCell *cCell;
 
-@property (nonatomic, strong) FlashLightGroupSettingCell *dCell;
+@property (nonatomic, strong) SCameraFlashLightGroupSettingCell *dCell;
 
 @property (nonatomic, strong) NSArray *sortArray;
 
@@ -63,10 +63,10 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 - (void)registCell {
     
     [self registerClass:[BlueManagerTableViewSection class] forHeaderFooterViewReuseIdentifier:blueManagerTableViewSectionID];
-    [self registerClass:[FlashLightGeneralSettingCell class] forCellReuseIdentifier:flashLightGeneralSettingCellID];
-    [self registerClass:[FlashLightGeneralSettingSecondCell class] forCellReuseIdentifier:flashLightGeneralSettingSecondCellID];
-    [self registerClass:[FlashLightGeneralSettingThirdCell class] forCellReuseIdentifier:flashLightGeneralSettingThirdCellID];
-    [self registerClass:[FlashLightGroupSettingCell class] forCellReuseIdentifier:flashLightGroupSettingCellID];
+    [self registerClass:[SCameraFlashLightGeneralSettingCell class] forCellReuseIdentifier:flashLightGeneralSettingCellID];
+    [self registerClass:[SCameraFlashLightGeneralSettingSecondCell class] forCellReuseIdentifier:flashLightGeneralSettingSecondCellID];
+    [self registerClass:[SCameraFlashLightGeneralSettingThirdCell class] forCellReuseIdentifier:flashLightGeneralSettingThirdCellID];
+    [self registerClass:[SCameraFlashLightGroupSettingCell class] forCellReuseIdentifier:flashLightGroupSettingCellID];
 }
 
 - (void)enableView {
@@ -247,7 +247,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 1) {
-        self.addCell = [[FlashLightGroupAddCell alloc] init];
+        self.addCell = [[SCameraFlashLightGroupAddCell alloc] init];
         [self.addCell.addButton addTarget:self action:@selector(addGroupSetting) forControlEvents:UIControlEventTouchUpInside];
         [self judgeStartButtonStatus];
         return self.addCell;
@@ -260,32 +260,32 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 //分组选择Button改变  数组改变  cell要跟着self.sortArray顺序重新排序
 - (UITableViewCell *)updateGroupSettingViewWithstring:(NSString *)str {
     if ([str isEqualToString:@"A"]) {
-        self.aCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+        self.aCell = [[SCameraFlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
         [self loadAcell];
-        [self.aCell updateDateWithClass:str];
+        [self.aCell updateDateWithGroupName:str];
         [self.aCell.aCell addTarget:self action:@selector(clickACell:) forControlEvents:UIControlEventTouchUpInside];
         [self.aCell.startBtn addTarget:self action:@selector(aStart:) forControlEvents:UIControlEventTouchUpInside];
         return self.aCell;
     } else if ([str isEqualToString:@"B"]) {
-         self.bCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+         self.bCell = [[SCameraFlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
         [self.self.bCell.aCell addTarget:self action:@selector(clickBCell:) forControlEvents:UIControlEventTouchUpInside];
         [self.bCell.startBtn addTarget:self action:@selector(bStart:) forControlEvents:UIControlEventTouchUpInside];
-        [self.bCell updateDateWithClass:str];
+        [self.bCell updateDateWithGroupName:str];
         [self loadBcell];
         return self.bCell;
     } else if ([str isEqualToString:@"C"]) {
-        self.cCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+        self.cCell = [[SCameraFlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
         [self.cCell.aCell addTarget:self action:@selector(clickCCell:) forControlEvents:UIControlEventTouchUpInside];
         [self.cCell.startBtn addTarget:self action:@selector(cStart:) forControlEvents:UIControlEventTouchUpInside];
         [self loadCcell];
-        [self.cCell updateDateWithClass:str];
+        [self.cCell updateDateWithGroupName:str];
         return self.cCell;
     } else {
-        self.dCell = [[FlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
+        self.dCell = [[SCameraFlashLightGroupSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flashLightGroupSettingCellID];
         [self.dCell.aCell addTarget:self action:@selector(clickDCell:) forControlEvents:UIControlEventTouchUpInside];
         [self.dCell.startBtn addTarget:self action:@selector(dStart:) forControlEvents:UIControlEventTouchUpInside];
         [self loadDcell];
-        [self.dCell updateDateWithClass:str];
+        [self.dCell updateDateWithGroupName:str];
         return self.dCell;
     }
 }
@@ -419,28 +419,28 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 
 - (void)clickACell:(NSString *)str {
     
-    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingClickGroupSettingCellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate ScameraFlashLightSettingClickGroupSettingCellWithClass:@"A"];
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(ScameraFlashLightSettingClickGroupSettingCellWithGroupName:)]) {
+        [self.flashLightSettingTableViewDelegate ScameraFlashLightSettingClickGroupSettingCellWithGroupName:@"A"];
     }
 }
 
 - (void)clickBCell:(NSString *)str {
     
-    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickBcellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate clickBcellWithClass:@"B"];
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickBcellWithGroupName:)]) {
+        [self.flashLightSettingTableViewDelegate clickBcellWithGroupName:@"B"];
     }
 }
 
 - (void)clickCCell:(NSString *)str {
-    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickCcellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate clickCcellWithClass:@"C"];
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickCcellWithGroupName:)]) {
+        [self.flashLightSettingTableViewDelegate clickCcellWithGroupName:@"C"];
     }
 }
 
 - (void)clickDCell:(NSString *)str {
     
-    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickDcellWithClass:)]) {
-        [self.flashLightSettingTableViewDelegate clickDcellWithClass:@"D"];
+    if (self.flashLightSettingTableViewDelegate && [self.flashLightSettingTableViewDelegate respondsToSelector:@selector(clickDcellWithGroupName:)]) {
+        [self.flashLightSettingTableViewDelegate clickDcellWithGroupName:@"D"];
     }
 }
 
