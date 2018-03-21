@@ -23,7 +23,7 @@
 
 @property (nonatomic, strong) BlueManageDeviceTableView *deviceTable;
 
-@property (nonatomic, strong) UIButton *testButton;
+//@property (nonatomic, strong) UIButton *testButton;
 
 @end
 
@@ -57,14 +57,14 @@
     [self.deviceTable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.top.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-DEVICE_TABLE_BOTTOM_MARGIN);
+        make.bottom.equalTo(self.view);//.offset(-DEVICE_TABLE_BOTTOM_MARGIN);
     }];
     
-    [self.testButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.height.width.mas_equalTo(100);
-        make.bottom.equalTo(self.deviceTable.mas_bottom).offset(60);
-    }];
+//    [self.testButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.view);
+//        make.height.width.mas_equalTo(100);
+//        make.bottom.equalTo(self.deviceTable.mas_bottom).offset(60);
+//    }];
     
 }
 
@@ -90,20 +90,20 @@
     return _deviceTable;
 }
 
-- (UIButton *)testButton {
-    
-    if (! _testButton) {
-        _testButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        //    [photoButton setImage:[UIImage imageNamed:@"photograph"] forState: UIControlStateNormal];
-        //    [photoButton setImage:[UIImage imageNamed:@"photograph_Select"] forState:UIControlStateNormal];
-        _testButton.backgroundColor = [UIColor redColor];
-        [_testButton addTarget:self action:@selector(testWrite) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_testButton];
-    }
-    
-    return _testButton;
-    
-}
+//- (UIButton *)testButton {
+//
+//    if (! _testButton) {
+//        _testButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        //    [photoButton setImage:[UIImage imageNamed:@"photograph"] forState: UIControlStateNormal];
+//        //    [photoButton setImage:[UIImage imageNamed:@"photograph_Select"] forState:UIControlStateNormal];
+//        _testButton.backgroundColor = [UIColor redColor];
+//        [_testButton addTarget:self action:@selector(testWrite) forControlEvents:UIControlEventTouchUpInside];
+//        [self.view addSubview:_testButton];
+//    }
+//
+//    return _testButton;
+//
+//}
 
 - (void)blueManageDeviceTableView:(UITableView *)tableView selectButtonClickedAtIndexPath:(NSIndexPath *)indexPath {
     
