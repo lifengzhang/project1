@@ -31,28 +31,13 @@
 
 - (void)updateNavigation {
     self.title = @"频道";
-    UIImage *leftBarButtonImage = [self OriginImage:[UIImage imageNamed:@"navi_back"] scaleToSize:CGSizeMake(22, 22)];
+    UIImage *leftBarButtonImage = [UIImage originImage:[UIImage imageNamed:@"navi_back"] scaleToSize:CGSizeMake(22, 22)];
     leftBarButtonImage = [leftBarButtonImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:leftBarButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(back)];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
-}
-
-- (UIImage*)OriginImage:(UIImage*)image scaleToSize:(CGSize)size
-
-{
-    UIGraphicsBeginImageContext(size);
-    
-    [image drawInRect:CGRectMake(0,0, size.width, size.height)];
-    
-    UIImage* scaledImage =UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return scaledImage;
-    
 }
 
 - (void)back {

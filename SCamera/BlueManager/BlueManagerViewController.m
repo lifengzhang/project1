@@ -32,10 +32,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"我的设备";
     self.scanArray = [NSMutableArray array];
     [self setUpConstrain];
-    
+    [self updateNavigation];
     BTMe.blueToothMeDelegate = self;
     [BTMe hardwareResponse:^(CBPeripheral *peripheral, BlueToothMeState status, NSError *error) {
         
@@ -48,6 +47,19 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+- (void)updateNavigation {
+    self.title = @"我的设备";
+
+    UIImage *leftBarButtonImage = [UIImage originImage:[UIImage imageNamed:@"navi_back"] scaleToSize:CGSizeMake(22, 22)];
+    leftBarButtonImage = [leftBarButtonImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:leftBarButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+
+}
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - view Constrain
@@ -83,7 +95,7 @@
 
 - (BlueManageDeviceTableView *)deviceTable {
     if (! _deviceTable) {
-        _deviceTable = [[BlueManageDeviceTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _deviceTable = [[BlueManageDeviceTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _deviceTable.manageDeviceTableDelegate = self;
         [self.view addSubview:_deviceTable];
     }
@@ -176,9 +188,11 @@
         }
         if (!isInScaned) {
             [self.scanArray addObject:blueToothDevice];
+            [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:BTMe.connectedPeripheral];
         }
     }
-    [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:BTMe.connectedPeripheral];
+    //不能在这里刷新tableView 本代理方法一直在不间断调用 会造成tableView持续卡顿
+//    [self.deviceTable reloadWithBlueToothDeviceList:self.scanArray connectBlueToothDevice:BTMe.connectedPeripheral];
 //    [self refreshView];
 //    
 //    if (self.refreshTimer && [self.refreshTimer isValid]) {

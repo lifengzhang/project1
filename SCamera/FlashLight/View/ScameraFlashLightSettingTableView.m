@@ -55,7 +55,7 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
         [self registCell];
         self.backgroundColor = [UIColor blackColor];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
+        self.showsVerticalScrollIndicator = NO;
     }
     return self;
 }

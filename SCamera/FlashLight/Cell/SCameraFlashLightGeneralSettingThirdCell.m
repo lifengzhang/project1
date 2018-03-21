@@ -280,7 +280,7 @@
 - (UISlider *)flashLightSlider {
     if (!_flashLightSlider) {
         _flashLightSlider = [[UISlider alloc] initWithFrame:CGRectZero];
-        UIImage *imagea = [self OriginImage:[UIImage imageNamed:@"FlashLight_Slider"] scaleToSize:CGSizeMake([SCameraDevice screenAdaptiveSizeWithIp6Size:18.f], [SCameraDevice screenAdaptiveSizeWithIp6Size:18.f])];
+        UIImage *imagea = [UIImage originImage:[UIImage imageNamed:@"FlashLight_Slider"] scaleToSize:CGSizeMake([SCameraDevice screenAdaptiveSizeWithIp6Size:18.f], [SCameraDevice screenAdaptiveSizeWithIp6Size:18.f])];
         [_flashLightSlider setThumbImage:imagea forState:UIControlStateNormal];
         _flashLightSlider.backgroundColor = Scamera_Cell_Background;
         _flashLightSlider.maximumTrackTintColor = [UIColor whiteColor];
@@ -288,21 +288,6 @@
         [self addSubview:_flashLightSlider];
     }
     return _flashLightSlider;
-}
-
-- (UIImage*)OriginImage:(UIImage*)image scaleToSize:(CGSize)size
-
-{
-    UIGraphicsBeginImageContext(size);
-    
-    [image drawInRect:CGRectMake(0,0, size.width, size.height)];
-    
-    UIImage* scaledImage =UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return scaledImage;
-    
 }
 
 @end

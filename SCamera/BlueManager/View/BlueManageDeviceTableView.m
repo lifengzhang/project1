@@ -36,7 +36,8 @@ static NSString *blueNoDeviceCellID = @"bluetooth_NO_Device_Table_Cell_ID";
         self.dataSource = self;
         self.backgroundColor = [UIColor blackColor];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
+        self.showsVerticalScrollIndicator = NO;
+
         [self registerClass:[BlueManagerTableViewSection class] forHeaderFooterViewReuseIdentifier:blueManagerTableViewSectionID];
         
         [self registerClass:[BlueManageDeviceCell class] forCellReuseIdentifier:bluetoothDeviceTableCellID];
@@ -85,6 +86,12 @@ static NSString *blueNoDeviceCellID = @"bluetooth_NO_Device_Table_Cell_ID";
     return 52.f;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    
+    return 0.0001;
+    
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
@@ -99,6 +106,10 @@ static NSString *blueNoDeviceCellID = @"bluetooth_NO_Device_Table_Cell_ID";
         return header;
     }
 
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
