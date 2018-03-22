@@ -157,38 +157,38 @@
     self.valueLabel.text = @"1/128";
     self.bottomLine.hidden = NO;
     if ([str isEqualToString:@"A"]) {
-        if (FlashLightManager.aPowerStr && FlashLightManager.aPowerStr.length > 0) {
+        if (FlashLightManager.aPower && FlashLightManager.aPower > 0) {
             for (int i = 0; i < numberOfSteps + 1; i++) {
-                if ([numbers[i] isEqualToString:FlashLightManager.aPowerStr]) {
+                if ([numbers[i] isEqualToString:[NSString stringOfFlashLightPower:FlashLightManager.aPower]]) {
                     [self.flashLightSlider setValue:i animated:NO];
-                    self.valueLabel.text = FlashLightManager.aPowerStr;
+                    self.valueLabel.text = [NSString stringOfFlashLightPower:FlashLightManager.aPower];
                 }
             }
         }
     } else if ([str isEqualToString:@"B"]) {
-        if (FlashLightManager.bPowerStr && FlashLightManager.bPowerStr.length > 0) {
+        if (FlashLightManager.bPower && FlashLightManager.bPower > 0) {
             for (int i = 0; i < numberOfSteps + 1; i++) {
-                if ([numbers[i] isEqualToString:FlashLightManager.bPowerStr]) {
+                if ([numbers[i] isEqualToString:[NSString stringOfFlashLightPower:FlashLightManager.bPower]]) {
                     [self.flashLightSlider setValue:i animated:NO];
-                    self.valueLabel.text = FlashLightManager.bPowerStr;
+                    self.valueLabel.text = [NSString stringOfFlashLightPower:FlashLightManager.bPower];
                 }
             }
         }
     } else if ([str isEqualToString:@"C"]) {
-        if (FlashLightManager.cPowerStr && FlashLightManager.cPowerStr.length > 0) {
+        if (FlashLightManager.cPower && FlashLightManager.cPower > 0) {
             for (int i = 0; i < numberOfSteps + 1; i++) {
-                if ([numbers[i] isEqualToString:FlashLightManager.cPowerStr]) {
+                if ([numbers[i] isEqualToString:[NSString stringOfFlashLightPower:FlashLightManager.cPower]]) {
                     [self.flashLightSlider setValue:i animated:NO];
-                    self.valueLabel.text = FlashLightManager.cPowerStr;
+                    self.valueLabel.text = [NSString stringOfFlashLightPower:FlashLightManager.cPower];
                 }
             }
         }
     } else {
-        if (FlashLightManager.dPowerStr && FlashLightManager.dPowerStr.length > 0) {
+        if (FlashLightManager.dPower && FlashLightManager.dPower > 0) {
             for (int i = 0; i < numberOfSteps + 1; i++) {
-                if ([numbers[i] isEqualToString:FlashLightManager.dPowerStr]) {
+                if ([numbers[i] isEqualToString:[NSString stringOfFlashLightPower:FlashLightManager.dPower]]) {
                     [self.flashLightSlider setValue:i animated:NO];
-                    self.valueLabel.text = FlashLightManager.dPowerStr;
+                    self.valueLabel.text = [NSString stringOfFlashLightPower:FlashLightManager.dPower];
                 }
             }
         }

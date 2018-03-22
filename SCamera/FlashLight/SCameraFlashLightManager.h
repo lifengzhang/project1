@@ -19,10 +19,6 @@
 #define FlashLightBpower                                   @"flashLight_bPower"
 #define FlashLightCpower                                   @"flashLight_cPower"
 #define FlashLightDpower                                   @"flashLight_dPower"
-#define FlashLightApowerString                             @"flashLight_aPower_string"
-#define FlashLightBpowerString                             @"flashLight_bPower_string"
-#define FlashLightCpowerString                             @"flashLight_cPower_string"
-#define FlashLightDpowerString                             @"flashLight_dPower_string"
 
 #define IsSelectedA                                        @"isSelected_A"
 #define IsSelectedB                                        @"isSelected_B"
@@ -48,10 +44,6 @@
 #define IsFlashFrequenceOpneB                              @"isFlashFrequenceOpne_B"
 #define IsFlashFrequenceOpneC                              @"isFlashFrequenceOpne_C"
 #define IsFlashFrequenceOpneD                              @"isFlashFrequenceOpne_D"
-#define IsLaunchA                                          @"is_launch_A"
-#define IsLaunchB                                          @"is_launch_B"
-#define IsLaunchC                                          @"is_launch_C"
-#define IsLaunchD                                          @"is_launch_D"
 #define ModelA                                             @"model_A"
 #define ModelB                                             @"model_B"
 #define ModelC                                             @"model_C"
@@ -60,14 +52,6 @@
 #define BLightDegree                                       @"B_lightDegree"
 #define CLightDegree                                       @"C_lightDegree"
 #define DLightDegree                                       @"D_lightDegree"
-#define ModelAStr                                          @"model_A_Str"
-#define ModelBStr                                          @"model_B_Str"
-#define ModelCStr                                          @"model_C_Str"
-#define ModelDStr                                          @"model_D_Str"
-#define ALightDegreeStr                                    @"A_LightDegree_str"
-#define BLightDegreeStr                                    @"B_LightDegree_str"
-#define CLightDegreeStr                                    @"C_LightDegree_str"
-#define DLightDegreeStr                                    @"D_LightDegree_str"
 #define AMinPower                                          @"A_Min_Power"
 #define BMinPower                                          @"B_Min_Power"
 #define CMinPower                                          @"C_Min_Power"
@@ -177,10 +161,6 @@ typedef enum : Byte {
 @property (nonatomic, assign) BOOL isSelectedStartB;               //闪光灯页面B组启动按钮
 @property (nonatomic, assign) BOOL isSelectedStartC;               //闪光灯页面C组启动按钮
 @property (nonatomic, assign) BOOL isSelectedStartD;               //闪光灯页面D组启动按钮
-@property (nonatomic, strong) NSString *aPowerStr;
-@property (nonatomic, strong) NSString *bPowerStr;
-@property (nonatomic, strong) NSString *cPowerStr;
-@property (nonatomic, strong) NSString *dPowerStr;
 
 @property (nonatomic, assign) BOOL isMainStartSelected;             //主启动按钮
 
@@ -198,25 +178,10 @@ typedef enum : Byte {
 @property (nonatomic, assign) BOOL isFlashFrequenceOpenC;           //组别C闪频
 @property (nonatomic, assign) BOOL isFlashFrequenceOpenD;           //组别D闪频
 
-@property (nonatomic, assign) BOOL isLaunchA;                        //组别A页面启动
-@property (nonatomic, assign) BOOL isLaunchB;                        //组别B页面启动
-@property (nonatomic, assign) BOOL isLaunchC;                        //组别C页面启动
-@property (nonatomic, assign) BOOL isLaunchD;                        //组别D页面启动
-
-@property (nonatomic, strong) NSString *aModelStr;                   //a组模式
-@property (nonatomic, strong) NSString *bModelStr;
-@property (nonatomic, strong) NSString *cModelStr;
-@property (nonatomic, strong) NSString *dModelStr;
-
 @property (nonatomic, strong) NSString *aMinPower;                  //a组最小功率
 @property (nonatomic, strong) NSString *bMinPower;
 @property (nonatomic, strong) NSString *cMinPower;
 @property (nonatomic, strong) NSString *dMinPower;
-
-@property (nonatomic, strong) NSString *aLightDegreeStr;            //a组造型灯模式
-@property (nonatomic, strong) NSString *bLightDegreeStr;
-@property (nonatomic, strong) NSString *cLightDegreeStr;
-@property (nonatomic, strong) NSString *dLightDegreeStr;
 
 + (instancetype)sharedInstance;
 
@@ -242,11 +207,6 @@ typedef enum : Byte {
 - (void)saveCPower:(FlashLightPower)cPower;
 - (void)saveDPower:(FlashLightPower)dPower;
 
-- (void)saveAPowerString:(NSString *)str;
-- (void)saveBPowerString:(NSString *)str;
-- (void)saveCPowerString:(NSString *)str;
-- (void)saveDPowerString:(NSString *)str;
-
 - (void)saveGroupArray:(NSString *)str;
 
 - (void)removeGroupString:(NSString *)str;
@@ -270,11 +230,6 @@ typedef enum : Byte {
 - (void)saveIsFlashFrequenceOpneC:(BOOL)selected;
 - (void)saveIsFlashFrequenceOpneD:(BOOL)selected;
 
-- (void)saveLaunchA:(BOOL)isLaunch;
-- (void)saveLaunchB:(BOOL)isLaunch;
-- (void)saveLaunchC:(BOOL)isLaunch;
-- (void)saveLaunchD:(BOOL)isLaunch;
-
 - (void)saveAModel:(FlashLightModel)aModel;
 - (void)saveBModel:(FlashLightModel)bModel;
 - (void)saveCModel:(FlashLightModel)cModel;
@@ -284,16 +239,6 @@ typedef enum : Byte {
 - (void)saveBLightDegree:(FlashLightDegree)bLight;
 - (void)saveCLightDegree:(FlashLightDegree)cLight;
 - (void)saveDLightDegree:(FlashLightDegree)dLight;
-
-- (void)saveAModelStr:(NSString *)str;
-- (void)saveBModelStr:(NSString *)str;
-- (void)saveCModelStr:(NSString *)str;
-- (void)saveDModelStr:(NSString *)str;
-
-- (void)saveALightDegreeSre:(NSString *)str;
-- (void)saveBLightDegreeSre:(NSString *)str;
-- (void)saveCLightDegreeSre:(NSString *)str;
-- (void)saveDLightDegreeSre:(NSString *)str;
 
 - (void)saveAMinPower:(NSString *)str;
 - (void)saveBMinPower:(NSString *)str;

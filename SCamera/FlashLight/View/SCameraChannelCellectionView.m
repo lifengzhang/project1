@@ -68,7 +68,6 @@ static NSString *channelCellID = @"channel_Cell_ID";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-  
     SCameraChannelCell *cell = (SCameraChannelCell *)[collectionView cellForItemAtIndexPath:indexPath];
     self.indexpath = indexPath;
     [FlashLightManager saveChannel:[NSString stringWithFormat:@"%lu",self.indexpath.row + 1]];

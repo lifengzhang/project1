@@ -19,6 +19,7 @@
 #import "UIFont+Additions.h"
 #import "UIViewController+Additions.h"
 #import "UIImage+Additions.h"
+#import "NSString+Additions.h"
 #import "SCamera-UI-Constant.h"
 
 #import "SCameraFlashLightManager.h"

@@ -99,23 +99,23 @@
         self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenA ? @"声音 开": @"声音 关"];
         self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenA ? @"频闪 开" : @"频闪 关"];
         self.grouplType.text = str;
-        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.aModelStr.length > 0 ? FlashLightManager.aModelStr : @"自动"];
-        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.aPowerStr.length > 0) ? FlashLightManager.aPowerStr : @"1/128"];
+        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.aModel > 0 ? [NSString sringWithFlashLightModel:FlashLightManager.aModel] : @"自动"];
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.aPower > 0) ? [NSString stringOfFlashLightPower:FlashLightManager.aPower] : @"1/128"];
     } else if ([str isEqualToString:@"B"]) {
         self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenB ? @"声音 开": @"声音 关"];
         self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenB ? @"频闪 开" : @"频闪 关"];
-        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.bPowerStr.length > 0) ? FlashLightManager.bPowerStr : @"1/128"];
-        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.bModelStr.length > 0 ? FlashLightManager.bModelStr : @"自动"];
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.bPower > 0) ? [NSString stringOfFlashLightPower:FlashLightManager.bPower] : @"1/128"];
+        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.bModel > 0 ? [NSString sringWithFlashLightModel:FlashLightManager.bModel] : @"自动"];
     } else if ([str isEqualToString:@"C"]) {
         self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenC ? @"声音 开": @"声音 关"];
         self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenC ? @"频闪 开" : @"频闪 关"];
-        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.cPowerStr.length > 0) ? FlashLightManager.cPowerStr : @"1/128"];
-        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.cModelStr.length > 0 ? FlashLightManager.cModelStr : @"自动"];
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.cPower > 0) ? [NSString stringOfFlashLightPower:FlashLightManager.cPower] : @"1/128"];
+        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.cModel > 0 ? [NSString sringWithFlashLightModel:FlashLightManager.cModel] : @"自动"];
     } else {
         self.voiceType.text = [NSString stringWithFormat:FlashLightManager.isVoiceOpenD ? @"声音 开": @"声音 关"];
         self.frequenceType.text = [NSString stringWithFormat:FlashLightManager.isFlashFrequenceOpenD ? @"频闪 开" : @"频闪 关"];
-        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.dPowerStr.length > 0) ? FlashLightManager.dPowerStr : @"1/128"];
-        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.dModelStr.length > 0 ? FlashLightManager.dModelStr : @"自动"];
+        self.value.text = [NSString stringWithFormat:@"%@", (FlashLightManager.dPower > 0) ? [NSString stringOfFlashLightPower:FlashLightManager.dPower] : @"1/128"];
+        self.modelTypr.text = [NSString stringWithFormat:@"模式 %@",FlashLightManager.dModel > 0 ? [NSString sringWithFlashLightModel:FlashLightManager.dModel] : @"自动"];
     }
 }
 

@@ -63,16 +63,12 @@ static NSString *startCellID = @"start_Cell_ID";
     
     if ([self.groupClass isEqualToString:@"A"]) {
         [FlashLightManager saveAPower:integer];
-        [FlashLightManager saveAPowerString:str];
     } else if ([self.groupClass isEqualToString:@"B"]) {
         [FlashLightManager saveBPower:integer];
-        [FlashLightManager saveBPowerString:str];
     } else if ([self.groupClass isEqualToString:@"C"]) {
         [FlashLightManager saveCPower:integer];
-        [FlashLightManager saveCPowerString:str];
     } else {
         [FlashLightManager saveDPower:integer];
-        [FlashLightManager saveDPowerString:str];
     }
 }
 
@@ -112,25 +108,25 @@ static NSString *startCellID = @"start_Cell_ID";
 
 - (void)judgeLaunchButtonStatus {
     if ([self.groupClass isEqualToString:@"A"]) {
-        if (FlashLightManager.isLaunchA) {
+        if (FlashLightManager.isSelectedStartA) {
             [self disableView];
         } else {
             [self enableView];
         }
     } else if ([self.groupClass isEqualToString:@"B"]) {
-        if (FlashLightManager.isLaunchB) {
+        if (FlashLightManager.isSelectedStartB) {
             [self disableView];
         } else {
             [self enableView];
         }
     } else if ([self.groupClass isEqualToString:@"C"]) {
-        if (FlashLightManager.isLaunchC) {
+        if (FlashLightManager.isSelectedStartC) {
             [self disableView];
         } else {
             [self enableView];
         }
     } else {
-        if (FlashLightManager.isLaunchD) {
+        if (FlashLightManager.isSelectedStartD) {
             [self disableView];
         } else {
             [self enableView];

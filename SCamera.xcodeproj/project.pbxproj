@@ -48,6 +48,7 @@
 		A3A063EE205275CB00CF1DA9 /* SCameraGroupSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063ED205275CB00CF1DA9 /* SCameraGroupSettingController.m */; };
 		A3A063F120528ED100CF1DA9 /* SCameraStartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A063F020528ED100CF1DA9 /* SCameraStartCell.m */; };
 		A3AF35E92062399400AA1B8B /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A3AF35E82062399400AA1B8B /* UIImage+Additions.m */; };
+		A3BAD351206345E400F41D69 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BAD350206345E400F41D69 /* NSString+Additions.m */; };
 		A3CE6D452049313500811DA8 /* SCameraFlashLightSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D442049313500811DA8 /* SCameraFlashLightSettingViewController.m */; };
 		A3CE6D482049318300811DA8 /* ScameraFlashLightSettingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D472049318300811DA8 /* ScameraFlashLightSettingTableView.m */; };
 		A3CE6D4B204935E700811DA8 /* SCameraFlashLightGeneralSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D4A204935E700811DA8 /* SCameraFlashLightGeneralSettingCell.m */; };
@@ -142,6 +143,8 @@
 		A3A063F020528ED100CF1DA9 /* SCameraStartCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraStartCell.m; sourceTree = "<group>"; };
 		A3AF35E72062399400AA1B8B /* UIImage+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
 		A3AF35E82062399400AA1B8B /* UIImage+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additions.m"; sourceTree = "<group>"; };
+		A3BAD34F206345E400F41D69 /* NSString+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		A3BAD350206345E400F41D69 /* NSString+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		A3CE6D432049313500811DA8 /* SCameraFlashLightSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraFlashLightSettingViewController.h; sourceTree = "<group>"; };
 		A3CE6D442049313500811DA8 /* SCameraFlashLightSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraFlashLightSettingViewController.m; sourceTree = "<group>"; };
 		A3CE6D462049318300811DA8 /* ScameraFlashLightSettingTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScameraFlashLightSettingTableView.h; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 				07523AD3202AD64800650E47 /* UIFont+Additions.m */,
 				A3AF35E72062399400AA1B8B /* UIImage+Additions.h */,
 				A3AF35E82062399400AA1B8B /* UIImage+Additions.m */,
+				A3BAD34F206345E400F41D69 /* NSString+Additions.h */,
+				A3BAD350206345E400F41D69 /* NSString+Additions.m */,
 				A33F9C0E205B637000779166 /* UIViewController+Additions.h */,
 				A33F9C0F205B637000779166 /* UIViewController+Additions.m */,
 				A3D94613202D82B20001220E /* SCameraDevice.h */,
@@ -565,6 +570,7 @@
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				A3A063E02052200400CF1DA9 /* SCameraGroupSelectCell.m in Sources */,
 				A33F9C10205B637000779166 /* UIViewController+Additions.m in Sources */,
+				A3BAD351206345E400F41D69 /* NSString+Additions.m in Sources */,
 				A3122AFE204A5B2400D2254C /* SCameraFlashLightGroupAddCell.m in Sources */,
 				A338EBE4205A3F58005A4F2A /* SCameraChannelCellectionView.m in Sources */,
 				A3AF35E92062399400AA1B8B /* UIImage+Additions.m in Sources */,

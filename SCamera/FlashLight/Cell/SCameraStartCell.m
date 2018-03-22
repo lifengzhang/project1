@@ -33,13 +33,13 @@
 
 - (void)updateStartCellWithGroupName:(NSString *)str {
     if ([str isEqualToString:@"A"]) {
-        self.startImage.selected = FlashLightManager.isLaunchA;
+        self.startImage.selected = FlashLightManager.isSelectedStartA;
     } else if ([str isEqualToString:@"B"]) {
-        self.startImage.selected = FlashLightManager.isLaunchB;
+        self.startImage.selected = FlashLightManager.isSelectedStartB;
     } else if ([str isEqualToString:@"C"]) {
-        self.startImage.selected = FlashLightManager.isLaunchC;
+        self.startImage.selected = FlashLightManager.isSelectedStartC;
     } else {
-        self.startImage.selected = FlashLightManager.isLaunchD;
+        self.startImage.selected = FlashLightManager.isSelectedStartD;
     }
 }
 

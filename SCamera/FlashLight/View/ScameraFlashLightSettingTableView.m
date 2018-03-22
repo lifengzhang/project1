@@ -118,22 +118,18 @@ static NSString *flashLightGroupSettingCellID = @"flashLight_groupSetting_view_C
 - (void)tableViewReloadGroupDate:(NSInteger)integer {
     if (FlashLightManager.mainValue != nil && !self.aCell.startBtn.selected) {
         self.aCell.value.text = FlashLightManager.mainValue;
-        [FlashLightManager saveAPowerString:FlashLightManager.mainValue];
         [FlashLightManager saveAPower:integer];
     }
     if (FlashLightManager.mainValue != nil && !self.bCell.startBtn.selected) {
         self.bCell.value.text = FlashLightManager.mainValue;
-        [FlashLightManager saveBPowerString:FlashLightManager.mainValue];
         [FlashLightManager saveBPower:integer];
     }
     if (FlashLightManager.mainValue != nil && !self.cCell.startBtn.selected) {
         self.cCell.value.text = FlashLightManager.mainValue;
-        [FlashLightManager saveCPowerString:FlashLightManager.mainValue];
         [FlashLightManager saveCPower:integer];
     }
     if (FlashLightManager.mainValue != nil && !self.dCell.startBtn.selected) {
         self.dCell.value.text = FlashLightManager.mainValue;
-        [FlashLightManager saveDPowerString:FlashLightManager.mainValue];
         [FlashLightManager saveDPower:integer];
     }
 }

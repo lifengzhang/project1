@@ -180,6 +180,14 @@ static SCameraFlashLightManager *sharedInstance = nil;
     return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightChannel];
 }
 
+- (Byte)channel  {
+    if (self.channelStr.length > 0) {
+        return self.channelStr.integerValue;
+    } else {
+        return 0x01;
+    }
+}
+
 - (BOOL)isPoseOpen {
     return [[NSUserDefaults standardUserDefaults] boolForKey:FlashLightIsPoseOpen];
 }
@@ -233,35 +241,36 @@ static SCameraFlashLightManager *sharedInstance = nil;
 }
 
 - (FlashLightPower)aPower {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightApower];
+    if (self.isSelectedA) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightApower];
+    } else {
+        return 0x00;
+    }
+    
 }
 
 - (FlashLightPower)bPower {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightBpower];
+    if (self.isSelectedB) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightBpower];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightPower)cPower {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightCpower];
+    if (self.isSelectedC) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightCpower];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightPower)dPower {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightDpower];
-}
-
-- (NSString *)aPowerStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightApowerString];
-}
-
-- (NSString *)bPowerStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightBpowerString];
-}
-
-- (NSString *)cPowerStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightCpowerString];
-}
-
-- (NSString *)dPowerStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:FlashLightDpowerString];
+    if (self.isSelectedD) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:FlashLightDpower];
+    } else {
+        return 0x00;
+    }
 }
 
 - (NSMutableArray *)groupArray {
@@ -306,84 +315,68 @@ static SCameraFlashLightManager *sharedInstance = nil;
     return [[NSUserDefaults standardUserDefaults] boolForKey:IsFlashFrequenceOpneD];
 }
 
-- (BOOL)isLaunchA {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchA];
-}
-
-- (BOOL)isLaunchB {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchB];
-}
-
-- (BOOL)isLaunchC {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchC];
-}
-
-- (BOOL)isLaunchD {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:IsLaunchD];
-}
-
 - (FlashLightModel)aModel {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelA];
+    if (self.isSelectedA) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:ModelA];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightModel)bModel {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelB];
+    if (self.isSelectedB) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:ModelB];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightModel)cModel {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelC];
+    if (self.isSelectedC) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:ModelC];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightModel)dModel {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:ModelD];
+    if (self.isSelectedD) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:ModelD];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightDegree)aLightDegree {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:ALightDegree];
+    if (self.isSelectedA) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:ALightDegree];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightDegree)bLightDegree {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:BLightDegree];
+    if (self.isSelectedB) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:BLightDegree];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightDegree)cLightDegree {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:CLightDegree];
+    if (self.isSelectedC) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:CLightDegree];
+    } else {
+        return 0x00;
+    }
 }
 
 - (FlashLightDegree)dLightDegree {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:DLightDegree];
-}
-
-- (NSString *)aModelStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelAStr];
-}
-
-- (NSString *)bModelStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelBStr];
-}
-
-- (NSString *)cModelStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelCStr];
-}
-
-- (NSString *)dModelStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:ModelDStr];
-}
-
-- (NSString *)aLightDegreeStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:ALightDegreeStr];
-}
-
-- (NSString *)bLightDegreeStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:BLightDegreeStr];
-}
-
-- (NSString *)cLightDegreeStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:CLightDegreeStr];
-}
-
-- (NSString *)dLightDegreeStr {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:DLightDegreeStr];
+    if (self.isSelectedD) {
+        return [[NSUserDefaults standardUserDefaults] integerForKey:DLightDegree];
+    } else {
+        return 0x00;
+    }
 }
 
 - (NSString *)aMinPower {
@@ -422,26 +415,6 @@ static SCameraFlashLightManager *sharedInstance = nil;
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
-- (void)saveAModelStr:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelAStr];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveBModelStr:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelBStr];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveCModelStr:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelCStr];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveDModelStr:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ModelDStr];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
 - (void)saveALightDegree:(FlashLightDegree)aLight {
     [[NSUserDefaults standardUserDefaults] setInteger:aLight forKey:ALightDegree];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -459,26 +432,6 @@ static SCameraFlashLightManager *sharedInstance = nil;
 
 - (void)saveDLightDegree:(FlashLightDegree)dLight {
     [[NSUserDefaults standardUserDefaults] setInteger:dLight forKey:DLightDegree];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveALightDegreeSre:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:ALightDegreeStr];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveBLightDegreeSre:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:BLightDegreeStr];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveCLightDegreeSre:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:CLightDegreeStr];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveDLightDegreeSre:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:DLightDegreeStr];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -517,26 +470,6 @@ static SCameraFlashLightManager *sharedInstance = nil;
 }
 - (void)saveIsFlashFrequenceOpneD:(BOOL)selected {
     [[NSUserDefaults standardUserDefaults] setBool:selected forKey:IsFlashFrequenceOpneD];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveLaunchA:(BOOL)isLaunch {
-    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchA];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveLaunchB:(BOOL)isLaunch {
-    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchB];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveLaunchC:(BOOL)isLaunch {
-    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchC];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveLaunchD:(BOOL)isLaunch {
-    [[NSUserDefaults standardUserDefaults] setBool:isLaunch forKey:IsLaunchD];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -586,26 +519,6 @@ static SCameraFlashLightManager *sharedInstance = nil;
 
 - (void)saveDPower:(FlashLightPower)dPower {
     [[NSUserDefaults standardUserDefaults] setInteger:dPower forKey:FlashLightDpower];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveAPowerString:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightApowerString];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveBPowerString:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightBpowerString];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveCPowerString:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightCpowerString];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveDPowerString:(NSString *)str {
-    [[NSUserDefaults standardUserDefaults] setObject:str forKey:FlashLightDpowerString];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
