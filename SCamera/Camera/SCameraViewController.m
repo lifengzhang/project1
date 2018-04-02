@@ -11,6 +11,7 @@
 #import <Photos/Photos.h>
 #import "SCameraPhotoViewController.h"
 #import "BlueManagerViewController.h"
+#import "SCameraTimerView.h"
 #import "CameraView.h"
 
 #import "SCameraShutterPickerView.h"
@@ -104,6 +105,16 @@
 
 @property (nonatomic, assign) float deviceMaxISO; //设备最大ISO
 
+@property (nonatomic, strong) SCameraTimerView *timerView; //定时器选择视图
+
+@property (nonatomic, strong) UIView *backgroundView; //定时器背景
+
+@property (nonatomic, assign) ScameraTimer timer;
+
+@property (nonatomic, strong) UIImageView *animationBegin; //起始动画
+
+@property (nonatomic, strong) UIImageView *animationEnd;   //结束动画
+
 /**
  *  记录开始的缩放比例
  */
@@ -165,6 +176,12 @@
 
     [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.timerView.timerBtn addTarget:self action:@selector(tapTimerLogo) forControlEvents:UIControlEventTouchUpInside];
+    [self.timerView.closeBtn addTarget:self action:@selector(tapClosebtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.timerView.threeSeconds addTarget:self action:@selector(tapSelectedThreeSecond) forControlEvents:UIControlEventTouchUpInside];
+    [self.timerView.tenSeconds addTarget:self action:@selector(tapSelectedTen) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)addGesture {
@@ -180,6 +197,7 @@
 - (void)customCamera{
     self.view.backgroundColor = [UIColor blackColor];
     self.clickNumber = 0;
+    self.timer = selectedCloseBtn;
     self.deviceMinISO = self.device.activeFormat.minISO;
     self.deviceMaxISO = self.device.activeFormat.maxISO;
     //使用设备初始化输入
@@ -267,6 +285,22 @@
         make.top.left.equalTo(self.view);
         make.height.width.mas_equalTo(80);
     }];
+    
+    [self.timerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.height.mas_equalTo(ISIphoneX ? 88 : 64);
+        make.right.equalTo(self.cameraView.timerImage.mas_right);
+    }];
+    
+    
+//    [self.timerView mas_makeConstraints:^(MASConstraintMaker *make) {
+////        make.left.equalTo(self.cameraView.timerImage);
+//        make.top.equalTo(self.view);
+//        make.height.mas_equalTo(ISIphoneX ? 88 : 64);
+//        make.width.mas_equalTo(18);
+//        make.centerX.equalTo(self.view.mas_right).offset(-((Width_Screen/2 - 43)/2 + 34));
+//    }];
     
 //    [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.isoTitleLabel);
@@ -438,35 +472,77 @@
 
 #pragma mark - 点击定时器
 - (void)tapTimerButton {
-    self.clickNumber++;
-    if (self.clickNumber == 1) {
-        
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"3s"];
-        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 2)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 1)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(1, 1)];
-        [self.cameraView.timerLabel setAttributedText:string];
+    self.cameraView.navigationView.hidden = YES;
 
-        self.cameraView.timerLabel.hidden = NO;
-    } else if (self.clickNumber == 2) {
-        
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"10s"];
-        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 3)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 2)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(2, 1)];
-        [self.cameraView.timerLabel setAttributedText:string];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Width_Screen, (ISIphoneX ? 88 : 64))];
+    self.backgroundView.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+    [self.view insertSubview:self.backgroundView belowSubview:self.timerView];
 
-        self.cameraView.timerLabel.hidden = NO;
-    } else {
-        self.clickNumber = 0;
-        self.cameraView.timerLabel.hidden = YES;
-    }
+    
+    
+//    self.clickNumber++;
+//    if (self.clickNumber == 1) {
+//
+//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"3s"];
+//        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 2)];
+//        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 1)];
+//        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(1, 1)];
+//        [self.cameraView.timerLabel setAttributedText:string];
+//
+//        self.cameraView.timerLabel.hidden = NO;
+//    } else if (self.clickNumber == 2) {
+//
+//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"10s"];
+//        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 3)];
+//        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 2)];
+//        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(2, 1)];
+//        [self.cameraView.timerLabel setAttributedText:string];
+//
+//        self.cameraView.timerLabel.hidden = NO;
+//    } else {
+//        self.clickNumber = 0;
+//        self.cameraView.timerLabel.hidden = YES;
+//    }
+    
+    self.animationBegin = [[UIImageView alloc] initWithFrame:self.cameraView.timerImage.frame];
+    self.animationBegin.image = [UIImage imageNamed:@"Camera_timer_image"];
+    [self.view addSubview:self.animationBegin];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    CABasicAnimation *move = [CABasicAnimation animation];
+    move.keyPath = @"position";
+    move.fromValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.timerImage.center.x, self.cameraView.timerImage.center.y, 18, 18)];
+    move.toValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.closeImage.center.x, self.cameraView.closeImage.center.y, 18, 18)];
+    move.duration = 0.2;
+    move.fillMode = kCAFillModeForwards;
+    move.removedOnCompletion = NO;
+    [self.animationBegin.layer addAnimation:move forKey:nil];
+    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:0.2];
+    
+}
+
+- (void)delayMethod {
+    self.timerView.hidden = NO;
+    self.animationBegin.hidden = YES;
+}
+
+- (void)animationAlert:(UIView *)view
+{
+    CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    popAnimation.duration = 5;
+
+    popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
+                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0f, 1.0f, 1.0f)]];
+    popAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+    popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [view.layer addAnimation:popAnimation forKey:nil];
 
 }
 
 - (void)judgeHaveTimerAndShutterCamera {
     static NSInteger num = 0;
-    if (self.clickNumber == 1) {
+    if (self.timer == selectedThree) {
         [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
             num++;
             self.cameraView.centerTimerLabel.hidden = NO;
@@ -480,7 +556,7 @@
                 num = 0;
             }
         }];
-    } else if (self.clickNumber == 2) {
+    } else if (self.timer == selectedTen) {
         [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
             num++;
             self.cameraView.centerTimerLabel.hidden = NO;
@@ -600,6 +676,75 @@
     } @catch (NSException *exception) {
         
     }
+}
+
+#pragma maek - 关闭定时器
+- (void)tapTimerLogo {
+    self.backgroundView.hidden = YES;
+    self.timer = selectedTimerLogo;
+    [self backAnimation];
+}
+
+- (void)tapClosebtn {
+    self.timer = selectedCloseBtn;
+    self.timerView.closeBtn.selected = YES;
+    self.timerView.threeSeconds.selected = NO;
+    self.timerView.tenSeconds.selected = NO;
+    self.cameraView.timerLabel.hidden = YES;
+    [self backAnimation];
+}
+
+- (void)tapSelectedThreeSecond {
+    self.timer = selectedThree;
+    self.timerView.threeSeconds.selected = YES;
+    self.timerView.closeBtn.selected = NO;
+    self.timerView.tenSeconds.selected = NO;
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"3s"];
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 2)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 1)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(1, 1)];
+    [self.cameraView.timerLabel setAttributedText:string];
+    self.cameraView.timerLabel.hidden = NO;
+    [self backAnimation];
+}
+
+- (void)tapSelectedTen {
+    self.timer = selectedTen;
+    self.timerView.tenSeconds.selected = YES;
+    self.timerView.threeSeconds.selected = NO;
+    self.timerView.closeBtn.selected = NO;
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"10s"];
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 3)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 2)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(2, 1)];
+    [self.cameraView.timerLabel setAttributedText:string];
+    self.cameraView.timerLabel.hidden = NO;
+    [self backAnimation];
+}
+
+- (void)backAnimation {
+    self.timerView.hidden = YES;
+
+    self.animationEnd = [[UIImageView alloc] initWithFrame:self.cameraView.timerImage.frame];
+    self.animationEnd.image = [UIImage imageNamed:@"Camera_timer_image"];
+    [self.view addSubview:self.animationEnd];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    CABasicAnimation *move = [CABasicAnimation animation];
+    move.keyPath = @"position";
+    move.toValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.timerImage.center.x, self.cameraView.timerImage.center.y, 18, 18)];
+    move.fromValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.closeImage.center.x, self.cameraView.closeImage.center.y, 18, 18)];
+    move.duration = 0.2;
+    move.fillMode = kCAFillModeForwards;
+    move.removedOnCompletion = NO;
+    [self.animationEnd.layer addAnimation:move forKey:nil];
+    [self performSelector:@selector(delayMethodBackAnimation) withObject:nil afterDelay:0.2];
+    
+}
+
+- (void)delayMethodBackAnimation {
+    self.backgroundView.hidden = YES;
+    self.cameraView.navigationView.hidden = NO;
+    self.animationEnd.hidden = YES;
 }
 
 #pragma mark - AVCapturePhotoCaptureDelegate
@@ -917,6 +1062,15 @@
         _session = [[AVCaptureSession alloc] init];
     }
     return _session;
+}
+
+- (SCameraTimerView *)timerView {
+    if (!_timerView) {
+        _timerView = [[SCameraTimerView alloc] initWithFrame:CGRectZero];
+        _timerView.hidden = YES;
+        [self.view addSubview:_timerView];
+    }
+    return _timerView;
 }
 
 - (void)dealloc {

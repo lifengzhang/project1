@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, ScameraTimer)
+{
+    selectedTimerLogo = 0,
+    selectedCloseBtn,
+    selectedThree,
+    selectedTen
+};
+
 @interface SCameraViewController : UIViewController
 
 @end

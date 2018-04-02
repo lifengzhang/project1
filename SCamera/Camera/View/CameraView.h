@@ -10,7 +10,13 @@
 
 @interface CameraView : UIView
 
+@property (nonatomic, strong) UIView *navigationView; //导航视图
+
 @property (nonatomic, strong) UIButton *backButton;         //返回按钮
+
+@property (nonatomic, strong) UIImageView *closeImage;  //关闭按钮图片
+
+@property (nonatomic, strong) UIImageView *timerImage;  //定时器按钮照片
 
 @property (nonatomic, strong) UIButton *photoLibraryButton; //相册
 

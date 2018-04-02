@@ -55,6 +55,7 @@
 		A3CE6D4E2049361900811DA8 /* SCameraFlashLightGroupSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D4D2049361900811DA8 /* SCameraFlashLightGroupSettingCell.m */; };
 		A3CE6D51204939D800811DA8 /* SCameraFlashLightGeneralSettingSecondCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D50204939D800811DA8 /* SCameraFlashLightGeneralSettingSecondCell.m */; };
 		A3CE6D5720493A3200811DA8 /* SCameraFlashLightGeneralSettingThirdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CE6D5620493A3200811DA8 /* SCameraFlashLightGeneralSettingThirdCell.m */; };
+		A3D3B1342071D47600A00562 /* SCameraTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D3B1332071D47600A00562 /* SCameraTimerView.m */; };
 		A3D9460E202D34E80001220E /* Camera.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3D9460D202D34E80001220E /* Camera.xcassets */; };
 		A3D94612202D3C7A0001220E /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94611202D3C7A0001220E /* CameraView.m */; };
 		A3D94615202D82B20001220E /* SCameraDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D94614202D82B20001220E /* SCameraDevice.m */; };
@@ -158,6 +159,8 @@
 		A3CE6D5520493A3200811DA8 /* SCameraFlashLightGeneralSettingThirdCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraFlashLightGeneralSettingThirdCell.h; sourceTree = "<group>"; };
 		A3CE6D5620493A3200811DA8 /* SCameraFlashLightGeneralSettingThirdCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraFlashLightGeneralSettingThirdCell.m; sourceTree = "<group>"; };
 		A3CE6D5820493F0E00811DA8 /* SCamera-UI-Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCamera-UI-Constant.h"; sourceTree = "<group>"; };
+		A3D3B1322071D47600A00562 /* SCameraTimerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraTimerView.h; sourceTree = "<group>"; };
+		A3D3B1332071D47600A00562 /* SCameraTimerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraTimerView.m; sourceTree = "<group>"; };
 		A3D9460D202D34E80001220E /* Camera.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Camera.xcassets; sourceTree = "<group>"; };
 		A3D94610202D3C7A0001220E /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
 		A3D94611202D3C7A0001220E /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
@@ -409,6 +412,8 @@
 			children = (
 				A3D94610202D3C7A0001220E /* CameraView.h */,
 				A3D94611202D3C7A0001220E /* CameraView.m */,
+				A3D3B1322071D47600A00562 /* SCameraTimerView.h */,
+				A3D3B1332071D47600A00562 /* SCameraTimerView.m */,
 				A31447582033180100874CAF /* SCameraPictureView.h */,
 				A31447592033180100874CAF /* SCameraPictureView.m */,
 			);
@@ -587,6 +592,7 @@
 				A30DA1F2201C202A00C82D2E /* SCameraPhotoViewController.m in Sources */,
 				0780C34F1FE954410044C75D /* AppDelegate.m in Sources */,
 				A338EBE1205A3F25005A4F2A /* SCameraChannelViewController.m in Sources */,
+				A3D3B1342071D47600A00562 /* SCameraTimerView.m in Sources */,
 				A3A063F120528ED100CF1DA9 /* SCameraStartCell.m in Sources */,
 				A3FF51D4203033A90031D1DF /* SCameraShutterPickerView.m in Sources */,
 			);
