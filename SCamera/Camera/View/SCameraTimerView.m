@@ -34,7 +34,6 @@
     
     [self.timerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.centerX.equalTo(self.timerImage);
-//        make.left.equalTo(self).offset(BACKBUTTON_DISTANCE_LEFT);
         make.width.height.mas_equalTo(40);
     }];
     

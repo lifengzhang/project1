@@ -16,6 +16,14 @@ typedef NS_ENUM(NSInteger, ScameraTimer)
     selectedTen
 };
 
+typedef NS_ENUM(NSInteger, SCameraFlashLightStatus)
+{
+    flashlightLogo = 0,
+    flashligtAuto,
+    flashlighOpen,
+    flashligtClose
+};
+
 @interface SCameraViewController : UIViewController
 
 @end
