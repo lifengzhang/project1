@@ -383,6 +383,7 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
 - (void)SplightFire {
     
     [self.connectedPeripheral writeValue:[self setSplightValue] forCharacteristic:self.characteristic1 type:CBCharacteristicWriteWithResponse];
+    NSLog(@"-------蓝牙数据发送");
     
 }
 
