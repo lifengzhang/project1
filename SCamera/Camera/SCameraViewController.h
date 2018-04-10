@@ -8,6 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, ScameraTimer)
+{
+    selectedTimerLogo = 0,
+    selectedCloseBtn,
+    selectedThree,
+    selectedTen
+};
+
+typedef NS_ENUM(NSInteger, SCameraFlashLightStatus)
+{
+    flashlightLogo = 0,
+    flashligtAuto,
+    flashlighOpen,
+    flashligtClose
+};
+
 @interface SCameraViewController : UIViewController
 
 @end

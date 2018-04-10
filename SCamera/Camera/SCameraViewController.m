@@ -11,6 +11,8 @@
 #import <Photos/Photos.h>
 #import "SCameraPhotoViewController.h"
 #import "BlueManagerViewController.h"
+#import "SCameraTimerView.h"
+#import "SCameraFlashLightStatusView.h"
 #import "CameraView.h"
 
 #import "SCameraShutterPickerView.h"
@@ -88,8 +90,6 @@
 
 @property (nonatomic, strong) SCameraShutterPickerView *shutterPickerView;
 
-@property (nonatomic, assign)  NSInteger clickNumber;  //点击定时器的次数
-
 @property (nonatomic, strong) SCameraISOPickerView *isoPickerView;
 
 @property (nonatomic, strong) UIImageView *cameraFocusView;  //聚焦视图
@@ -103,6 +103,20 @@
 @property (nonatomic, assign) float deviceMinISO; //设备最小ISO
 
 @property (nonatomic, assign) float deviceMaxISO; //设备最大ISO
+
+@property (nonatomic, strong) SCameraTimerView *timerView; //定时器选择视图
+
+@property (nonatomic, strong) UIView *backgroundView; //定时器动画背景
+
+@property (nonatomic, assign) ScameraTimer timer;
+
+@property (nonatomic, assign) SCameraFlashLightStatus flashlightStatus;
+
+@property (nonatomic, strong) UIImageView *animationBegin; //起始动画
+
+@property (nonatomic, strong) UIImageView *animationEnd;   //结束动画
+
+@property (nonatomic, strong) SCameraFlashLightStatusView *flashLightStatusView;
 
 /**
  *  记录开始的缩放比例
@@ -165,6 +179,16 @@
 
     [self.cameraView.valueButton addTarget:self action:@selector(tapValueButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.cameraView.bluetoothButton addTarget:self action:@selector(tapblueToothButton) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.timerView.timerBtn addTarget:self action:@selector(tapTimerLogo) forControlEvents:UIControlEventTouchUpInside];
+    [self.timerView.closeBtn addTarget:self action:@selector(tapClosebtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.timerView.threeSeconds addTarget:self action:@selector(tapSelectedThreeSecond) forControlEvents:UIControlEventTouchUpInside];
+    [self.timerView.tenSeconds addTarget:self action:@selector(tapSelectedTen) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.flashLightStatusView.flashlightBtn addTarget:self action:@selector(tapFlashlightLogo) forControlEvents:UIControlEventTouchUpInside];
+    [self.flashLightStatusView.selectAuto addTarget:self action:@selector(tapFlashlightAuto) forControlEvents:UIControlEventTouchUpInside];
+    [self.flashLightStatusView.selectOpen addTarget:self action:@selector(tapFlashlightOpen) forControlEvents:UIControlEventTouchUpInside];
+    [self.flashLightStatusView.selectClose addTarget:self action:@selector(tapFlashlightClose) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)addGesture {
@@ -179,7 +203,8 @@
 
 - (void)customCamera{
     self.view.backgroundColor = [UIColor blackColor];
-    self.clickNumber = 0;
+    self.timer = selectedCloseBtn;
+    self.flashlightStatus = flashligtClose;
     self.deviceMinISO = self.device.activeFormat.minISO;
     self.deviceMaxISO = self.device.activeFormat.maxISO;
     //使用设备初始化输入
@@ -266,6 +291,16 @@
     [self.cameraFocusView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(self.view);
         make.height.width.mas_equalTo(80);
+    }];
+    
+    [self.timerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.equalTo(self.view);
+        make.height.mas_equalTo(ISIphoneX ? 88 : 64);
+    }];
+
+    [self.flashLightStatusView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.equalTo(self.view);
+        make.height.mas_equalTo(ISIphoneX ? 88 : 64);
     }];
     
 //    [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -428,68 +463,149 @@
 
 #pragma mark - 点击闪光灯按钮
 - (void)tapFlashLightbutton:(UIButton *)btn {
-    btn.selected = !btn.selected;
-    if (btn.selected) {
+    self.backgroundView.hidden = NO;
+    self.cameraView.navigationView.hidden = YES;
+    
+    self.animationBegin = [[UIImageView alloc] initWithFrame:self.cameraView.flashImage.frame];
+    if (self.flashlightStatus == flashlighOpen || self.flashLightStatusView.selectOpen.selected) {
+        self.animationBegin.image = [UIImage imageNamed:@"Camera_flash_selected_image"];
+        self.flashLightStatusView.flashlightLogo.image = [UIImage imageNamed:@"Camera_flash_selected_image"];
+    } else {
+        self.animationBegin.image = [UIImage imageNamed:@"Camera_flashLight_image"];
+        self.flashLightStatusView.flashlightLogo.image = [UIImage imageNamed:@"Camera_flashLight_image"];
+    }
+    [self.view addSubview:self.animationBegin];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    CABasicAnimation *move = [CABasicAnimation animation];
+    move.keyPath = @"position";
+    move.fromValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.flashImage.center.x, self.cameraView.timerImage.center.y, 18, 18)];
+    move.toValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.closeImage.center.x, self.cameraView.closeImage.center.y, 18, 18)];
+    move.duration = 0.2;
+    move.fillMode = kCAFillModeForwards;
+    move.removedOnCompletion = NO;
+    [self.animationBegin.layer addAnimation:move forKey:nil];
+    [self performSelector:@selector(delayUpdateFlashlightStatusView) withObject:nil afterDelay:0.2];
+}
+
+- (void)delayUpdateFlashlightStatusView {
+    self.flashLightStatusView.hidden = NO;
+    self.animationBegin.hidden = YES;
+    
+}
+
+- (void)tapFlashlightLogo {
+    self.flashlightStatus = flashlightLogo;
+    [self backFlashlightAnimation];
+}
+
+- (void)tapFlashlightAuto {
+    self.flashlightStatus = flashligtAuto;
+    self.flashLightStatusView.selectAuto.selected = YES;
+    self.flashLightStatusView.selectClose.selected = NO;
+    self.flashLightStatusView.selectOpen.selected = NO;
+
+    [self.device lockForConfiguration:nil];
+    if ([self.device hasTorch]) {
+        self.device.torchMode = AVCaptureTorchModeAuto;
+    }
+    [self.device unlockForConfiguration];
+    if ([self.device isTorchActive]) {
         [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flash_selected_image"]];
     } else {
         [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flashLight_image"]];
     }
-    //修改前必须先锁定
-    [self.device lockForConfiguration:nil];
+    [self backFlashlightAnimation];
+}
+
+- (void)tapFlashlightOpen {
+    self.flashlightStatus = flashlighOpen;
+    self.flashLightStatusView.selectAuto.selected = NO;
+    self.flashLightStatusView.selectClose.selected = NO;
+    self.flashLightStatusView.selectOpen.selected = YES;
+    [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flash_selected_image"]];
     
-    //必须判定是否有闪光灯，否则如果没有闪光灯会崩溃
-    if ([self.device hasFlash]) {
-        
-        if (self.device.torchMode == 0) {
-            //            [self.photoSettings setFlashMode:AVCaptureFlashModeOn];
-            self.device.torchMode = AVCaptureTorchModeOn;
-        } else if (self.device.torchMode == 1) {
-            //            [self.photoSettings setFlashMode:AVCaptureFlashModeOff];
-            self.device.torchMode = AVCaptureTorchModeOff;
-        }
-        //        if (self.device.flashMode == AVCaptureFlashModeOff) {
-        //            self.device.flashMode = AVCaptureFlashModeOn;
-        ////            self.device.torchMode = AVCaptureTorchModeOn;
-        //        } else if (self.device.flashMode == AVCaptureFlashModeOn) {
-        //            self.device.flashMode = AVCaptureFlashModeOff;
-        ////            self.device.torchMode = AVCaptureTorchModeOff;
-        //        }
-        
+    [self.device lockForConfiguration:nil];
+    if ([self.device hasTorch]) {
+        self.device.torchMode = AVCaptureTorchModeOn;
     }
     [self.device unlockForConfiguration];
+    
+    [self backFlashlightAnimation];
+}
+
+- (void)tapFlashlightClose {
+    self.flashlightStatus = flashligtClose;
+    self.flashLightStatusView.selectAuto.selected = NO;
+    self.flashLightStatusView.selectClose.selected = YES;
+    self.flashLightStatusView.selectOpen.selected = NO;
+    [self.cameraView.flashImage setImage:[UIImage imageNamed:@"Camera_flashLight_image"]];
+    
+    [self.device lockForConfiguration:nil];
+    if ([self.device hasTorch]) {
+        self.device.torchMode = AVCaptureTorchModeOff;
+    }
+    [self.device unlockForConfiguration];
+    
+    [self backFlashlightAnimation];
+}
+
+- (void)backFlashlightAnimation {
+    
+    self.flashLightStatusView.hidden = YES;
+    self.animationEnd = [[UIImageView alloc] initWithFrame:self.cameraView.flashImage.frame];
+    if (self.flashlightStatus == flashlighOpen) {
+        self.animationEnd.image = [UIImage imageNamed:@"Camera_flash_selected_image"];
+    } else {
+        self.animationEnd.image = [UIImage imageNamed:@"Camera_flashLight_image"];
+    }
+    [self.view addSubview:self.animationEnd];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    CABasicAnimation *move = [CABasicAnimation animation];
+    move.keyPath = @"position";
+    move.toValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.flashImage.center.x, self.cameraView.timerImage.center.y, 18, 18)];
+    move.fromValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.closeImage.center.x, self.cameraView.closeImage.center.y, 18, 18)];
+    move.duration = 0.2;
+    move.fillMode = kCAFillModeForwards;
+    move.removedOnCompletion = NO;
+    [self.animationEnd.layer addAnimation:move forKey:nil];
+    [self performSelector:@selector(delayBackFlashlightAnimation) withObject:nil afterDelay:0.2];
+}
+
+- (void)delayBackFlashlightAnimation {
+    self.backgroundView.hidden = YES;
+    self.cameraView.navigationView.hidden = NO;
+    self.animationEnd.hidden = YES;
 }
 
 #pragma mark - 点击定时器
 - (void)tapTimerButton {
-    self.clickNumber++;
-    if (self.clickNumber == 1) {
-        
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"3s"];
-        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 2)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 1)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(1, 1)];
-        [self.cameraView.timerLabel setAttributedText:string];
+    self.cameraView.navigationView.hidden = YES;
+    self.backgroundView.hidden = NO;
+    
+    self.animationBegin = [[UIImageView alloc] initWithFrame:self.cameraView.timerImage.frame];
+    self.animationBegin.image = [UIImage imageNamed:@"Camera_timer_image"];
+    [self.view addSubview:self.animationBegin];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    CABasicAnimation *move = [CABasicAnimation animation];
+    move.keyPath = @"position";
+    move.fromValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.timerImage.center.x, self.cameraView.timerImage.center.y, 18, 18)];
+    move.toValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.closeImage.center.x, self.cameraView.closeImage.center.y, 18, 18)];
+    move.duration = 0.2;
+    move.fillMode = kCAFillModeForwards;
+    move.removedOnCompletion = NO;
+    [self.animationBegin.layer addAnimation:move forKey:nil];
+    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:0.2];
+    
+}
 
-        self.cameraView.timerLabel.hidden = NO;
-    } else if (self.clickNumber == 2) {
-        
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"10s"];
-        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 3)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 2)];
-        [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(2, 1)];
-        [self.cameraView.timerLabel setAttributedText:string];
-
-        self.cameraView.timerLabel.hidden = NO;
-    } else {
-        self.clickNumber = 0;
-        self.cameraView.timerLabel.hidden = YES;
-    }
-
+- (void)delayMethod {
+    self.timerView.hidden = NO;
+    self.animationBegin.hidden = YES;
 }
 
 - (void)judgeHaveTimerAndShutterCamera {
     static NSInteger num = 0;
-    if (self.clickNumber == 1) {
+    if (self.timer == selectedThree) {
         [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
             num++;
             self.cameraView.centerTimerLabel.hidden = NO;
@@ -503,7 +619,7 @@
                 num = 0;
             }
         }];
-    } else if (self.clickNumber == 2) {
+    } else if (self.timer == selectedTen) {
         [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
             num++;
             self.cameraView.centerTimerLabel.hidden = NO;
@@ -623,6 +739,74 @@
     } @catch (NSException *exception) {
         
     }
+}
+
+#pragma maek - 关闭定时器
+- (void)tapTimerLogo {
+    self.timer = selectedTimerLogo;
+    [self backAnimation];
+}
+
+- (void)tapClosebtn {
+    self.timer = selectedCloseBtn;
+    self.timerView.closeBtn.selected = YES;
+    self.timerView.threeSeconds.selected = NO;
+    self.timerView.tenSeconds.selected = NO;
+    self.cameraView.timerLabel.hidden = YES;
+    [self backAnimation];
+}
+
+- (void)tapSelectedThreeSecond {
+    self.timer = selectedThree;
+    self.timerView.threeSeconds.selected = YES;
+    self.timerView.closeBtn.selected = NO;
+    self.timerView.tenSeconds.selected = NO;
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"3s"];
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 2)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 1)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(1, 1)];
+    [self.cameraView.timerLabel setAttributedText:string];
+    self.cameraView.timerLabel.hidden = NO;
+    [self backAnimation];
+}
+
+- (void)tapSelectedTen {
+    self.timer = selectedTen;
+    self.timerView.tenSeconds.selected = YES;
+    self.timerView.threeSeconds.selected = NO;
+    self.timerView.closeBtn.selected = NO;
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"10s"];
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:243.0/255.0 green:194.0/255. blue:0/255.0 alpha:1.0] range:NSMakeRange(0, 3)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:13.f] range:NSMakeRange(0, 2)];
+    [string addAttribute:NSFontAttributeName value:[UIFont ChinaDefaultFontNameOfSize:10.0] range:NSMakeRange(2, 1)];
+    [self.cameraView.timerLabel setAttributedText:string];
+    self.cameraView.timerLabel.hidden = NO;
+    [self backAnimation];
+}
+
+- (void)backAnimation {
+    self.timerView.hidden = YES;
+
+    self.animationEnd = [[UIImageView alloc] initWithFrame:self.cameraView.timerImage.frame];
+    self.animationEnd.image = [UIImage imageNamed:@"Camera_timer_image"];
+    [self.view addSubview:self.animationEnd];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    CABasicAnimation *move = [CABasicAnimation animation];
+    move.keyPath = @"position";
+    move.toValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.timerImage.center.x, self.cameraView.timerImage.center.y, 18, 18)];
+    move.fromValue = [NSValue valueWithCGRect:CGRectMake(self.cameraView.closeImage.center.x, self.cameraView.closeImage.center.y, 18, 18)];
+    move.duration = 0.2;
+    move.fillMode = kCAFillModeForwards;
+    move.removedOnCompletion = NO;
+    [self.animationEnd.layer addAnimation:move forKey:nil];
+    [self performSelector:@selector(delayMethodBackAnimation) withObject:nil afterDelay:0.2];
+    
+}
+
+- (void)delayMethodBackAnimation {
+    self.backgroundView.hidden = YES;
+    self.cameraView.navigationView.hidden = NO;
+    self.animationEnd.hidden = YES;
 }
 
 #pragma mark - AVCapturePhotoCaptureDelegate
@@ -836,7 +1020,7 @@
         PHAsset *asset = (PHAsset *)obj;
         NSLog(@"照片名%@", [asset valueForKey:@"filename"]);
         *stop = YES;
-        UIImage *image = [UIImage imageWithData:[SCameraViewController getImageFromPHAsset:asset]];
+//        UIImage *image = [UIImage imageWithData:[SCameraViewController getImageFromPHAsset:asset]];
 //        [self.photoLibraryButton setImage:image forState:UIControlStateNormal];
     }];
 }
@@ -1000,6 +1184,35 @@
     return _session;
 }
 
+- (SCameraTimerView *)timerView {
+    if (!_timerView) {
+        _timerView = [[SCameraTimerView alloc] initWithFrame:CGRectZero];
+        _timerView.hidden = YES;
+        [self.view addSubview:_timerView];
+    }
+    return _timerView;
+}
+
+- (SCameraFlashLightStatusView *)flashLightStatusView {
+    if (!_flashLightStatusView) {
+        _flashLightStatusView = [[SCameraFlashLightStatusView alloc] initWithFrame:CGRectZero];
+        _flashLightStatusView.hidden = YES;
+        [self.view addSubview:_flashLightStatusView];
+    }
+    return _flashLightStatusView;
+}
+
+
+//动画背景
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        _backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Width_Screen, (ISIphoneX ? 88 : 64))];
+        _backgroundView.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.24];
+        _backgroundView.hidden = YES;
+        [self.view insertSubview:_backgroundView belowSubview:self.timerView];
+    }
+    return _backgroundView;
+}
 - (void)dealloc {
     
 }

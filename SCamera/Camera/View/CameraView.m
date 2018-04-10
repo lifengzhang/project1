@@ -24,19 +24,13 @@
 
 @interface CameraView ()
 
-@property (nonatomic, strong) UIView *navigationView; //导航视图
-
 @property (nonatomic, strong) UIView *whitePoint;
 
 @property (nonatomic, strong) UIView *pickerSelectedView;  //shutter PickerView白色选中区
 
 @property (nonatomic, strong) UIView *isoSelectedView;     //ISO PickerView白色选中区
 
-@property (nonatomic, strong) UIImageView *closeImage;  //关闭按钮图片
-
 @property (nonatomic, strong) UIImageView *albumImage; //相册按钮图片
-
-@property (nonatomic, strong) UIImageView *timerImage;  //定时器按钮照片
 
 @property (nonatomic, strong) UIImageView *exchangeImage; //相机转换按钮
 
