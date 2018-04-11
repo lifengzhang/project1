@@ -20,8 +20,4 @@
 
 @property (nonatomic, strong) UIButton *tenSeconds;
 
-- (void)showView;
-
-- (void)hiddenView;
-
 @end

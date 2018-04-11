@@ -46,17 +46,21 @@
 #define ISOTITLELABEL_WIDTH                                                    84.f
 #define ISOTITLELABEL_HEIGHT                                                   35.f
 
-@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate, SCameraISOPickerViewDelegate>
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate,AVCaptureFileOutputRecordingDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate, SCameraISOPickerViewDelegate>
 
 @property(nonatomic,strong) AVCaptureDevice *device;
 
 @property (nonatomic, strong) AVCaptureSession* session; //AVCapturemSession对象来执行输入设备和输出设备之间的数据传递
 
-//@property (nonatomic, strong) AVCaptureStillImageOutput *ImageOutPut;
+//@property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutPut;
 
 @property (nonatomic, strong) AVCapturePhotoOutput *photoOutPut; //ios 10
 
 @property (nonatomic, strong) AVCapturePhotoSettings *photoSettings; //ios 10
+
+@property (nonatomic, strong) AVCaptureMovieFileOutput *deviceMovieFileOutput;
+
+@property (nonatomic, assign) BOOL isAnewRecording; //重新录制视频
 
 @property (nonatomic, strong) UIImage *image;
 
@@ -117,6 +121,8 @@
 @property (nonatomic, strong) UIImageView *animationEnd;   //结束动画
 
 @property (nonatomic, strong) SCameraFlashLightStatusView *flashLightStatusView;
+
+@property (nonatomic, strong) NSArray *splitImageArr;    //视频分离照片集
 
 /**
  *  记录开始的缩放比例
@@ -218,20 +224,21 @@
     if ([self.session canAddInput:self.input]) {
         [self.session addInput:self.input];
     }
-    
-//    if ([self.session canAddOutput:self.ImageOutPut]) {
-//        [self.session addOutput:self.ImageOutPut];
-//    }
-    
-    // 6. 连接输出与会话
-    if ([self.session canAddOutput:self.photoOutPut]) {
-        [self.session addOutput:self.photoOutPut];
+    //输出视频
+    self.deviceMovieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+    if ([self.session canAddOutput:self.deviceMovieFileOutput]) {
+        [self.session addOutput:self.deviceMovieFileOutput];
     }
-    
+
+////     6. 连接输出与会话
+//    if ([self.session canAddOutput:self.photoOutPut]) {
+//        [self.session addOutput:self.photoOutPut];
+//    }
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
     self.previewLayer.frame = CGRectMake(0, 0, Width_Screen, Height_Screen - 140);
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.previewLayer];
+
     //开始启动
     [self.session startRunning];
     if ([self.device lockForConfiguration:nil]) {
@@ -429,7 +436,7 @@
     self.photoAlbumController.delegate = self;
     self.photoAlbumController.allowsEditing = NO;
     self.photoAlbumController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    self.photoAlbumController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    self.photoAlbumController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     [self presentViewController: self.photoAlbumController animated:NO completion:nil];
 }
 
@@ -592,7 +599,8 @@
                 [timer invalidate];
                 self.view.userInteractionEnabled = YES;
                 self.cameraView.centerTimerLabel.hidden = YES;
-                [self shutterCamera];
+//                [self shutterCamera];
+                [self shutterVideo];
                 num = 0;
             }
         }];
@@ -606,12 +614,15 @@
                 [timer invalidate];
                 self.view.userInteractionEnabled = YES;
                 self.cameraView.centerTimerLabel.hidden = YES;
-                [self shutterCamera];
+//                [self shutterCamera];
+                [self shutterVideo];
                 num = 0;
             }
         }];
     } else {
-        [self shutterCamera];
+//        [self shutterCamera];
+        [self shutterVideo];
+        
     }
 }
 
@@ -803,19 +814,104 @@
     [self.navigationController pushViewController:vc animated:NO];
 }
 
+#pragma  mark - AVCaptureFileOutputRecordingDelegate
+- (void)captureOutput:(AVCaptureFileOutput *)output didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray<AVCaptureConnection *> *)connections error:(NSError *)error {
+    NSLog(@"完成录制");
+    NSLog(@"录制地址outputFileURL = %@",outputFileURL);
+    
+    //视频存入相册
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:outputFileURL];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        NSLog(@"success = %d, error = %@", success, error);
+    }];
+    
+    //重新录制
+    if (self.isAnewRecording) {
+        //删除视频文件
+        NSFileManager *manager = [NSFileManager defaultManager];
+        [manager removeItemAtPath:outputFileURL.absoluteString error:nil];
+    }
+    //不取消录制
+    else{
+        //获取视频时长
+        AVURLAsset *avUrl = [AVURLAsset URLAssetWithURL:outputFileURL options:nil];
+        CMTime time = [avUrl duration];
+        int seconds = ceil(time.value/time.timescale);
+        NSLog(@"录制时间 seconds = %d",seconds);
+         //分离视频成图片
+        [FlashLightManager splitVideo:outputFileURL fps:30 splitCompleteBlock:^(BOOL success, NSMutableArray *splitimgs) {
+                if (success && splitimgs.count != 0) {
+                    NSLog(@"----->> success");
+                    NSLog(@"照片总数---> splitimgs个数:%lu",(unsigned long)splitimgs.count);
+                    self.splitImageArr = [NSArray arrayWithArray:splitimgs];
+                    UIImage *image = splitimgs[1];
+                    //照片存入相册
+                UIImageWriteToSavedPhotosAlbum(image,self,@selector(image:didFinishSavingWithError:contextInfo:),(__bridge void*)self);
+                }
+        }];
+    }
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    NSLog(@"完成照片存储image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
+}
+
+#pragma mark - 视频操作
+//开始录制视频
+- (void)takePhoto:(NSURL *)fileURL{
+    [self.deviceMovieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:self];
+}
+
+////结束录制
+//- (UIImageView *)finishRecord:(UIView *)view isAnewRecording:(BOOL)anewRecording{
+//    UIImageView *gifImageView = [[UIImageView alloc] initWithFrame:view.bounds];
+//    [view addSubview:gifImageView];
+//    self.isAnewRecording = anewRecording; //存储是否重新录制
+//    //停止录制(停止录制后做代理方法)
+//    [self.deviceMovieFileOutput stopRecording];
+//    return gifImageView;
+//}
+
+- (void)finishRecordVideo {
+    [self.deviceMovieFileOutput stopRecording];
+}
+
+- (void)shutterVideo {
+    
+    [self.device lockForConfiguration:nil];
+    
+    __weak SCameraViewController *wSelf = self;
+    [self.device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? CMTimeMake(1,60) : self.currentDuration ISO:self.currentISO == 0 ? self.deviceMinISO : self.currentISO completionHandler:^(CMTime syncTime)
+     {
+         NSLog(@"device.ISO = %f",wSelf.device.ISO);
+         //开始拍摄
+         [wSelf takePhoto:[NSURL fileURLWithPath:[wSelf getVideoSaveFilePath]]];
+         [wSelf performSelector:@selector(finishRecordVideo) withObject:nil afterDelay:2.0];
+     }];
+}
+
+//视频储存路径
+- (NSString *)getVideoSaveFilePath{
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *filePath = [documentPath stringByAppendingPathComponent:@"video.mp4"];
+    return filePath;
+}
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
+
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSLog(@"image info %@",info);
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     NSURL *url = [info objectForKey:UIImagePickerControllerReferenceURL];
     SCameraPhotoViewController *vc = [[SCameraPhotoViewController alloc]  initWith:image photoURL:url];
     [picker presentViewController:vc animated:YES completion:nil];
-    
+
 }
 
 #pragma mark - SCameraShutterPickerViewDelegate
@@ -1026,20 +1122,20 @@
     return _exposureDurationValueLabel;
 }
 
-- (UISlider *)exposureDurationSlider {
-    if (!_exposureDurationSlider) {
-        _exposureDurationSlider = [[UISlider alloc] initWithFrame:CGRectZero];
-        [_exposureDurationSlider setContinuous:YES];
-        if (self.device) {
-            [_exposureDurationSlider setMinimumValue:self.device.activeFormat.minExposureDuration.value/(1.0f*self.device.activeFormat.minExposureDuration.timescale)];
-            [_exposureDurationSlider setMaximumValue: self.device.activeFormat.maxExposureDuration.value/ (1.0f * self.device.activeFormat.maxExposureDuration.timescale)];
-            [_exposureDurationSlider setValue:self.device.exposureDuration.value/(1.0f *self.device.exposureDuration.timescale)];
-        }
-        [_exposureDurationSlider addTarget:self action:@selector(exposureDurationChanged:) forControlEvents:UIControlEventValueChanged];
-        [self.view addSubview:_exposureDurationSlider];
-    }
-    return _exposureDurationSlider;
-}
+//- (UISlider *)exposureDurationSlider {
+//    if (!_exposureDurationSlider) {
+//        _exposureDurationSlider = [[UISlider alloc] initWithFrame:CGRectZero];
+//        [_exposureDurationSlider setContinuous:YES];
+//        if (self.device) {
+//            [_exposureDurationSlider setMinimumValue:self.device.activeFormat.minExposureDuration.value/(1.0f*self.device.activeFormat.minExposureDuration.timescale)];
+//            [_exposureDurationSlider setMaximumValue: self.device.activeFormat.maxExposureDuration.value/ (1.0f * self.device.activeFormat.maxExposureDuration.timescale)];
+//            [_exposureDurationSlider setValue:self.device.exposureDuration.value/(1.0f *self.device.exposureDuration.timescale)];
+//        }
+//        [_exposureDurationSlider addTarget:self action:@selector(exposureDurationChanged:) forControlEvents:UIControlEventValueChanged];
+//        [self.view addSubview:_exposureDurationSlider];
+//    }
+//    return _exposureDurationSlider;
+//}
 
 - (SCameraShutterPickerView *)shutterPickerView {
     if (!_shutterPickerView) {

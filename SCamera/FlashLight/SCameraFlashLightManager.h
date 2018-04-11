@@ -103,6 +103,8 @@ typedef enum : Byte {
     
 } FlashLightPower;
 
+typedef void(^SplitCompleteBlock)(BOOL success, NSMutableArray *splitimgs);
+
 @interface SCameraFlashLightManager : NSObject
 
 //第一组
@@ -186,6 +188,14 @@ typedef enum : Byte {
 + (instancetype)sharedInstance;
 
 - (NSData *)getSettingBytes;
+
+/**
+ * 将视频分解成图片
+ *@param fileUrl 视频路径
+ *@param fps 帧率
+ *@param splitCompleteBlock 分解完成回调
+ */
+- (void)splitVideo:(NSURL *)fileUrl fps:(float)fps splitCompleteBlock:(SplitCompleteBlock) splitCompleteBlock;
 
 - (void)saveChannel:(NSString *)channel;
 

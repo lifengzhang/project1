@@ -60,22 +60,6 @@
     
 }
 
-- (void)showView {
-    self.timerBtn.hidden = NO;
-    self.timerImage.hidden = NO;
-    self.closeBtn.hidden = NO;
-    self.threeSeconds.hidden = NO;
-    self.tenSeconds.hidden = NO;
-}
-
-- (void)hiddenView {
-    self.timerBtn.hidden = YES;
-    self.timerImage.hidden = YES;
-    self.closeBtn.hidden = YES;
-    self.threeSeconds.hidden = YES;
-    self.tenSeconds.hidden = YES;
-}
-
 #pragma mark - lazy load
 - (UIButton *)timerBtn {
     if (!_timerBtn) {

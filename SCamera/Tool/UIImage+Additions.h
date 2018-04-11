@@ -15,4 +15,6 @@
  */
 + (UIImage*)originImage:(UIImage*)image scaleToSize:(CGSize)size;
 
+- (UIImage *)fixOrientation;
+
 @end
