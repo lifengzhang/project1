@@ -70,7 +70,7 @@
 
 @property (nonatomic, strong) UILabel *exposureDurationValueLabel;
 
-@property (nonatomic, strong) UISlider *exposureDurationSlider;
+//@property (nonatomic, strong) UISlider *exposureDurationSlider;
 
 @property (nonatomic, strong) UILabel *isoTitleLabel;
 
@@ -274,20 +274,6 @@
         make.height.mas_equalTo(ISOTITLELABEL_HEIGHT);
     }];
     
-//    [self.exposureDurationValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(EXPOSUREDURATIONVALUELABEL_DISTANCE_TOP);
-//        make.left.equalTo(self.view).offset(EXPOSUREDURATIONVALUELABEL_DISTANCE_LEFT);
-//        make.width.mas_equalTo(EXPOSUREDURATIONVALUELABEL_WIDTH);
-//        make.height.mas_equalTo(EXPOSUREDURATIONVALUELABEL_HEIGHT);
-//    }];
-//
-//    [self.exposureDurationSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_TOP);
-//        make.left.equalTo(self.view).offset(EXPOSUREDURATIONSLIDER_DISTANCE_LEFT);
-//        make.width.mas_equalTo(EXPOSUREDURATIONSLIDER_WIDTH);
-//        make.height.mas_equalTo(EXPOSUREDURATIONSLIDER_HEIGHT);
-//    }];
-    
     [self.isoTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(ISIphoneX ? 87 : 65);
         make.left.equalTo(self.view).offset(16.f);
@@ -310,21 +296,8 @@
         make.height.mas_equalTo(ISIphoneX ? 88 : 64);
     }];
     
-//    [self.iSOValueScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.isoTitleLabel);
-//        make.left.equalTo(self.isoTitleLabel.mas_right);
-//        make.right.equalTo(self.view);
-//        make.height.mas_equalTo(35);
-//    }];
-    
     self.isoPickerView.frame = CGRectMake(76, ISIphoneX ? 87 : 65, Width_Screen - 152, 35);
     self.shutterPickerView.frame = CGRectMake(76, Height_Screen - 176, Width_Screen - 152, 35);
-//    [self.isoValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_TOP);
-//        make.left.equalTo(self.view).offset(ISOVALUELABEL_DISTACE_LEFT);
-//        make.width.mas_equalTo(ISOVALUELABEL_WIDTH);
-//        make.height.mas_equalTo(ISOVALUELABEL_HEIGHT);
-//    }];
     
 }
 
@@ -356,8 +329,6 @@
             self.effectiveScale = 1.0;
         }
         
-//        NSLog(@"%f-------------->%f------------recognizerScale%f",self.effectiveScale,self.beginGestureScale,panGestureRecognizer.scale);
-        
         CGFloat maxScaleAndCropFactor = [[self.photoOutPut connectionWithMediaType:AVMediaTypeVideo] videoMaxScaleAndCropFactor];
 
         if (self.effectiveScale > maxScaleAndCropFactor)
@@ -366,7 +337,6 @@
         [CATransaction begin];
         [CATransaction setAnimationDuration:.025];
         [self.previewLayer setAffineTransform:CGAffineTransformMakeScale(self.effectiveScale, self.effectiveScale)];
-//        NSLog(@"self.previewLayer.frame = %@",NSStringFromCGRect(self.previewLayer.frame));
         [CATransaction commit];
         
         AVCaptureConnection * videoConnection = [self.photoOutPut connectionWithMediaType:AVMediaTypeVideo];
@@ -380,25 +350,13 @@
 #pragma mark - 截取照片
 - (void) shutterCamera
 {
-//    AVCaptureConnection * videoConnection = [self.ImageOutPut connectionWithMediaType:AVMediaTypeVideo];
-//    if (!videoConnection) {
-//        NSLog(@"take photo failed!");
-//        return;
-//    }
-
     @try {
-//        AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [self.device lockForConfiguration:nil];
         
         __weak SCameraViewController *wSelf = self;
         [self.device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? CMTimeMake(1,60) : self.currentDuration ISO:self.currentISO == 0 ? self.deviceMinISO : self.currentISO completionHandler:^(CMTime syncTime)
          {
-//             AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-             // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
-             //        [self.mExposureBias setValue:device.exposureTargetOffset];
-             
-             //手动模式
-             //             device.exposureMode=AVCaptureExposureModeCustom;
+
              NSLog(@"device.ISO = %f",wSelf.device.ISO);
              NSLog(@"device.minISO = %f",wSelf.device.activeFormat.minISO);
              NSLog(@"device.maxISO = %f",wSelf.device.activeFormat.maxISO);
@@ -713,12 +671,6 @@
         [device setExposureModeCustomWithDuration:self.firstDuration ISO:self.firstISO completionHandler:^(CMTime syncTime)
          {
              AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-             // 此只读属性的值表示当前场景的计量曝光水平与目标曝光值之间的差异。
-             //        [self.mExposureBias setValue:device.exposureTargetOffset];
-             
-             //手动模式
-             //             device.exposureMode=AVCaptureExposureModeCustom;
-             
              NSLog(@",%f",device.exposureTargetOffset);
              [device unlockForConfiguration];
              
@@ -840,7 +792,7 @@
         int seconds = ceil(time.value/time.timescale);
         NSLog(@"录制时间 seconds = %d",seconds);
          //分离视频成图片
-        [FlashLightManager splitVideo:outputFileURL fps:30 splitCompleteBlock:^(BOOL success, NSMutableArray *splitimgs) {
+        [CameraManager splitVideo:outputFileURL fps:30 splitCompleteBlock:^(BOOL success, NSMutableArray *splitimgs) {
                 if (success && splitimgs.count != 0) {
                     NSLog(@"----->> success");
                     NSLog(@"照片总数---> splitimgs个数:%lu",(unsigned long)splitimgs.count);
@@ -1014,14 +966,6 @@
     }
 }
 
-//#pragma mark - 曝光时长
-//- (void)exposureDurationChanged:(id)sender{
-//
-//    UISlider *slider = (UISlider *)sender;
-//    self.currentDuration = CMTimeMakeWithSeconds(slider.value, 1000000);
-//    self.exposureDurationValueLabel.text = [NSString stringWithFormat:@"%.0f",slider.value*1000000];
-//}
-
 #pragma - 获取相册图片
 - (void)getLatestAsset {
 
@@ -1085,19 +1029,6 @@
     return _isoTitleLabel;
 }
 
-//- (SCameraISOValueScrollView *)iSOValueScrollView {
-//
-//    if (! _iSOValueScrollView) {
-//        _iSOValueScrollView = [[SCameraISOValueScrollView alloc] initWithFrame:CGRectZero];
-//        _iSOValueScrollView.hidden = YES;
-//        [self.view addSubview:_iSOValueScrollView];
-//        [_iSOValueScrollView addObserver:self forKeyPath:@"iSOValue" options:NSKeyValueObservingOptionNew context:nil];
-//    }
-//
-//    return _iSOValueScrollView;
-//
-//}
-
 - (UILabel *)exposureDurationTitleLabel {
     if (!_exposureDurationTitleLabel) {
         _exposureDurationTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -1121,21 +1052,6 @@
     }
     return _exposureDurationValueLabel;
 }
-
-//- (UISlider *)exposureDurationSlider {
-//    if (!_exposureDurationSlider) {
-//        _exposureDurationSlider = [[UISlider alloc] initWithFrame:CGRectZero];
-//        [_exposureDurationSlider setContinuous:YES];
-//        if (self.device) {
-//            [_exposureDurationSlider setMinimumValue:self.device.activeFormat.minExposureDuration.value/(1.0f*self.device.activeFormat.minExposureDuration.timescale)];
-//            [_exposureDurationSlider setMaximumValue: self.device.activeFormat.maxExposureDuration.value/ (1.0f * self.device.activeFormat.maxExposureDuration.timescale)];
-//            [_exposureDurationSlider setValue:self.device.exposureDuration.value/(1.0f *self.device.exposureDuration.timescale)];
-//        }
-//        [_exposureDurationSlider addTarget:self action:@selector(exposureDurationChanged:) forControlEvents:UIControlEventValueChanged];
-//        [self.view addSubview:_exposureDurationSlider];
-//    }
-//    return _exposureDurationSlider;
-//}
 
 - (SCameraShutterPickerView *)shutterPickerView {
     if (!_shutterPickerView) {

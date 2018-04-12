@@ -37,6 +37,7 @@
 		A338EBE7205A4A7B005A4F2A /* SCameraChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE6205A4A7B005A4F2A /* SCameraChannelCell.m */; };
 		A33F9C10205B637000779166 /* UIViewController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A33F9C0F205B637000779166 /* UIViewController+Additions.m */; };
 		A350EF17204CDF9200821FB7 /* Navigation.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A350EF16204CDF9200821FB7 /* Navigation.xcassets */; };
+		A354E294207EF0EB00CDC07E /* SCameraCameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A354E293207EF0EB00CDC07E /* SCameraCameraManager.m */; };
 		A363F635204997D20037C9ED /* FlashLightSetting.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A363F634204997D20037C9ED /* FlashLightSetting.xcassets */; };
 		A37F2B3F202AF95C0057378D /* HomePage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A37F2B3E202AF95C0057378D /* HomePage.xcassets */; };
 		A37FC23920312C83007892B6 /* SCameraISOPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37FC23820312C83007892B6 /* SCameraISOPickerView.m */; };
@@ -126,6 +127,8 @@
 		A33F9C0E205B637000779166 /* UIViewController+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Additions.h"; sourceTree = "<group>"; };
 		A33F9C0F205B637000779166 /* UIViewController+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Additions.m"; sourceTree = "<group>"; };
 		A350EF16204CDF9200821FB7 /* Navigation.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Navigation.xcassets; sourceTree = "<group>"; };
+		A354E292207EF0EB00CDC07E /* SCameraCameraManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraCameraManager.h; sourceTree = "<group>"; };
+		A354E293207EF0EB00CDC07E /* SCameraCameraManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraCameraManager.m; sourceTree = "<group>"; };
 		A363F634204997D20037C9ED /* FlashLightSetting.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FlashLightSetting.xcassets; sourceTree = "<group>"; };
 		A37F2B3E202AF95C0057378D /* HomePage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HomePage.xcassets; sourceTree = "<group>"; };
 		A37FC23720312C83007892B6 /* SCameraISOPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraISOPickerView.h; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 				A30DA1F1201C202A00C82D2E /* SCameraPhotoViewController.m */,
 				A3144755203317AB00874CAF /* SCameraPictureViewController.h */,
 				A3144756203317AB00874CAF /* SCameraPictureViewController.m */,
+				A354E292207EF0EB00CDC07E /* SCameraCameraManager.h */,
+				A354E293207EF0EB00CDC07E /* SCameraCameraManager.m */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -592,6 +597,7 @@
 				A3122B04204AC6AF00D2254C /* SCameraDetailSettingTableView.m in Sources */,
 				07369BC51FEB5F1200BB825B /* BlueToothMe.m in Sources */,
 				A3122B01204AC63A00D2254C /* SCameraDetailSettingViewController.m in Sources */,
+				A354E294207EF0EB00CDC07E /* SCameraCameraManager.m in Sources */,
 				07523AD4202AD64800650E47 /* UIFont+Additions.m in Sources */,
 				A3A063EE205275CB00CF1DA9 /* SCameraGroupSettingController.m in Sources */,
 				A3122B07204AC86200D2254C /* SCameraDetailSettingCustomCell.m in Sources */,
