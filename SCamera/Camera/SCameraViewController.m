@@ -397,11 +397,11 @@
              int delaytime = 40;
              
              if ([wSelf.shutterStr isEqualToString:@"1/60"]) {
-                 delaytime = 30;
+                 delaytime = 45;//38
              } else if ([wSelf.shutterStr isEqualToString:@"1/35"]) {
-                 delaytime = 40;
+                 delaytime = 53;
              } else if ([wSelf.shutterStr isEqualToString:@"1/30"]) {
-                 delaytime = 45;
+                 delaytime = 58;
              } else if ([wSelf.shutterStr isEqualToString:@"1/20"]) {
                  delaytime = 68;
              } else {
