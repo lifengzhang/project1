@@ -236,7 +236,7 @@
     [self.session startRunning];
     if ([self.device lockForConfiguration:nil]) {
 //        if ([self.device isFlashModeSupported:AVCaptureFlashModeAuto]) {
-//            [self.device setFlashMode:AVCaptureFlashModeAuto];
+//            [self.device setFlashMode:AVCaptureFlashModeOn];
 //        }
         //自动白平衡
         if ([self.device isWhiteBalanceModeSupported:AVCaptureWhiteBalanceModeAutoWhiteBalance]) {
@@ -391,14 +391,37 @@
              //        [self.mExposureBias setValue:device.exposureTargetOffset];
              
              //手动模式
-             //             device.exposureMode=AVCaptureExposureModeCustom;
-             NSLog(@"device.ISO = %f",wSelf.device.ISO);
-             NSLog(@"device.minISO = %f",wSelf.device.activeFormat.minISO);
-             NSLog(@"device.maxISO = %f",wSelf.device.activeFormat.maxISO);
-             NSLog(@"device.exposureTargetOffset = %f",wSelf.device.exposureTargetOffset);
+//             wSelf.device.exposureMode = AVCaptureExposureModeCustom;
+
              [wSelf.device unlockForConfiguration];
-             wSelf.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];
-             [wSelf.photoOutPut capturePhotoWithSettings:wSelf.photoSettings delegate:wSelf];
+             int delaytime = 40;
+             
+             if ([wSelf.shutterStr isEqualToString:@"1/60"]) {
+                 delaytime = 45;//38
+             } else if ([wSelf.shutterStr isEqualToString:@"1/35"]) {
+                 delaytime = 53;
+             } else if ([wSelf.shutterStr isEqualToString:@"1/30"]) {
+                 delaytime = 58;
+             } else if ([wSelf.shutterStr isEqualToString:@"1/20"]) {
+                 delaytime = 68;
+             } else {
+                 delaytime = 68;
+             }
+             wSelf.photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecJPEG}];;
+//             [wSelf.photoSettings setFlashMode:AVCaptureFlashModeOn];
+             [BTMe SplightFire];
+//             [wSelf.photoOutPut capturePhotoWithSettings:wSelf.photoSettings delegate:wSelf];
+//             NSLog(@"-----------------触发拍照");
+//             NSLog(@"-----------------蓝牙触发");
+             // 1/10 70    1/35 40
+             
+             dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaytime/*延迟执行时间*/ * NSEC_PER_MSEC));
+             
+             dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+//                 NSLog(@"-----------------蓝牙触发");
+//                [BTMe SplightFire];
+                 [wSelf.photoOutPut capturePhotoWithSettings:wSelf.photoSettings delegate:wSelf];
+             });
 //             [self.ImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
 //                 if (imageDataSampleBuffer == NULL) {
 //                     return;
@@ -788,10 +811,18 @@
 
 #pragma mark - AVCapturePhotoCaptureDelegate
 
+- (void)captureOutput:(AVCapturePhotoOutput *)output willBeginCaptureForResolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings {
+//    CMTime a = self.device.exposureDuration;
+    NSLog(@"--------------准备开始");
+}
+
+- (void)captureOutput:(AVCapturePhotoOutput *)output willCapturePhotoForResolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings {
+    NSLog(@"--------------准备拍照");
+}
+
 - (void)captureOutput:(AVCapturePhotoOutput *)output didCapturePhotoForResolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings {
     
-    [BTMe SplightFire];
-    
+    NSLog(@"--------------拍照结束");
 }
 
 - (void)captureOutput:(AVCapturePhotoOutput *)captureOutput didFinishProcessingPhotoSampleBuffer:(nullable CMSampleBufferRef)photoSampleBuffer previewPhotoSampleBuffer:(nullable CMSampleBufferRef)previewPhotoSampleBuffer resolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings bracketSettings:(nullable AVCaptureBracketedStillImageSettings *)bracketSettings error:(nullable NSError *)error {
@@ -864,6 +895,56 @@
     }
 }
 
+#pragma mark - 白平衡
+- (void)changeWhiteBalance {
+    
+//    float maxWhiteBalance = self.device.maxWhiteBalanceGain;
+//    AVCaptureWhiteBalanceGains a = self.device.grayWorldDeviceWhiteBalanceGains;
+    //晴天
+//    AVCaptureWhiteBalanceTemperatureAndTintValues temperature = {5400,0};
+    //阴天
+//    AVCaptureWhiteBalanceTemperatureAndTintValues temperature = {7500,0};
+    AVCaptureWhiteBalanceTemperatureAndTintValues temperature = {2600,0};
+    
+//    float redGain =  MIN(2.0, maxWhiteBalance);
+//    float greenGain = MIN(2.0, maxWhiteBalance);
+//    float blueGain = MIN(2.0, maxWhiteBalance);
+//    //晴天 RGB(255,237,218)
+//    redGain =  4;
+//    greenGain = 1;
+//    blueGain = 3.43;
+//
+//    //阴天 RGB(238,239,258)
+//    redGain =  MIN(2.0, 1.87);
+//    greenGain = MIN(2.0, 1.87);
+//    blueGain = MIN(2.0, 2);
+    
+    //白灯 RGB(255,170,77)
+//    redGain =  MIN(2.0, 1);
+//    greenGain = MIN(2.0, 1.33);
+//    blueGain = MIN(2.0, 1);
+//
+//
+//    AVCaptureWhiteBalanceGains whiteBalanceGains = {
+//        redGain,
+//        greenGain,
+//        blueGain
+//    };
+    
+    AVCaptureWhiteBalanceGains whiteBalanceGains = [self.device deviceWhiteBalanceGainsForTemperatureAndTintValues:temperature];
+    
+    NSError *error;
+    if ([self.device lockForConfiguration:&error]) {
+        
+        [self.device setWhiteBalanceModeLockedWithDeviceWhiteBalanceGains:whiteBalanceGains completionHandler:^(CMTime syncTime) {
+            
+        }];
+        
+        [self.device unlockForConfiguration];
+    }
+    
+}
+
 #pragma mark - -聚焦
 - (void)focusGesture:(UITapGestureRecognizer*)gesture{
     CGPoint point = [gesture locationInView:gesture.view];
@@ -898,10 +979,10 @@
             [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
         }
         
-        if ([self.device isExposureModeSupported:AVCaptureExposureModeAutoExpose ]) {
-            [self.device setExposurePointOfInterest:focusPoint];
-            [self.device setExposureMode:AVCaptureExposureModeAutoExpose];
-        }
+//        if ([self.device isExposureModeSupported:AVCaptureExposureModeAutoExpose ]) {
+//            [self.device setExposurePointOfInterest:focusPoint];
+//            [self.device setExposureMode:AVCaptureExposureModeAutoExpose];
+//        }
         
         [self.device unlockForConfiguration];
         self.cameraFocusView.center = point;
