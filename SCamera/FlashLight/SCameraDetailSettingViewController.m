@@ -169,9 +169,10 @@
 }
 
 //声音
-- (void)ClickVoiceButton:(UIButton *)btn {
-    btn.selected = !btn.selected;
-    if (btn.selected) {
+- (void)ClickVoiceButton:(id)sender {
+    UISwitch *switchButton = (UISwitch*)sender;
+    BOOL isButtonOn = [switchButton isOn];
+    if (isButtonOn) {
         [FlashLightManager saveIsSoundOpen:YES];
     } else {
         [FlashLightManager saveIsSoundOpen:NO];
@@ -179,9 +180,10 @@
 }
 
 //造型灯
-- (void)ClickModelLampButton:(UIButton *)btn {
-    btn.selected = !btn.selected;
-    if (btn.selected) {
+- (void)ClickModelLampButton:(id)sender {
+    UISwitch *switchButton = (UISwitch*)sender;
+    BOOL isButtonOn = [switchButton isOn];
+    if (isButtonOn) {
         [FlashLightManager saveIsPoseOpen:YES];
     } else {
         [FlashLightManager saveIsPoseOpen:NO];
@@ -191,7 +193,7 @@
 #pragma  - mark lazy load
 - (SCameraDetailSettingTableView *)detailView {
     if (!_detailView) {
-        _detailView = [[SCameraDetailSettingTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _detailView = [[SCameraDetailSettingTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _detailView.detailSettingTableViewDelegateDelegate = self;
         [self.view addSubview:_detailView];
     }

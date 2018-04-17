@@ -28,4 +28,8 @@
 
 - (void)updateChannelCell;
 
+- (void)updateImportCell;
+
+- (void)updateExportCell;
+
 @end

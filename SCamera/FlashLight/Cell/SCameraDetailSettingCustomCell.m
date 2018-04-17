@@ -65,8 +65,37 @@
     self.arrow.enabled = NO;
 }
 
+- (void)updateImportCell {
+    self.title.textColor = Scamera_TextColor_Gray;
+    self.backgroundColor = [UIColor whiteColor];
+    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(16);
+        make.right.equalTo(self).offset(-16);
+        make.height.mas_equalTo(1);
+        make.bottom.equalTo(self);
+    }];
+    self.bottomLine.backgroundColor = Scamera_Line_white;
+    
+}
+
+- (void)updateExportCell {
+    self.title.textColor = Scamera_TextColor_Gray;
+    self.backgroundColor = [UIColor whiteColor];
+    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self);
+        make.height.mas_equalTo(1);
+    }];
+    self.bottomLine.backgroundColor = Scamera_Line_white;
+}
+
 - (void)updateChannelCell {
     self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.channelStr.length > 0 ? FlashLightManager.channelStr : @"1"];
+    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self);
+        make.right.equalTo(self);
+        make.height.mas_equalTo(1);
+        make.bottom.equalTo(self);
+    }];
 }
 
 - (void)updateMinPowerWithGroupName:(NSString *)str {
@@ -121,7 +150,7 @@
 - (UILabel *)title {
     if (!_title) {
         _title = [[UILabel alloc] initWithFrame:CGRectZero];
-        _title.textColor = [UIColor whiteColor];
+        _title.textColor = Scamera_TextColor_Gray;
         _title.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         _title.text =@"频道";
         [self addSubview:_title];
@@ -132,7 +161,7 @@
 - (UILabel *)detail {
     if (!_detail) {
         _detail = [[UILabel alloc] initWithFrame:CGRectZero];
-        _detail.textColor = [UIColor whiteColor];
+        _detail.textColor = Scamera_TextColor_Gray;
         _detail.font = [UIFont ChinaDefaultFontNameOfSize:14.f];
         _detail.text = @"1";
         [self addSubview:_detail];

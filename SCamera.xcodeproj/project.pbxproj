@@ -32,6 +32,8 @@
 		A3122B0A204AD71800D2254C /* SCameraVoiceAndModelLampCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3122B09204AD71800D2254C /* SCameraVoiceAndModelLampCell.m */; };
 		A3144757203317AB00874CAF /* SCameraPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3144756203317AB00874CAF /* SCameraPictureViewController.m */; };
 		A314475A2033180100874CAF /* SCameraPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = A31447592033180100874CAF /* SCameraPictureView.m */; };
+		A32FF39E2084883C0025C440 /* SCameraFlashLightSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A32FF39D2084883C0025C440 /* SCameraFlashLightSection.m */; };
+		A32FF3A120849F940025C440 /* SCameraSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A32FF3A020849F940025C440 /* SCameraSwitchCell.m */; };
 		A338EBE1205A3F25005A4F2A /* SCameraChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE0205A3F25005A4F2A /* SCameraChannelViewController.m */; };
 		A338EBE4205A3F58005A4F2A /* SCameraChannelCellectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE3205A3F58005A4F2A /* SCameraChannelCellectionView.m */; };
 		A338EBE7205A4A7B005A4F2A /* SCameraChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A338EBE6205A4A7B005A4F2A /* SCameraChannelCell.m */; };
@@ -117,6 +119,10 @@
 		A3144756203317AB00874CAF /* SCameraPictureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPictureViewController.m; sourceTree = "<group>"; };
 		A31447582033180100874CAF /* SCameraPictureView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraPictureView.h; sourceTree = "<group>"; };
 		A31447592033180100874CAF /* SCameraPictureView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraPictureView.m; sourceTree = "<group>"; };
+		A32FF39C2084883C0025C440 /* SCameraFlashLightSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraFlashLightSection.h; sourceTree = "<group>"; };
+		A32FF39D2084883C0025C440 /* SCameraFlashLightSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraFlashLightSection.m; sourceTree = "<group>"; };
+		A32FF39F20849F940025C440 /* SCameraSwitchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraSwitchCell.h; sourceTree = "<group>"; };
+		A32FF3A020849F940025C440 /* SCameraSwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraSwitchCell.m; sourceTree = "<group>"; };
 		A338EBDF205A3F25005A4F2A /* SCameraChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraChannelViewController.h; sourceTree = "<group>"; };
 		A338EBE0205A3F25005A4F2A /* SCameraChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCameraChannelViewController.m; sourceTree = "<group>"; };
 		A338EBE2205A3F58005A4F2A /* SCameraChannelCellectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCameraChannelCellectionView.h; sourceTree = "<group>"; };
@@ -396,6 +402,8 @@
 				A3CE6D50204939D800811DA8 /* SCameraFlashLightGeneralSettingSecondCell.m */,
 				A3CE6D5520493A3200811DA8 /* SCameraFlashLightGeneralSettingThirdCell.h */,
 				A3CE6D5620493A3200811DA8 /* SCameraFlashLightGeneralSettingThirdCell.m */,
+				A32FF39C2084883C0025C440 /* SCameraFlashLightSection.h */,
+				A32FF39D2084883C0025C440 /* SCameraFlashLightSection.m */,
 				A3122B05204AC86200D2254C /* SCameraDetailSettingCustomCell.h */,
 				A3122B06204AC86200D2254C /* SCameraDetailSettingCustomCell.m */,
 				A3122B08204AD71800D2254C /* SCameraVoiceAndModelLampCell.h */,
@@ -406,6 +414,8 @@
 				A3A063F020528ED100CF1DA9 /* SCameraStartCell.m */,
 				A338EBE5205A4A7B005A4F2A /* SCameraChannelCell.h */,
 				A338EBE6205A4A7B005A4F2A /* SCameraChannelCell.m */,
+				A32FF39F20849F940025C440 /* SCameraSwitchCell.h */,
+				A32FF3A020849F940025C440 /* SCameraSwitchCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -567,6 +577,7 @@
 				A37FC23920312C83007892B6 /* SCameraISOPickerView.m in Sources */,
 				A3CE6D452049313500811DA8 /* SCameraFlashLightSettingViewController.m in Sources */,
 				A3D94612202D3C7A0001220E /* CameraView.m in Sources */,
+				A32FF3A120849F940025C440 /* SCameraSwitchCell.m in Sources */,
 				0723FB5A1FF3897300503CF7 /* BlueManageDeviceTableView.m in Sources */,
 				07369BC81FEBA13300BB825B /* BlueManagerViewController.m in Sources */,
 				0723FB561FF3885900503CF7 /* BlueToothDeviceModel.m in Sources */,
@@ -581,6 +592,7 @@
 				0723FB5E1FF389F400503CF7 /* BlueManageDeviceCell.m in Sources */,
 				A3A063E02052200400CF1DA9 /* SCameraGroupSelectCell.m in Sources */,
 				A33F9C10205B637000779166 /* UIViewController+Additions.m in Sources */,
+				A32FF39E2084883C0025C440 /* SCameraFlashLightSection.m in Sources */,
 				A3BAD351206345E400F41D69 /* NSString+Additions.m in Sources */,
 				A3122AFE204A5B2400D2254C /* SCameraFlashLightGroupAddCell.m in Sources */,
 				A338EBE4205A3F58005A4F2A /* SCameraChannelCellectionView.m in Sources */,

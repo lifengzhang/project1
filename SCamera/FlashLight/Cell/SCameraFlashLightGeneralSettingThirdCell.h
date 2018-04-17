@@ -28,6 +28,8 @@
 
 @property (nonatomic, strong) UIView *bottomLine;
 
+@property (nonatomic, strong) UIView *topLine;
+
 - (void)enableView;
 
 - (void)disableView;

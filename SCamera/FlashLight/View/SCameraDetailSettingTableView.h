@@ -28,9 +28,9 @@
 
 - (void)Slider:(UISlider *)slider TimesCellClickReduceBtnWithValue:(UILabel *)label;
 
-- (void)ClickVoiceButton:(UIButton *)btn;
+- (void)ClickVoiceButton:(id)sender;
 
-- (void)ClickModelLampButton:(UIButton *)btn;
+- (void)ClickModelLampButton:(id)sender;
 
 @end
 

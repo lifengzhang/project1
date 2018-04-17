@@ -98,7 +98,8 @@
 }
 
 - (void)updateSliderForFrequence {
-    self.title.text = @"频闪频率";
+//    self.title.text = @"频闪频率";
+    self.title.hidden = YES;
     self.bottomLine.hidden = NO;
     self.valueLabel.hidden = YES;
     NSInteger numberOfSteps = 199;
@@ -106,12 +107,38 @@
     self.flashLightSlider.minimumValue = 1;
     self.minLabel.text = @"1";
     self.maxLabel.text = @"199";
-    self.detail.text = @"1";
+//    self.detail.text = @"1";
+    self.detail.hidden = YES;
     [self.flashLightSlider setValue:1 animated:NO];
     if (FlashLightManager.flashFrequency && FlashLightManager.flashFrequency > 0) {
         [self.flashLightSlider setValue:FlashLightManager.flashFrequency animated:NO];
-        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashFrequency];
+//        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashFrequency];
     }
+    [self.topLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self);
+        make.height.mas_equalTo(1);
+    }];
+    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.left.right.equalTo(self);
+        make.height.mas_equalTo(1);
+    }];
+    self.bottomLine.backgroundColor = Scamera_Line_white;
+    self.minLabel.textColor = Scamera_TextColor_Gray;
+    self.maxLabel.textColor = Scamera_TextColor_Gray;
+    self.backgroundColor = [UIColor whiteColor];
+    self.flashLightSlider.backgroundColor = [UIColor whiteColor];
+    
+    [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.width.height.mas_equalTo(26.f);
+    }];
+    
+    [self.redeceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self).offset(16);
+        make.centerY.equalTo(self);
+        make.height.width.mas_equalTo(26.f);
+    }];
+    
 }
 
 - (void)updateSliderForTimes {
@@ -121,15 +148,40 @@
     self.flashLightSlider.minimumValue = 1;
     self.bottomLine.hidden = NO;
     self.valueLabel.hidden = YES;
-    self.title.text = @"频闪次数";
+//    self.title.text = @"频闪次数";
+    self.title.hidden = YES;
     self.minLabel.text = @"1";
     self.maxLabel.text = @"40";
-    self.detail.text = @"1";
+//    self.detail.text = @"1";
+    self.detail.hidden = YES;
     [self.flashLightSlider setValue:1 animated:NO];
     if (FlashLightManager.flashNumber && FlashLightManager.flashNumber > 0) {
         [self.flashLightSlider setValue:FlashLightManager.flashNumber animated:NO];
-        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashNumber];
+//        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashNumber];
     }
+    [self.topLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self);
+        make.height.mas_equalTo(1);
+    }];
+    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.left.right.equalTo(self);
+        make.height.mas_equalTo(1);
+    }];
+    self.bottomLine.backgroundColor = Scamera_Line_white;
+    self.minLabel.textColor = Scamera_TextColor_Gray;
+    self.maxLabel.textColor = Scamera_TextColor_Gray;
+    self.backgroundColor = [UIColor whiteColor];
+    self.flashLightSlider.backgroundColor = [UIColor whiteColor];
+    
+    [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.width.height.mas_equalTo(26.f);
+    }];
+    
+    [self.redeceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.width.height.mas_equalTo(26.f);
+    }];
 }
 
 - (void)updateHomePageSlider {
@@ -277,14 +329,23 @@
     return _bottomLine;
 }
 
+- (UIView *)topLine {
+    if (!_topLine) {
+        _topLine = [[UIView alloc] initWithFrame:CGRectZero];
+        _topLine.backgroundColor = Scamera_Line_white;
+        [self addSubview:_topLine];
+    }
+    return _topLine;
+}
+
 - (UISlider *)flashLightSlider {
     if (!_flashLightSlider) {
         _flashLightSlider = [[UISlider alloc] initWithFrame:CGRectZero];
         UIImage *imagea = [UIImage originImage:[UIImage imageNamed:@"FlashLight_Slider"] scaleToSize:CGSizeMake([SCameraDevice screenAdaptiveSizeWithIp6Size:18.f], [SCameraDevice screenAdaptiveSizeWithIp6Size:18.f])];
         [_flashLightSlider setThumbImage:imagea forState:UIControlStateNormal];
         _flashLightSlider.backgroundColor = Scamera_Cell_Background;
-        _flashLightSlider.maximumTrackTintColor = [UIColor whiteColor];
-        _flashLightSlider.minimumTrackTintColor = [UIColor whiteColor];
+        _flashLightSlider.maximumTrackTintColor = Scamera_UISlider_MaxColor;
+        _flashLightSlider.minimumTrackTintColor = Scamera_UISlider_MinColor;
         [self addSubview:_flashLightSlider];
     }
     return _flashLightSlider;
