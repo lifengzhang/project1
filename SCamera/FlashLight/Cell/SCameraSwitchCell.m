@@ -35,7 +35,7 @@
     }];
     
     [self.power mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).offset(-16);
+        make.right.equalTo(self).offset(-12);
         make.centerY.equalTo(self);
     }];
 }
@@ -105,8 +105,8 @@
         _power.onTintColor = Scamera_UISlider_MinColor;
         _power.thumbTintColor = [UIColor whiteColor];
         //缩小或者放大switch的size
-        _power.transform = CGAffineTransformMakeScale(0.9, 0.7);
-        _power.layer.cornerRadius = 15.f;
+        _power.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        _power.layer.cornerRadius = 15.5f;
         _power.layer.masksToBounds = YES;
 //        _power.layer.anchorPoint = CGPointMake(0, 0.3);
 
