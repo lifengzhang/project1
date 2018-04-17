@@ -173,7 +173,7 @@ static NSString *switchCellID = @"switch_Cell_ID";
 //        return [SCameraDevice screenAdaptiveSizeWithIp6Size:53.f];
 //    }
 //    return 0;
-    return 44;
+    return [SCameraDevice screenAdaptiveSizeWithIp6Size:44.f];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section; {
@@ -181,7 +181,7 @@ static NSString *switchCellID = @"switch_Cell_ID";
     if (section == 0) {
         return 0.00001;
     } else {
-        return 32.f;
+        return [SCameraDevice screenAdaptiveSizeWithIp6Size:32.f];
     }
 }
 
