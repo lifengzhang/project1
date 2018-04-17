@@ -32,7 +32,7 @@
         make.bottom.equalTo(self).offset(-[SCameraDevice screenAdaptiveSizeWithIp6Size:17.f]);
         make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
-    
+
     [self.redeceButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(16);
         make.bottom.equalTo(self.addButton);
@@ -128,15 +128,16 @@
     self.backgroundColor = [UIColor whiteColor];
     self.flashLightSlider.backgroundColor = [UIColor whiteColor];
     
-    [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.addButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
-        make.width.height.mas_equalTo(26.f);
+        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
     
-    [self.redeceButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self).offset(16);
+    [self.redeceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(16);
         make.centerY.equalTo(self);
-        make.height.width.mas_equalTo(26.f);
+        make.height.width.equalTo(self.addButton);
     }];
     
 }
@@ -173,14 +174,16 @@
     self.backgroundColor = [UIColor whiteColor];
     self.flashLightSlider.backgroundColor = [UIColor whiteColor];
     
-    [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.addButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
-        make.width.height.mas_equalTo(26.f);
+        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
     
-    [self.redeceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.redeceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(16);
         make.centerY.equalTo(self);
-        make.width.height.mas_equalTo(26.f);
+        make.height.width.equalTo(self.addButton);
     }];
 }
 
