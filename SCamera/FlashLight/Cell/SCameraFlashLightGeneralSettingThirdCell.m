@@ -114,11 +114,11 @@
         [self.flashLightSlider setValue:FlashLightManager.flashFrequency animated:NO];
 //        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashFrequency];
     }
-    [self.topLine mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.topLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self);
         make.height.mas_equalTo(1);
     }];
-    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self);
         make.height.mas_equalTo(1);
     }];
@@ -160,11 +160,11 @@
         [self.flashLightSlider setValue:FlashLightManager.flashNumber animated:NO];
 //        self.detail.text = [NSString stringWithFormat:@"%lu",(unsigned long)FlashLightManager.flashNumber];
     }
-    [self.topLine mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.topLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self);
         make.height.mas_equalTo(1);
     }];
-    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self);
         make.height.mas_equalTo(1);
     }];
@@ -262,7 +262,8 @@
 - (UIButton *)redeceButton {
     if (!_redeceButton) {
         _redeceButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_redeceButton setImage:[UIImage imageNamed:@"FlashLight_Reduce"] forState:UIControlStateNormal];
+        UIImage *imageExpand = [UIImage originImage:[UIImage imageNamed:@"FlashLight_Reduce"] scaleToSize:CGSizeMake(19.f, 19.f)];
+        [_redeceButton setImage:imageExpand forState:UIControlStateNormal];
         [self addSubview:_redeceButton];
     }
     return _redeceButton;
@@ -344,8 +345,8 @@
 - (UISlider *)flashLightSlider {
     if (!_flashLightSlider) {
         _flashLightSlider = [[UISlider alloc] initWithFrame:CGRectZero];
-        UIImage *imagea = [UIImage originImage:[UIImage imageNamed:@"FlashLight_Slider"] scaleToSize:CGSizeMake([SCameraDevice screenAdaptiveSizeWithIp6Size:18.f], [SCameraDevice screenAdaptiveSizeWithIp6Size:18.f])];
-        [_flashLightSlider setThumbImage:imagea forState:UIControlStateNormal];
+//        UIImage *imageExpand = [UIImage originImage:[UIImage imageNamed:@"FlashLight_Slider"] scaleToSize:CGSizeMake(35, 35)];
+//        [_flashLightSlider setThumbImage:[UIImage imageNamed:@"FlashLight_Slider"] forState:UIControlStateNormal];
         _flashLightSlider.backgroundColor = Scamera_Cell_Background;
         _flashLightSlider.maximumTrackTintColor = Scamera_UISlider_MaxColor;
         _flashLightSlider.minimumTrackTintColor = Scamera_UISlider_MinColor;

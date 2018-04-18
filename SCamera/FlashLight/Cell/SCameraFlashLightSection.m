@@ -22,13 +22,14 @@
 - (void)setUpConstrains {
     
     [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).with.offset(17);
+        make.left.equalTo(self).offset(17);
         make.centerY.equalTo(self);
     }];
     
     [self.detail mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).offset(-17);
+        make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
+        make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
     
 }
@@ -48,7 +49,7 @@
         _detail = [[UILabel alloc] initWithFrame:CGRectZero];
         _detail.font = [UIFont ChinaDefaultFontNameOfSize:11.f];
         _detail.textColor = Scamera_TextColor_Gray;
-        _detail.textAlignment = NSTextAlignmentRight;
+        _detail.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_detail];
     }
     return _detail;

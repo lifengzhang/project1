@@ -68,7 +68,7 @@
 - (void)updateImportCell {
     self.title.textColor = Scamera_TextColor_Gray;
     self.backgroundColor = [UIColor whiteColor];
-    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(16);
         make.right.equalTo(self).offset(-16);
         make.height.mas_equalTo(1);
@@ -81,7 +81,7 @@
 - (void)updateExportCell {
     self.title.textColor = Scamera_TextColor_Gray;
     self.backgroundColor = [UIColor whiteColor];
-    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self);
         make.height.mas_equalTo(1);
     }];
@@ -90,7 +90,7 @@
 
 - (void)updateChannelCell {
     self.detail.text = [NSString stringWithFormat:@"%@",FlashLightManager.channelStr.length > 0 ? FlashLightManager.channelStr : @"1"];
-    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self);
         make.right.equalTo(self);
         make.height.mas_equalTo(1);
