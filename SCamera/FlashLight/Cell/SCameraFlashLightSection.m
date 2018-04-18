@@ -29,7 +29,7 @@
     [self.detail mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
-        make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
+        make.width.mas_equalTo(19.f);
     }];
     
 }

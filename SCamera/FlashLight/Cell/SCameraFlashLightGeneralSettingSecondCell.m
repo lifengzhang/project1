@@ -33,8 +33,8 @@
     [self.arrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
-        make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:20.f]);
-        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
+//        make.width.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:20.f]);
+//        make.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
     
     [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {

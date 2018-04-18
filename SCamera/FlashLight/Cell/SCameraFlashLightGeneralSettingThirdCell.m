@@ -30,13 +30,13 @@
     [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-16);
         make.bottom.equalTo(self).offset(-[SCameraDevice screenAdaptiveSizeWithIp6Size:17.f]);
-        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
+//        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
 
     [self.redeceButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(16);
         make.bottom.equalTo(self.addButton);
-        make.height.width.equalTo(self.addButton);
+//        make.height.width.equalTo(self.addButton);
     }];
     
     [self.valueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,6 +52,7 @@
     
     [self.maxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.addButton.mas_left).offset(-7);
+        make.left.equalTo(self.flashLightSlider.mas_right).offset(7);
         make.centerY.equalTo(self.minLabel);
     }];
 
@@ -131,13 +132,13 @@
     [self.addButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
-        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
+//        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
     
     [self.redeceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(16);
         make.centerY.equalTo(self);
-        make.height.width.equalTo(self.addButton);
+//        make.height.width.equalTo(self.addButton);
     }];
     
 }
@@ -177,13 +178,13 @@
     [self.addButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-16);
         make.centerY.equalTo(self);
-        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
+//        make.width.height.mas_equalTo([SCameraDevice screenAdaptiveSizeWithIp6Size:26.f]);
     }];
     
     [self.redeceButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(16);
         make.centerY.equalTo(self);
-        make.height.width.equalTo(self.addButton);
+//        make.height.width.equalTo(self.addButton);
     }];
 }
 
@@ -296,6 +297,7 @@
     if (!_maxLabel) {
         _maxLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _maxLabel.textColor = [UIColor whiteColor];
+        _maxLabel.textAlignment = NSTextAlignmentCenter;
         _maxLabel.font = [UIFont ChinaDefaultFontNameOfSize:12.f];
         _maxLabel.text = @"1/1";
         [self addSubview:_maxLabel];
