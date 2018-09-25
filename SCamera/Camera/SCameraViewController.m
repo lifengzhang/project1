@@ -46,7 +46,7 @@
 #define ISOTITLELABEL_WIDTH                                                    84.f
 #define ISOTITLELABEL_HEIGHT                                                   35.f
 
-@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate,AVCaptureFileOutputRecordingDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate, SCameraISOPickerViewDelegate>
+@interface SCameraViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate,AVCaptureFileOutputRecordingDelegate, SCameraShutterPickerViewDelegate, UIGestureRecognizerDelegate, SCameraISOPickerViewDelegate, BlueToothMeDelegate>
 
 @property(nonatomic,strong) AVCaptureDevice *device;
 
@@ -217,8 +217,8 @@
     self.position = AVCaptureDevicePositionBack;
     self.input = [[AVCaptureDeviceInput alloc] initWithDevice:self.device error:nil];
     
-    if ([self.session canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
-        self.session.sessionPreset = AVCaptureSessionPreset1280x720;
+    if ([self.session canSetSessionPreset:AVCaptureSessionPresetLow]) {
+        self.session.sessionPreset = AVCaptureSessionPresetLow;
     }
     
     if ([self.session canAddInput:self.input]) {
@@ -797,7 +797,7 @@
                     NSLog(@"----->> success");
                     NSLog(@"照片总数---> splitimgs个数:%lu",(unsigned long)splitimgs.count);
                     self.splitImageArr = [NSArray arrayWithArray:splitimgs];
-                    UIImage *image = splitimgs[1];
+                    UIImage *image = splitimgs[splitimgs.count/2];
                     //照片存入相册
                 UIImageWriteToSavedPhotosAlbum(image,self,@selector(image:didFinishSavingWithError:contextInfo:),(__bridge void*)self);
                 }
@@ -833,14 +833,15 @@
 - (void)shutterVideo {
     
     [self.device lockForConfiguration:nil];
-    
+    BTMe.blueToothMeDelegate = self;
     __weak SCameraViewController *wSelf = self;
     [self.device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? CMTimeMake(1,60) : self.currentDuration ISO:self.currentISO == 0 ? self.deviceMinISO : self.currentISO completionHandler:^(CMTime syncTime)
      {
          NSLog(@"device.ISO = %f",wSelf.device.ISO);
          //开始拍摄
          [wSelf takePhoto:[NSURL fileURLWithPath:[wSelf getVideoSaveFilePath]]];
-         [wSelf performSelector:@selector(finishRecordVideo) withObject:nil afterDelay:2.0];
+         [BTMe SplightFire];
+         [wSelf performSelector:@selector(finishRecordVideo) withObject:nil afterDelay:5.0];
      }];
 }
 
@@ -909,6 +910,13 @@
                 return;
             }
         }
+    }
+}
+
+#pragma mark - -BlueToothMeDelegate
+- (void)hardwareDidNotifyBehaviourOnCharacteristic:(CBCharacteristic *)characteristic withPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    if (!error) {
+        [self.deviceMovieFileOutput stopRecording];
     }
 }
 
