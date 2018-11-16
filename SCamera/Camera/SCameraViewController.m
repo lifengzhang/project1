@@ -124,6 +124,8 @@
 
 @property (nonatomic, strong) NSArray *splitImageArr;    //视频分离照片集
 
+@property (nonatomic, assign) int32_t frameRate;
+
 /**
  *  记录开始的缩放比例
  */
@@ -217,8 +219,8 @@
     self.position = AVCaptureDevicePositionBack;
     self.input = [[AVCaptureDeviceInput alloc] initWithDevice:self.device error:nil];
     
-    if ([self.session canSetSessionPreset:AVCaptureSessionPresetLow]) {
-        self.session.sessionPreset = AVCaptureSessionPresetLow;
+    if ([self.session canSetSessionPreset:AVCaptureSessionPresetInputPriority]) {
+        self.session.sessionPreset = AVCaptureSessionPresetInputPriority;
     }
     
     if ([self.session canAddInput:self.input]) {
@@ -837,14 +839,74 @@
     __weak SCameraViewController *wSelf = self;
     [self.device setExposureModeCustomWithDuration:(self.shutterStr.length == 0) ? CMTimeMake(1,60) : self.currentDuration ISO:self.currentISO == 0 ? self.deviceMinISO : self.currentISO completionHandler:^(CMTime syncTime)
      {
-         NSLog(@"device.ISO = %f",wSelf.device.ISO);
-         //开始拍摄
-         [wSelf takePhoto:[NSURL fileURLWithPath:[wSelf getVideoSaveFilePath]]];
-         [BTMe SplightFire];
-         [wSelf performSelector:@selector(finishRecordVideo) withObject:nil afterDelay:5.0];
+//         NSLog(@"device.ISO = %f",wSelf.device.ISO);
+//         //开始拍摄
+//         [wSelf takePhoto:[NSURL fileURLWithPath:[wSelf getVideoSaveFilePath]]];
+//         [BTMe SplightFire];
+//         [wSelf performSelector:@selector(finishRecordVideo) withObject:nil afterDelay:5.0];
+         for(AVCaptureDeviceFormat *vFormat in [wSelf.device formats] ) {
+             CMFormatDescriptionRef description= vFormat.formatDescription;
+             float maxRate = ((AVFrameRateRange*) [vFormat.videoSupportedFrameRateRanges objectAtIndex:0]).maxFrameRate;
+             if (maxRate > 240 - 1 &&
+                 CMFormatDescriptionGetMediaSubType(description)==kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+                 if ([wSelf.device lockForConfiguration:nil]) {
+                     wSelf.device.activeFormat = vFormat;
+                     [wSelf.device setActiveVideoMinFrameDuration:CMTimeMake(10, 2400)];
+                     [wSelf.device setActiveVideoMaxFrameDuration:CMTimeMake(10, 2400)];
+                     NSLog(@"device.ISO = %f",wSelf.device.ISO);
+                     NSLog(@"formats  %@ %@ %@",vFormat.mediaType,vFormat.formatDescription,vFormat.videoSupportedFrameRateRanges);
+
+                     [wSelf takePhoto:[NSURL fileURLWithPath:[wSelf getVideoSaveFilePath]]];
+                     [BTMe SplightFire];
+                     [wSelf performSelector:@selector(finishRecordVideo) withObject:nil afterDelay:5.0];
+                     [wSelf.device unlockForConfiguration];
+                     break;
+                 }
+             }
+         }
      }];
 }
 
+- (void)setFrameRate:(int32_t)frameRate;
+{
+    _frameRate = frameRate;
+    
+    if (_frameRate > 0)
+    {
+        for (AVCaptureConnection *connection in self.deviceMovieFileOutput.connections)
+        {
+            if ([connection respondsToSelector:@selector(setVideoMinFrameDuration:)])
+                connection.videoMinFrameDuration = CMTimeMake(1,_frameRate);
+            if ([self.input respondsToSelector:@selector(setActiveVideoMinFrameDuration:)] &&
+                [self.input respondsToSelector:@selector(setActiveVideoMaxFrameDuration:)]) {
+                
+                NSError *error;
+                [self.device lockForConfiguration:&error];
+                if (error == nil) {
+#if defined(__IPHONE_7_0)
+                    [self.device setActiveVideoMinFrameDuration:CMTimeMake(1, _frameRate)];
+                    [self.device setActiveVideoMaxFrameDuration:CMTimeMake(1, _frameRate)];
+#endif
+                }
+                [self.device unlockForConfiguration];
+                
+            } else {
+                
+                for (AVCaptureConnection *connection in self.deviceMovieFileOutput.connections)
+                {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    if ([connection respondsToSelector:@selector(setVideoMinFrameDuration:)])
+                        connection.videoMinFrameDuration = CMTimeMake(1, _frameRate);
+                    
+                    if ([connection respondsToSelector:@selector(setVideoMaxFrameDuration:)])
+                        connection.videoMaxFrameDuration = CMTimeMake(1, _frameRate);
+#pragma clang diagnostic pop
+                }
+            }
+        }
+    }
+}
 //视频储存路径
 - (NSString *)getVideoSaveFilePath{
     NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
